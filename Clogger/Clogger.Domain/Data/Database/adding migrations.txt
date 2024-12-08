@@ -1,0 +1,2 @@
+﻿Add migrations with:
+Add-Migration <name> -o Data/Database/Migrations
