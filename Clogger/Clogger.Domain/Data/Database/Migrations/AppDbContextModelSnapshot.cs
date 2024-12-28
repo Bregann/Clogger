@@ -17,6 +17,122 @@ namespace Clogger.Domain.Data.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.Collection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CollectionItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CollectionName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Collections");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CollectionItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CollectionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
+
+                    b.ToTable("CollectionItems");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CustomCollectionField", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CollectionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
+
+                    b.ToTable("CustomCollectionFields");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CustomCollectionFieldValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CollectionItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CustomCollectionFieldId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FieldValue")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionItemId");
+
+                    b.HasIndex("CustomCollectionFieldId");
+
+                    b.ToTable("CustomCollectionFieldsValues");
+                });
+
             modelBuilder.Entity("Clogger.Domain.Data.Database.Models.EnvironmentalSetting", b =>
                 {
                     b.Property<int>("Id")
@@ -227,6 +343,58 @@ namespace Clogger.Domain.Data.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.Collection", b =>
+                {
+                    b.HasOne("Clogger.Domain.Data.Database.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CollectionItem", b =>
+                {
+                    b.HasOne("Clogger.Domain.Data.Database.Models.Collection", "Collection")
+                        .WithMany("CollectionItems")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collection");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CustomCollectionField", b =>
+                {
+                    b.HasOne("Clogger.Domain.Data.Database.Models.Collection", "Collection")
+                        .WithMany("CustomCollectionFields")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collection");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CustomCollectionFieldValue", b =>
+                {
+                    b.HasOne("Clogger.Domain.Data.Database.Models.CollectionItem", "CollectionItem")
+                        .WithMany("CustomCollectionFieldValues")
+                        .HasForeignKey("CollectionItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clogger.Domain.Data.Database.Models.CustomCollectionField", "CustomCollectionField")
+                        .WithMany()
+                        .HasForeignKey("CustomCollectionFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CollectionItem");
+
+                    b.Navigation("CustomCollectionField");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -276,6 +444,18 @@ namespace Clogger.Domain.Data.Database.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.Collection", b =>
+                {
+                    b.Navigation("CollectionItems");
+
+                    b.Navigation("CustomCollectionFields");
+                });
+
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.CollectionItem", b =>
+                {
+                    b.Navigation("CustomCollectionFieldValues");
                 });
 #pragma warning restore 612, 618
         }
