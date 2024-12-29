@@ -20,7 +20,6 @@ builder.Services.AddSingleton<IEnvironmentalSettingHelper, EnvironmentalSettingH
 // Add in identity
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication()
-    .AddCookie(IdentityConstants.ApplicationScheme)
     .AddBearerToken(IdentityConstants.BearerScheme);
 
 builder.Services.AddIdentityCore<User>()
