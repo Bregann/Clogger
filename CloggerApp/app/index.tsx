@@ -1,6 +1,11 @@
-import { Text, View } from "react-native";
+import { useAuth } from "@/context/authContext";
+import { useRouter } from "expo-router";
+import { Button, Text, View } from "react-native";
 
 export default function Index() {
+  const { isAuthenticated } = useAuth()
+  const router = useRouter()
+
   return (
     <View
       style={{
@@ -9,7 +14,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text>this is the login index wow {isAuthenticated ? 'yes' : 'no'}</Text>
+      <Button title="test" onPress={() => { router.replace('/home');  }}></Button>
     </View>
   );
 }
