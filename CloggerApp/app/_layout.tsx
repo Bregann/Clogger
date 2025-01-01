@@ -1,11 +1,23 @@
 import { AuthProvider, useAuth } from "@/context/authContext";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { DefaultTheme, PaperProvider } from 'react-native-paper'
 
 export default function RootLayout() {
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#01b6af',
+      accent: '#f1c40f'
+    }
+  }
+
   return (
     <AuthProvider>
-      <AuthStateWrapper />
+      <PaperProvider theme={theme}>
+        <AuthStateWrapper />
+      </PaperProvider>
     </AuthProvider>
   );
 }
@@ -24,6 +36,13 @@ const AuthStateWrapper = () => {
   }, [isAuthenticated])
 
   return (
-    <Stack />
+    <Stack 
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: '#e2e3db',
+        },
+        headerShown: false
+      }}
+    />
   );
 };
