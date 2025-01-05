@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#e2e3db"
-      }
+      },
+      "package": "com.bregan.CloggerApp"
     },
     "web": {
       "bundler": "metro",
@@ -37,10 +38,19 @@
           "resizeMode": "contain",
           "backgroundColor": "#e2e3db"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "32be621d-61e8-4e40-973f-63a38f7ae4cb"
+      }
     }
   }
 }

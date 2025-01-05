@@ -1,4 +1,5 @@
 import { AuthProvider, useAuth } from "@/context/authContext";
+import { keychainHelper } from "@/helpers/keychainHelper";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
@@ -27,6 +28,7 @@ const AuthStateWrapper = () => {
   const router = useRouter()
 
   useEffect(() => {
+    console.log('????')
     if (isAuthenticated) {
       router.replace('/home')
     } else{

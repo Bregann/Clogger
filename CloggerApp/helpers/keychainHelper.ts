@@ -1,50 +1,58 @@
-import * as Keychain from "react-native-keychain"
+import * as SecureStore from 'expo-secure-store'
 
 const getAccessToken = async (): Promise<string | null> => {
   try {
-    const credentials = await Keychain.getGenericPassword()
-
-    if(credentials !== false && credentials.username === "accessToken") {
-      return credentials.password
-    }
-  
-    return null
-  } 
-  catch {
+    const accessToken = await SecureStore.getItemAsync('accessToken')
+    return accessToken || null
+  } catch (error) {
+    console.log('error', error)
     return null
   }
 }
 
 const getRefreshToken = async (): Promise<string | null> => {
   try {
-    const credentials = await Keychain.getGenericPassword()
-
-    if(credentials !== false && credentials.username === "refreshToken") {
-      return credentials.password;
-    }
-  
-    return null
-  } 
-  catch {
+    const refreshToken = await SecureStore.getItemAsync('refreshToken')
+    return refreshToken || null
+  } catch (error) {
+    console.log('error', error)
     return null
   }
 }
 
 const setAccessToken = async (accessToken: string): Promise<void> => {
-  await Keychain.setGenericPassword("accessToken", accessToken)
+  try {
+    await SecureStore.setItemAsync('accessToken', accessToken)
+  } catch (error) {
+    console.log('error', error)
+  }
 }
 
 const setRefreshToken = async (refreshToken: string): Promise<void> => {
-  await Keychain.setGenericPassword("refreshToken", refreshToken)
+  try {
+    await SecureStore.setItemAsync('refreshToken', refreshToken)
+  } catch (error) {
+    console.log('error', error)
+  }
 }
 
 const deleteTokens = async (): Promise<void> => {
-  await Keychain.resetGenericPassword()
+  try {
+    await SecureStore.deleteItemAsync('accessToken')
+    await SecureStore.deleteItemAsync('refreshToken')
+  } catch (error) {
+    console.log('error', error)
+  }
 }
 
 const isAuthenticated = async (): Promise<boolean> => {
-  const accessToken = await getAccessToken()
-  return accessToken !== null
+  try {
+    const accessToken = await getAccessToken()
+    return accessToken !== null
+  } catch (error) {
+    console.log('error', error)
+    return false
+  }
 }
 
 export const keychainHelper = {
@@ -53,5 +61,5 @@ export const keychainHelper = {
   isAuthenticated,
   deleteTokens,
   setAccessToken,
-  setRefreshToken
-};
+  setRefreshToken,
+}

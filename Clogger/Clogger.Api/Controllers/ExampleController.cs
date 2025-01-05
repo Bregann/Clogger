@@ -9,7 +9,6 @@ namespace Clogger.Api.Controllers
     {
 
         [HttpGet("UserDetails")]
-        [Authorize]
         public async Task<IActionResult> UserDetails()
         {
             var user = User;

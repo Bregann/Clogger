@@ -3,7 +3,8 @@ import { keychainHelper } from './keychainHelper'
 import { useAuth } from '@/context/authContext'
 
 const apiClient = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL
+  baseURL: 'http://192.168.1.1:5053',
+  validateStatus: (status) => status < 500
 })
 
 
@@ -20,6 +21,11 @@ apiClient.interceptors.request.use(async (config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // ignore if the login is being called as that will return a 401 if it's incorrect credentials
+    if(error.config.url === '/login') {
+      console.log('hits?')
+    }
+
     // if it's errored with 401, we try to refresh the token
     if (error.response.status === 401) {
       const refreshToken = await keychainHelper.getRefreshToken()

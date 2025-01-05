@@ -17,6 +17,16 @@ builder.Services.AddSwaggerGen();
 // Add in our own services
 builder.Services.AddSingleton<IEnvironmentalSettingHelper, EnvironmentalSettingHelper>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Add in identity
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication()
@@ -37,6 +47,8 @@ else
 }
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

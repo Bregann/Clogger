@@ -24,7 +24,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const router = useRouter()
 
   const checkAuthStatus = async () => {
+    console.log('checking auth status')
     const accessToken = await keychainHelper.getAccessToken()
+    console.log(accessToken)
     setIsAuthenticated(accessToken !== null)
   }
 
