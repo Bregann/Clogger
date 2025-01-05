@@ -3,7 +3,7 @@ import { keychainHelper } from './keychainHelper'
 import { useAuth } from '@/context/authContext'
 
 const apiClient = axios.create({
-  baseURL: 'http://192.168.1.1:5053',
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   validateStatus: (status) => status < 500
 })
 
