@@ -17,11 +17,11 @@ const noAuthApiClient = axios.create({
 
 authApiClient.interceptors.request.use(async (config) => {
   const accessToken = await keychainHelper.getAccessToken()
-  console.log('hello?')
+
   if (accessToken !== null) {
     config.headers['Authorization'] = `Bearer ${accessToken}`
   }
-  console.log('hello2?')
+
   return config
 })
 
