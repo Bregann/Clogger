@@ -14,6 +14,10 @@ module.exports = {
     // Enforce spacing around curly braces
     'object-curly-spacing': ['error', 'always'],
     // Enforce consistent spacing inside array brackets
-    'array-bracket-spacing': ['error', 'never']
+    'array-bracket-spacing': ['error', 'never'],
+    'no-multi-spaces': ['error'],
+    // Disallow trailing spaces at the end of lines
+    'no-trailing-spaces': ['error'],
+    "block-spacing": ["error", "always"]
   }
 }

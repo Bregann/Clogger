@@ -17,17 +17,19 @@ const noAuthApiClient = axios.create({
 
 authApiClient.interceptors.request.use(async (config) => {
   const accessToken = await keychainHelper.getAccessToken()
-
+  console.log('hello?')
   if (accessToken !== null) {
     config.headers['Authorization'] = `Bearer ${accessToken}`
   }
-
+  console.log('hello2?')
   return config
 })
 
 authApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log('error', error)
+    console.log('error.response', error.response)
     // if it's errored with 401, we try to refresh the token
     if (error.response.status === 401) {
       const refreshToken = await keychainHelper.getRefreshToken()

@@ -1,3 +1,5 @@
+import { useAuth } from '@/context/authContext'
+import { authApiClient, noAuthApiClient } from '@/helpers/apiClient'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
@@ -6,6 +8,7 @@ import { Button, TextInput, useTheme } from 'react-native-paper'
 export default function RegisterScreen () {
   const theme = useTheme()
   const router = useRouter()
+  const auth = useAuth()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -14,7 +17,26 @@ export default function RegisterScreen () {
   const [secureTextEntry, setSecureTextEntry] = useState(true)
 
   const attemptRegistration = async () => {
+    const fetchResult = await noAuthApiClient.post('/register', {
+      email,
+      password
+    })
 
+    if (fetchResult.status === 400) {
+      setErrorMsg('There has been an error trying to create your account. Please double check your credentials and try again')
+      return
+    } else {
+      const result = await auth.attemptLogin(email, password)
+
+      // they would be registered but an error logging in so we can just send them to the login page
+      if (!result) {
+        router.replace('/')
+        return
+      }
+      console.log('attempting to set username')
+      const r = await authApiClient.post(`/api/UserData/SetUsername/${name}`, {})
+      console.log(r)
+    }
   }
 
   return (
@@ -50,14 +72,22 @@ export default function RegisterScreen () {
       <Text style={{ color: password.length >= 8 ? 'green' : 'red' }}>At least 8 characters</Text>
       <Text style={{ color: /[A-Z]/.test(password) ? 'green' : 'red' }}>At least 1 uppercase letter</Text>
       <Text style={{ color: /\d/.test(password) ? 'green' : 'red' }}>At least 1 number</Text>
-
+      <Text style={{ color: /[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'green' : 'red' }}>A special character</Text>
       <Button
         mode="elevated"
         style={styles.loginButton}
         dark={true}
         buttonColor={theme.colors.primary}
         onPress={async () => { await attemptRegistration() }}
-        disabled={email.length === 0 || password.length === 0 || name.length === 0 || errorMsg.length > 0 || password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)}
+        disabled={email.length === 0 ||
+          password.length === 0 ||
+          name.length === 0 ||
+          errorMsg.length > 0 ||
+          password.length < 8 ||
+          !/[A-Z]/.test(password) ||
+          !/\d/.test(password) ||
+          !/[!@#$%^&*(),.?":{}|<>]/.test(password)
+        }
       >
         Register
       </Button>
@@ -81,7 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    top: '15%'
+    top: '10%'
   },
   headerText: {
     fontSize: 32,
