@@ -42,14 +42,14 @@ const AuthStateWrapper = () => {
       <Stack
         screenOptions={{
           contentStyle: {
-            backgroundColor: 'green',
+            backgroundColor: '#e2e3db',
           },
           headerShown: false
         }}
       >
         <Stack.Screen
           name="(tabs)"
-          options={{ headerShown: false }}
+          options={{ headerShown: false, contentStyle: { backgroundColor: '#e2e3db' } }}
         />
       </Stack>
     )
