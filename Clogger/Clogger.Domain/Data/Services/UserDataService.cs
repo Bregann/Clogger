@@ -13,7 +13,7 @@ namespace Clogger.Domain.Data.Services
             var resultsUpdated = await _context.Users
                 .Where(x => x.Id == userId)
                 .ExecuteUpdateAsync(setters =>
-                setters.SetProperty(x => x.UserName, name));
+                setters.SetProperty(x => x.FirstName, name));
 
             return resultsUpdated > 0;
         }

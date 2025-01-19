@@ -28,8 +28,11 @@ authApiClient.interceptors.request.use(async (config) => {
 authApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log('error', error)
-    console.log('error.response', error.response)
+    // don't bother to try and retry with a 500 error
+    if (error.response.status >= 500) {
+      return Promise.reject(error)
+    }
+
     // if it's errored with 401, we try to refresh the token
     if (error.response.status === 401) {
       const refreshToken = await keychainHelper.getRefreshToken()

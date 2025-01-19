@@ -33,9 +33,8 @@ export default function RegisterScreen () {
         router.replace('/')
         return
       }
-      console.log('attempting to set username')
-      const r = await authApiClient.post(`/api/UserData/SetUsername/${name}`, {})
-      console.log(r)
+
+      await authApiClient.post(`/api/UserData/SetUsername/${name}`, {})
     }
   }
 

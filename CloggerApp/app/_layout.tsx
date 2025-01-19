@@ -37,7 +37,7 @@ const AuthStateWrapper = () => {
   }, [isAuthenticated, router])
 
   return (
-    <Stack 
+    <Stack
       screenOptions={{
         contentStyle: {
           backgroundColor: '#e2e3db',

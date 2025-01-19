@@ -1,9 +1,12 @@
 using Clogger.Domain.Data.Database;
 using Clogger.Domain.Data.Database.Models;
+using Clogger.Domain.Data.Services;
 using Clogger.Domain.Helpers;
+using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,9 @@ builder.Services.AddSwaggerGen();
 
 // Add in our own services
 builder.Services.AddSingleton<IEnvironmentalSettingHelper, EnvironmentalSettingHelper>();
+
+builder.Services.AddScoped<IUserDataService, UserDataService>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -32,8 +38,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentication()
     .AddBearerToken(IdentityConstants.BearerScheme);
 
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders()
     .AddApiEndpoints();
 
 // Setup the database
@@ -72,7 +79,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapIdentityApi<User>();
+app.MapIdentityApi<AppUser>();
 
 app.MapControllers();
 

@@ -38,31 +38,31 @@ export default function Index () {
 
       <Text style={styles.headerText}>Welcome to Clogger</Text>
       <Text style={styles.subheaderText}>The ultimate collection logging app</Text>
-      <TextInput 
+      <TextInput
         label={'Email'}
         style={{ width: '80%', marginBottom: 20 }}
         mode="outlined"
         textContentType="emailAddress"
         keyboardType="email-address"
-        onChangeText={(text) => { setEmail(text); setErrorMsg('') }} 
+        onChangeText={(text) => { setEmail(text); setErrorMsg('') }}
       />
-      <TextInput 
+      <TextInput
         label={'Password'}
         style={{ width: '80%' }}
         mode="outlined"
         secureTextEntry={true}
-        onChangeText={(text) => { setPassword(text); setErrorMsg('') }} 
+        onChangeText={(text) => { setPassword(text); setErrorMsg('') }}
         right={<TextInput.Icon onPress={() => { setSecureTextEntry(!secureTextEntry) }} icon="eye" />}
         passwordRules={'minlength: 8; required: lower; required: upper; required: digit;'}
       />
 
       <Text style={{ color: 'red', marginTop: 5 }}>{errorMsg}</Text>
 
-      <Button 
-        mode="elevated" 
-        style={styles.loginButton} 
+      <Button
+        mode="elevated"
+        style={styles.loginButton}
         dark={true}
-        buttonColor={theme.colors.primary} 
+        buttonColor={theme.colors.primary}
         onPress={async () => { await handleLogin() }}
         disabled={email.length === 0 || password.length === 0 || errorMsg.length > 0}
       >
@@ -71,10 +71,10 @@ export default function Index () {
 
       <Text style={{ marginTop: 20, marginBottom: 5 }}>New here?</Text>
 
-      <Button 
-        mode="elevated" 
-        dark={true} 
-        buttonColor={theme.colors.primary} 
+      <Button
+        mode="elevated"
+        dark={true}
+        buttonColor={theme.colors.primary}
         onPress={() => { router.push('/register') }}
         style={{ padding: 3 }}
       >

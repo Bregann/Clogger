@@ -1,20 +1,26 @@
-﻿using Clogger.Domain.Interfaces.Api;
+﻿using Clogger.Domain.Data.Database.Models;
+using Clogger.Domain.Interfaces.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clogger.Api.Controllers
 {
-
-    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UserDataController(IUserDataService userDataService, UserManager<IdentityUser> userManager) : ControllerBase
+    public class UserDataController : ControllerBase
     {
-        private readonly IUserDataService _userDataService = userDataService;
-        private readonly UserManager<IdentityUser> _userManager = userManager;
+        private readonly IUserDataService _userDataService;
+        private readonly UserManager<AppUser> _userManager;
 
-        // this is being used by registration due to not being able to do scaffold the identity methods. Apparently it's coming in .NET 10
+        // Constructor injection for services
+        public UserDataController(IUserDataService userDataService, UserManager<AppUser> userManager)
+        {
+            _userDataService = userDataService;
+            _userManager = userManager;
+        }
+
+        // This is being used by registration due to not being able to scaffold the identity methods.
         // TODO: update and remove this when scaffolding is allowed
         [HttpPost("{name}")]
         public async Task<IActionResult> SetUsername([FromRoute] string name)
