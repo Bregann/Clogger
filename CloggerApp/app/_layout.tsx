@@ -1,5 +1,6 @@
 import { AuthProvider, useAuth } from "@/context/authContext"
-import { Stack, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
+import { Stack } from 'expo-router/stack'
 import { useEffect } from "react"
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 
@@ -36,14 +37,34 @@ const AuthStateWrapper = () => {
 
   }, [isAuthenticated, router])
 
-  return (
-    <Stack
-      screenOptions={{
-        contentStyle: {
-          backgroundColor: '#e2e3db',
-        },
-        headerShown: false
-      }}
-    />
-  )
+  if (isAuthenticated) {
+    return (
+      <Stack
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: 'green',
+          },
+          headerShown: false
+        }}
+      >
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false }}
+        />
+      </Stack>
+    )
+  } else {
+    return (
+      <Stack
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: '#e2e3db',
+          },
+          headerShown: false
+        }}
+      />
+    )
+  }
+
+
 }
