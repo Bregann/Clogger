@@ -1,16 +1,16 @@
-import { AuthProvider, useAuth } from "@/context/authContext";
-import { keychainHelper } from "@/helpers/keychainHelper";
-import { Stack, useRouter } from "expo-router";
-import { useEffect } from "react";
+import { AuthProvider, useAuth } from "@/context/authContext"
+import { Stack, useRouter } from "expo-router"
+import { useEffect } from "react"
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 
-export default function RootLayout() {
+export default function RootLayout () {
   const theme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
       primary: '#01b6af',
-      accent: '#f1c40f'
+      accent: '#f1c40f',
+      secondary: '#f53f2a',
     }
   }
 
@@ -20,7 +20,7 @@ export default function RootLayout() {
         <AuthStateWrapper />
       </PaperProvider>
     </AuthProvider>
-  );
+  )
 }
 
 const AuthStateWrapper = () => {
@@ -28,14 +28,13 @@ const AuthStateWrapper = () => {
   const router = useRouter()
 
   useEffect(() => {
-    console.log('????')
     if (isAuthenticated) {
       router.replace('/home')
-    } else{
+    } else {
       router.replace('/')
     }
 
-  }, [isAuthenticated])
+  }, [isAuthenticated, router])
 
   return (
     <Stack 
@@ -46,5 +45,5 @@ const AuthStateWrapper = () => {
         headerShown: false
       }}
     />
-  );
-};
+  )
+}

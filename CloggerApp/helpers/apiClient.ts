@@ -1,14 +1,21 @@
 import axios from 'axios'
 import { keychainHelper } from './keychainHelper'
 import { useAuth } from '@/context/authContext'
+import Constants from 'expo-constants'
 
-const apiClient = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
-  validateStatus: (status) => status < 500
+const authApiClient = axios.create({
+  baseURL: Constants.expoConfig?.extra?.ApiUrl || ''
+})
+
+const noAuthApiClient = axios.create({
+  baseURL: Constants.expoConfig?.extra?.ApiUrl || '',
+  validateStatus (status) {
+    return status < 500
+  },
 })
 
 
-apiClient.interceptors.request.use(async (config) => {
+authApiClient.interceptors.request.use(async (config) => {
   const accessToken = await keychainHelper.getAccessToken()
 
   if (accessToken !== null) {
@@ -18,14 +25,9 @@ apiClient.interceptors.request.use(async (config) => {
   return config
 })
 
-apiClient.interceptors.response.use(
+authApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // ignore if the login is being called as that will return a 401 if it's incorrect credentials
-    if(error.config.url === '/login') {
-      console.log('hits?')
-    }
-
     // if it's errored with 401, we try to refresh the token
     if (error.response.status === 401) {
       const refreshToken = await keychainHelper.getRefreshToken()
@@ -35,15 +37,15 @@ apiClient.interceptors.response.use(
       }
 
       try {
-        const { data } = await apiClient.post('/refresh', {
+        const { data } = await authApiClient.post('/refresh', {
           refreshToken
-        });
+        })
 
         keychainHelper.setAccessToken(data.accessToken)
 
         error.config.headers['Authorization'] = `Bearer ${data.accessToken}`
 
-        return apiClient.request(error.config)
+        return authApiClient.request(error.config)
       } catch (error) {
         // if there's any error trying to refresh the token then just force them out of the app
         const { logOut } = useAuth()
@@ -56,4 +58,4 @@ apiClient.interceptors.response.use(
   }
 )
 
-export default apiClient
+export { authApiClient, noAuthApiClient }

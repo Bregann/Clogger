@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clogger.Domain.Data.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241228170146_initial")]
+    [Migration("20250105181528_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -172,6 +172,10 @@ namespace Clogger.Domain.Data.Database.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");

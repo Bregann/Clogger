@@ -1,21 +1,98 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router'
+import { useState } from 'react'
+import { Text, View, StyleSheet } from 'react-native'
+import { Button, TextInput, useTheme } from 'react-native-paper'
 
-export default function RegisterScreen() {
+export default function RegisterScreen () {
+  const theme = useTheme()
+  const router = useRouter()
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+  const [secureTextEntry, setSecureTextEntry] = useState(true)
+
+  const attemptRegistration = async () => {
+
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Register screen</Text>
+      <Text style={styles.headerText}>Create an Account</Text>
+      <Text style={styles.subheaderText}>You will need to create an account to use Clogger</Text>
+      <TextInput
+        label={'Your Name'}
+        style={{ width: '80%', marginBottom: 20 }}
+        mode="outlined"
+        onChangeText={(text) => { setName(text); setErrorMsg('') }}
+        outlineColor={theme.colors.primary}
+      />
+      <TextInput
+        label={'Email'}
+        style={{ width: '80%', marginBottom: 20 }}
+        mode="outlined"
+        textContentType="emailAddress"
+        keyboardType="email-address"
+        onChangeText={(text) => { setEmail(text); setErrorMsg('') }}
+        outlineColor={theme.colors.primary}
+      />
+      <TextInput
+        label={'Password'}
+        style={{ width: '80%' }}
+        mode="outlined"
+        secureTextEntry={secureTextEntry}
+        onChangeText={(text) => { setPassword(text); setErrorMsg('') }}
+        outlineColor={theme.colors.primary}
+        right={<TextInput.Icon onPress={() => { setSecureTextEntry(!secureTextEntry) }} icon="eye" />}
+      />
+      <Text style={{ fontSize: 20, marginTop: 10 }}>Password requirements:</Text>
+      <Text style={{ color: password.length >= 8 ? 'green' : 'red' }}>At least 8 characters</Text>
+      <Text style={{ color: /[A-Z]/.test(password) ? 'green' : 'red' }}>At least 1 uppercase letter</Text>
+      <Text style={{ color: /\d/.test(password) ? 'green' : 'red' }}>At least 1 number</Text>
+
+      <Button
+        mode="elevated"
+        style={styles.loginButton}
+        dark={true}
+        buttonColor={theme.colors.primary}
+        onPress={async () => { await attemptRegistration() }}
+        disabled={email.length === 0 || password.length === 0 || name.length === 0 || errorMsg.length > 0 || password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)}
+      >
+        Register
+      </Button>
+
+      <Text style={{ marginTop: 20, marginBottom: 5 }}>Already have an account?</Text>
+
+      <Button
+        mode="elevated"
+        dark={true}
+        buttonColor={theme.colors.primary}
+        onPress={() => { router.push('/') }}
+        style={{ padding: 3 }}
+      >
+        Login
+      </Button>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#25292e',
-    justifyContent: 'center',
     alignItems: 'center',
+    top: '15%'
   },
-  text: {
-    color: '#fff',
+  headerText: {
+    fontSize: 32,
+    fontWeight: 'bold',
   },
-});
+  subheaderText: {
+    marginBottom: 30,
+    fontSize: 14,
+  },
+  loginButton: {
+    marginTop: 20,
+    padding: 3
+  }
+})

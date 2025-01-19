@@ -1,38 +1,29 @@
-import { useAuth } from "@/context/authContext";
-import apiClient from "@/helpers/apiClient";
-import { keychainHelper } from "@/helpers/keychainHelper";
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Image, View, Text, StyleSheet } from "react-native";
-import { TextInput, Button, useTheme } from "react-native-paper";
+import { useAuth } from "@/context/authContext"
+import Constants from "expo-constants"
+import { useRouter } from "expo-router"
+import { useState } from "react"
+import { Image, View, Text, StyleSheet } from "react-native"
+import { TextInput, Button, useTheme } from "react-native-paper"
 
-export default function Index() {
-  const { isAuthenticated } = useAuth()
+export default function Index () {
+  const auth = useAuth()
   const router = useRouter()
   const theme = useTheme()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const [secureTextEntry, setSecureTextEntry] = useState(true)
 
-
-
-  const attemptLogin = async () => {
-    console.log('attempting login')
+  const handleLogin = async () => {
     try {
-      const response = await apiClient.post('/login', {
-        email,
-        password
-      })
+      const result = await auth.attemptLogin(email, password)
 
-      if(response.status === 401) {
+      if (result === false) {
         setErrorMsg('Invalid email or password')
-      } else {
-        keychainHelper.setAccessToken(response.data.accessToken)
-        keychainHelper.setRefreshToken(response.data.refreshToken)
-        router.replace('/home')
       }
     } catch (error) {
-      setErrorMsg('There has been an unknown error, please try again')
+      setErrorMsg('There has been an unknown error, please try again. Error info: ' + error + `${Constants.expoConfig?.extra?.ApiUrl || ''}`)
     }
   }
 
@@ -61,34 +52,36 @@ export default function Index() {
         mode="outlined"
         secureTextEntry={true}
         onChangeText={(text) => { setPassword(text); setErrorMsg('') }} 
+        right={<TextInput.Icon onPress={() => { setSecureTextEntry(!secureTextEntry) }} icon="eye" />}
+        passwordRules={'minlength: 8; required: lower; required: upper; required: digit;'}
       />
 
-      <Text style={{color: 'red', marginTop: 5}}>{errorMsg}</Text>
+      <Text style={{ color: 'red', marginTop: 5 }}>{errorMsg}</Text>
 
       <Button 
         mode="elevated" 
         style={styles.loginButton} 
         dark={true}
         buttonColor={theme.colors.primary} 
-        onPress={async () => { await attemptLogin() }}
+        onPress={async () => { await handleLogin() }}
         disabled={email.length === 0 || password.length === 0 || errorMsg.length > 0}
       >
         Login
       </Button>
 
-      <Text style={{marginTop: 20, marginBottom: 5}}>New here?</Text>
+      <Text style={{ marginTop: 20, marginBottom: 5 }}>New here?</Text>
 
       <Button 
         mode="elevated" 
         dark={true} 
         buttonColor={theme.colors.primary} 
         onPress={() => { router.push('/register') }}
-        style={{padding: 3}}
+        style={{ padding: 3 }}
       >
         Register
       </Button>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -114,4 +107,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 3
   }
-});
+})
