@@ -27,6 +27,20 @@ export default StyleSheet.create({
   },
   collectionBox: {
     width: '90%',
+    height: 85,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 10,
+    // Shadow properties for iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    // Shadow for Android
+    elevation: 5
+  },
+  itemBox: {
+    width: '90%',
     height: 60,
     backgroundColor: 'white',
     borderRadius: 10,

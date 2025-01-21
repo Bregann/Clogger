@@ -24,34 +24,42 @@ export default function HomeScreen () {
 
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 1</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 2</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 3</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 4</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 5</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 6</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 7</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 8</Text>
+        <Text style={globalStyles.collectionItemText}>Description</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>
       </View>
 
