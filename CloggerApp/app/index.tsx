@@ -2,9 +2,9 @@ import { useAuth } from "@/context/authContext"
 import Constants from "expo-constants"
 import { useRouter } from "expo-router"
 import { useState } from "react"
-import { Image, View, Text, StyleSheet } from "react-native"
+import { Image, View, Text } from "react-native"
 import { TextInput, Button, useTheme } from "react-native-paper"
-
+import styles from "@/styles/indexStyles"
 export default function Index () {
   const auth = useAuth()
   const router = useRouter()
@@ -83,28 +83,3 @@ export default function Index () {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    top: '25%'
-  },
-  logo: {
-    width: 128,
-    height: 128,
-    marginBottom: 20
-  },
-  headerText:{
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
-  subheaderText: {
-    marginBottom: 10,
-    fontStyle: 'italic'
-  },
-  loginButton: {
-    marginTop: 20,
-    padding: 3
-  }
-})
