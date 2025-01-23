@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { useTheme } from 'react-native-paper'
 
-export default function TabLayout () {
+export default function TabLayout (): JSX.Element {
   const theme = useTheme()
 
   return (

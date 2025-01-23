@@ -4,7 +4,7 @@ import globalStyles from '@/styles/globalStyles'
 import { useState } from 'react'
 import searchStyles from '@/styles/searchStyles'
 
-export default function HomeScreen () {
+export default function HomeScreen (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
 
   return (

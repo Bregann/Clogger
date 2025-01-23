@@ -2,7 +2,7 @@ import { useAuth } from '@/context/authContext'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper'
 
-export default function HomeScreen () {
+export default function HomeScreen (): JSX.Element {
   const auth = useAuth()
   return (
     <View style={styles.container}>

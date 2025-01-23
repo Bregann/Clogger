@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
-export default function RegisterScreen () {
+export default function RegisterScreen (): JSX.Element {
   const theme = useTheme()
   const router = useRouter()
   const auth = useAuth()
@@ -16,7 +16,7 @@ export default function RegisterScreen () {
   const [errorMsg, setErrorMsg] = useState('')
   const [secureTextEntry, setSecureTextEntry] = useState(true)
 
-  const attemptRegistration = async () => {
+  const attemptRegistration = async (): Promise<void> => {
     const fetchResult = await noAuthApiClient.post('/register', {
       email,
       password

@@ -4,7 +4,7 @@ import { Button } from 'react-native-paper'
 import homeStyles from '@/styles/homeStyles'
 import globalStyles from '@/styles/globalStyles'
 
-export default function HomeScreen () {
+export default function HomeScreen (): JSX.Element {
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
       <View>

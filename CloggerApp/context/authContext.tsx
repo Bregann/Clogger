@@ -12,7 +12,7 @@ type ContextType = {
 
 const AuthContext = createContext<ContextType | undefined>(undefined)
 
-export const useAuth = () => {
+export const useAuth = (): ContextType => {
   const context = useContext(AuthContext)
   if (context === undefined) {
     throw new Error("useAuth must be used within a AuthProvider")
@@ -25,12 +25,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
 
-  const checkAuthStatus = async () => {
+  const checkAuthStatus = async (): Promise<void> => {
     const accessToken = await keychainHelper.getAccessToken()
     setIsAuthenticated(accessToken !== null)
   }
 
-  const logOut = async () => {
+  const logOut = async (): Promise<void> => {
     await keychainHelper.deleteTokens()
     setIsAuthenticated(false)
     router.push('/')

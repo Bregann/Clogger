@@ -5,7 +5,8 @@ import { useState } from "react"
 import { Image, View, Text } from "react-native"
 import { TextInput, Button, useTheme } from "react-native-paper"
 import styles from "@/styles/indexStyles"
-export default function Index () {
+
+export default function Index (): JSX.Element {
   const auth = useAuth()
   const router = useRouter()
   const theme = useTheme()
@@ -15,7 +16,7 @@ export default function Index () {
   const [errorMsg, setErrorMsg] = useState('')
   const [secureTextEntry, setSecureTextEntry] = useState(true)
 
-  const handleLogin = async () => {
+  const handleLogin = async (): Promise<void> => {
     try {
       const result = await auth.attemptLogin(email, password)
 

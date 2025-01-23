@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { keychainHelper } from './keychainHelper'
-import { useAuth } from '@/context/authContext'
 import Constants from 'expo-constants'
 
 const authApiClient = axios.create({
@@ -52,9 +51,6 @@ authApiClient.interceptors.response.use(
 
         return authApiClient.request(error.config)
       } catch (error) {
-        // if there's any error trying to refresh the token then just force them out of the app
-        const { logOut } = useAuth()
-        await logOut()
         return Promise.reject(error)
       }
     }

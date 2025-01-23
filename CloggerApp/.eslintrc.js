@@ -18,6 +18,15 @@ module.exports = {
     'no-multi-spaces': ['error'],
     // Disallow trailing spaces at the end of lines
     'no-trailing-spaces': ['error'],
-    "block-spacing": ["error", "always"]
+    "block-spacing": ["error", "always"],
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": false, // Ensures even arrow functions need return types
+        "allowTypedFunctionExpressions": true, // Allows inference in callbacks
+        "allowHigherOrderFunctions": true, // Keeps it flexible for functional programming
+        "allowDirectConstAssertionInArrowFunctions": true // Permits `as const` assertions
+      }
+    ]
   }
 }

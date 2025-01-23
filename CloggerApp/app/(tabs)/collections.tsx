@@ -4,7 +4,7 @@ import { Text, View, ScrollView } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import collectionStyles from '@/styles/collectionsStyles'
 
-export default function HomeScreen () {
+export default function HomeScreen (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
 
   return (

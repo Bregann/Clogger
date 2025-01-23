@@ -4,7 +4,7 @@ import { Stack } from 'expo-router/stack'
 import { useEffect } from "react"
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 
-export default function RootLayout () {
+export default function RootLayout (): JSX.Element {
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -24,7 +24,7 @@ export default function RootLayout () {
   )
 }
 
-const AuthStateWrapper = () => {
+const AuthStateWrapper = (): JSX.Element => {
   const { isAuthenticated } = useAuth()
   const router = useRouter()
 
