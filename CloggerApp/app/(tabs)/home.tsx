@@ -1,10 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Pressable } from 'react-native'
 import { Button } from 'react-native-paper'
 import homeStyles from '@/styles/homeStyles'
 import globalStyles from '@/styles/globalStyles'
+import { useRouter } from 'expo-router'
 
 export default function HomeScreen (): JSX.Element {
+  const router = useRouter()
+
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
       <View>
@@ -21,16 +24,20 @@ export default function HomeScreen (): JSX.Element {
           </View>
         </View>
         <Text style={homeStyles.quickActionsText}>Quick Actions</Text>
-        <View style={homeStyles.rowContainer}>
+        <View style={globalStyles.rowContainer}>
           <Button mode="contained" style={ { marginRight: 10 } } onPress={() => { }}>Add Collection</Button>
           <Button mode="contained" onPress={() => { }}>Add Item</Button>
         </View>
         <Text style={homeStyles.yourCollectionsText}>Your Collections <FontAwesome size={28} name="arrow-circle-right" /></Text>
       </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 1</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
+      <Pressable
+        style={globalStyles.collectionBox}
+        onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: 1 } }) }}>
+        <View>
+          <Text style={globalStyles.collectionHeaderText}>Collection 1</Text>
+          <Text style={globalStyles.collectionItemText}>500 items</Text>
+        </View>
+      </Pressable>
       <View style={globalStyles.collectionBox}>
         <Text style={globalStyles.collectionHeaderText}>Collection 2</Text>
         <Text style={globalStyles.collectionItemText}>500 items</Text>

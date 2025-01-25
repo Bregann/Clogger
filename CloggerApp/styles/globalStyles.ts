@@ -61,5 +61,11 @@ export default StyleSheet.create({
   collectionItemText: {
     textAlign: 'center',
     fontStyle: 'italic'
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%'
   }
 })

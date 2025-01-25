@@ -1,13 +1,18 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { Tabs } from 'expo-router'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import { Tabs } from 'expo-router'
 import { useTheme } from 'react-native-paper'
 
 export default function TabLayout (): JSX.Element {
   const theme = useTheme()
 
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: theme.colors.primary, headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: theme.colors.primary,
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
@@ -34,6 +39,13 @@ export default function TabLayout (): JSX.Element {
         options={{
           title: 'Settings',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="gear" color={color} />,
+        }}
+      />
+      {/* Hide the [id] routes from tabs */}
+      <Tabs.Screen
+        name="Collections"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

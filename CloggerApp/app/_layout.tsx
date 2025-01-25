@@ -11,7 +11,7 @@ export default function RootLayout (): JSX.Element {
       ...DefaultTheme.colors,
       primary: '#01b6af',
       accent: '#f1c40f',
-      secondary: '#f53f2a',
+      secondary: '#f53f2a'
     }
   }
 
