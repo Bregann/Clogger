@@ -1,4 +1,3 @@
-import { useAuth } from '@/context/authContext'
 import addEditCollectionStyles from '@/styles/addEditCollectionStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useLocalSearchParams } from 'expo-router'
@@ -7,7 +6,6 @@ import { Text, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 
 export default function AddEditCollection (): JSX.Element {
-  const auth = useAuth()
   // 0 = add otherwise it will be the collection id
   const { id } = useLocalSearchParams<{ id: string }>()
 
