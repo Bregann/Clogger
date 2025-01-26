@@ -1,10 +1,10 @@
-import { useAuth } from "@/context/authContext"
-import Constants from "expo-constants"
-import { useRouter } from "expo-router"
-import { useState } from "react"
-import { Image, View, Text } from "react-native"
-import { TextInput, Button, useTheme } from "react-native-paper"
-import styles from "@/styles/indexStyles"
+import { useAuth } from '@/context/authContext'
+import Constants from 'expo-constants'
+import { useRouter } from 'expo-router'
+import { useState } from 'react'
+import { Image, View, Text } from 'react-native'
+import { TextInput, Button, useTheme } from 'react-native-paper'
+import styles from '@/styles/indexStyles'
 
 export default function Index (): JSX.Element {
   const auth = useAuth()

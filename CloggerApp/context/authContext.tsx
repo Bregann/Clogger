@@ -1,7 +1,7 @@
-import { noAuthApiClient } from "@/helpers/apiClient"
-import { keychainHelper } from "@/helpers/keychainHelper"
-import { useRouter } from "expo-router"
-import { createContext, useContext, useEffect, useState } from "react"
+import { noAuthApiClient } from '@/helpers/apiClient'
+import { keychainHelper } from '@/helpers/keychainHelper'
+import { useRouter } from 'expo-router'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 type ContextType = {
   isAuthenticated: boolean
@@ -15,7 +15,7 @@ const AuthContext = createContext<ContextType | undefined>(undefined)
 export const useAuth = (): ContextType => {
   const context = useContext(AuthContext)
   if (context === undefined) {
-    throw new Error("useAuth must be used within a AuthProvider")
+    throw new Error('useAuth must be used within a AuthProvider')
   }
 
   return context

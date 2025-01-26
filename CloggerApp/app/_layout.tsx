@@ -1,7 +1,7 @@
-import { AuthProvider, useAuth } from "@/context/authContext"
-import { useRouter } from "expo-router"
+import { AuthProvider, useAuth } from '@/context/authContext'
+import { useRouter } from 'expo-router'
 import { Stack } from 'expo-router/stack'
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 
 export default function RootLayout (): JSX.Element {

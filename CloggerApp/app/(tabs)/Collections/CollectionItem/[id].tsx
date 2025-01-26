@@ -1,13 +1,12 @@
-import collectionItemStyles from "@/styles/collectionItemStyles"
-import globalStyles from "@/styles/globalStyles"
-import { useLocalSearchParams, useRouter } from "expo-router"
-import { ScrollView, View, Text } from "react-native"
-import { Button, Divider } from "react-native-paper"
+import collectionItemStyles from '@/styles/collectionItemStyles'
+import globalStyles from '@/styles/globalStyles'
+import { useLocalSearchParams } from 'expo-router'
+import { ScrollView, View, Text } from 'react-native'
+import { Button } from 'react-native-paper'
 import { Image } from 'expo-image'
 
 export default function CollectionItemListScreen (): JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
-  const router = useRouter()
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>

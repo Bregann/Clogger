@@ -3,7 +3,7 @@ import globalStyles from '@/styles/globalStyles'
 import { useLocalSearchParams } from 'expo-router'
 import React, { useState } from 'react'
 import { Text, View, ScrollView } from 'react-native'
-import { Button, Provider, TextInput } from 'react-native-paper'
+import { Button, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-paper-dropdown'
 
 export default function AddEditItemScreen (): JSX.Element {
