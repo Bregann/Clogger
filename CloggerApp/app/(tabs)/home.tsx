@@ -25,7 +25,7 @@ export default function HomeScreen (): JSX.Element {
         </View>
         <Text style={homeStyles.quickActionsText}>Quick Actions</Text>
         <View style={globalStyles.rowContainer}>
-          <Button mode="contained" style={ { marginRight: 10 } } onPress={() => { }}>Add Collection</Button>
+          <Button mode="contained" style={ { marginRight: 10 } } onPress={() => { router.push('/(tabs)/Collections/AddEditCollection/0') }}>Add Collection</Button>
           <Button mode="contained" onPress={() => { }}>Add Item</Button>
         </View>
         <Text style={homeStyles.yourCollectionsText}>Your Collections <FontAwesome size={28} name="arrow-circle-right" /></Text>

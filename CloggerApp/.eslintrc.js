@@ -18,14 +18,27 @@ module.exports = {
     'no-multi-spaces': ['error'],
     // Disallow trailing spaces at the end of lines
     'no-trailing-spaces': ['error'],
-    "block-spacing": ["error", "always"],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
+    'block-spacing': ['error', 'always'],
+    'react/jsx-tag-spacing': [
+      'error',
       {
-        "allowExpressions": false, // Ensures even arrow functions need return types
-        "allowTypedFunctionExpressions": true, // Allows inference in callbacks
-        "allowHigherOrderFunctions": true, // Keeps it flexible for functional programming
-        "allowDirectConstAssertionInArrowFunctions": true // Permits `as const` assertions
+        beforeSelfClosing: 'always', // Enforce a space before the closing `/>`
+        beforeClosing: 'never', // Enforce a space before the closing `>`
+      },
+    ],
+    quotes: [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: false },
+    ],
+    'jsx-quotes': ['error', 'prefer-double'],
+    '@typescript-eslint/explicit-function-return-type': [
+      'error',
+      {
+        'allowExpressions': false, // Ensures even arrow functions need return types
+        'allowTypedFunctionExpressions': true, // Allows inference in callbacks
+        'allowHigherOrderFunctions': true, // Keeps it flexible for functional programming
+        'allowDirectConstAssertionInArrowFunctions': true // Permits `as const` assertions
       }
     ]
   }
