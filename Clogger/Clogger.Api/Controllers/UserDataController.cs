@@ -13,7 +13,6 @@ namespace Clogger.Api.Controllers
         private readonly IUserDataService _userDataService;
         private readonly UserManager<AppUser> _userManager;
 
-        // Constructor injection for services
         public UserDataController(IUserDataService userDataService, UserManager<AppUser> userManager)
         {
             _userDataService = userDataService;

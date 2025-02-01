@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IEnvironmentalSettingHelper, EnvironmentalSettingHelper>();
 
 builder.Services.AddScoped<IUserDataService, UserDataService>();
-
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 builder.Services.AddCors(options =>
 {

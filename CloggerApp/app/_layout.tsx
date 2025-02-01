@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router'
 import { Stack } from 'expo-router/stack'
 import { useEffect } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export default function RootLayout (): JSX.Element {
   const theme = {
@@ -15,12 +16,16 @@ export default function RootLayout (): JSX.Element {
     }
   }
 
+  const queryClient = new QueryClient()
+
   return (
-    <AuthProvider>
-      <PaperProvider theme={theme}>
-        <AuthStateWrapper />
-      </PaperProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <PaperProvider theme={theme}>
+          <AuthStateWrapper />
+        </PaperProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   )
 }
 

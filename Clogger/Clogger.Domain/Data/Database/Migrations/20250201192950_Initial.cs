@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Clogger.Domain.Data.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -206,11 +206,18 @@ namespace Clogger.Domain.Data.Database.Migrations
                     ItemDescription = table.Column<string>(type: "TEXT", nullable: false),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CollectionItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CollectionItems_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CollectionItems_Collections_CollectionId",
                         column: x => x.CollectionId,
@@ -308,6 +315,11 @@ namespace Clogger.Domain.Data.Database.Migrations
                 name: "IX_CollectionItems_CollectionId",
                 table: "CollectionItems",
                 column: "CollectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollectionItems_UserId",
+                table: "CollectionItems",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Collections_UserId",

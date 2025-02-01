@@ -31,6 +31,12 @@ namespace Clogger.Domain.Data.Database.Models
         [Required]
         public DateTime UpdatedAt { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; } = null!;
+
+        public AppUser User { get; set; } = null!;
+
         public ICollection<CustomCollectionFieldValue> CustomCollectionFieldValues { get; set; } = [];
     }
 }

@@ -4,25 +4,31 @@ import { Button } from 'react-native-paper'
 import homeStyles from '@/styles/homeStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useRouter } from 'expo-router'
+import { useHome } from '@/reactQueryHooks/homeQueries'
+import { useCollections } from '@/reactQueryHooks/collectionQueries'
 
 export default function HomeScreen (): JSX.Element {
   const router = useRouter()
+  const { data, isLoading, isError } = useHome()
+  const { data: collectionsData, isLoading: collectionsIsLoading, isError: collectionsIsError } = useCollections()
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
       <View>
-        <Text style={globalStyles.headerText}>Welcome back, Tilly</Text>
+        <Text style={globalStyles.headerText}>Welcome back, {data !== undefined && !isLoading ? data.userFirstName : 'Clogger User'}</Text>
         <Text style={globalStyles.subheaderText}>What would you like to do today?</Text>
-        <View style={homeStyles.boxContainer}>
+        {!isLoading && data !== undefined && <View style={homeStyles.boxContainer}>
           <View style={homeStyles.leftBox}>
             <Text style={homeStyles.statsHeader}>Total Collections</Text>
-            <Text style={homeStyles.statsNumber}>5</Text>
+            <Text style={homeStyles.statsNumber}>{data.totalCollections}</Text>
           </View>
           <View style={homeStyles.rightBox}>
             <Text style={homeStyles.statsHeader}>Total Items</Text>
-            <Text style={homeStyles.statsNumber}>5</Text>
+            <Text style={homeStyles.statsNumber}>{data.totalCollections}</Text>
           </View>
         </View>
+        }
+      {isError && <Text>An error occurred while fetching user stats</Text>}
         <Text style={homeStyles.quickActionsText}>Quick Actions</Text>
         <View style={globalStyles.rowContainer}>
           <Button mode="contained" style={ { marginRight: 10 } } onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddEditCollection/[id]', params: { id: 0 } }) }}>Add Collection</Button>
