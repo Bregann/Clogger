@@ -11,17 +11,17 @@ export default function Index (): JSX.Element {
   const router = useRouter()
   const theme = useTheme()
 
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [secureTextEntry, setSecureTextEntry] = useState(true)
 
   const handleLogin = async (): Promise<void> => {
     try {
-      const result = await auth.attemptLogin(email, password)
+      const result = await auth.attemptLogin(username, password)
 
       if (result === false) {
-        setErrorMsg('Invalid email or password')
+        setErrorMsg('Invalid username or password')
       }
     } catch (error) {
       setErrorMsg('There has been an unknown error, please try again. Error info: ' + error + `${Constants.expoConfig?.extra?.ApiUrl || ''}`)
@@ -40,12 +40,11 @@ export default function Index (): JSX.Element {
       <Text style={styles.headerText}>Welcome to Clogger</Text>
       <Text style={styles.subheaderText}>The ultimate collection logging app</Text>
       <TextInput
-        label={'Email'}
+        label={'Username'}
         style={{ width: '80%', marginBottom: 20 }}
         mode="outlined"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-        onChangeText={(text) => { setEmail(text); setErrorMsg('') }}
+        textContentType="username"
+        onChangeText={(text) => { setUsername(text); setErrorMsg('') }}
       />
       <TextInput
         label={'Password'}
@@ -65,7 +64,7 @@ export default function Index (): JSX.Element {
         dark={true}
         buttonColor={theme.colors.primary}
         onPress={async () => { await handleLogin() }}
-        disabled={email.length === 0 || password.length === 0 || errorMsg.length > 0}
+        disabled={username.length === 0 || password.length === 0 || errorMsg.length > 0}
       >
         Login
       </Button>

@@ -41,11 +41,12 @@ authApiClient.interceptors.response.use(
       }
 
       try {
-        const { data } = await authApiClient.post('/refresh', {
+        const { data } = await authApiClient.post('/api/auth/RefreshToken', {
           refreshToken
         })
 
         keychainHelper.setAccessToken(data.accessToken)
+        keychainHelper.setRefreshToken(data.refreshToken)
 
         error.config.headers['Authorization'] = `Bearer ${data.accessToken}`
 

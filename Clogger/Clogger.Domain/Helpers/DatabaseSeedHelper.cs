@@ -21,8 +21,8 @@ namespace Clogger.Domain.Helpers
                 {
                     Username = "testuser",
                     Password = "password",
-                    FirstName = "Test",
-                    Email = ""
+                    FirstName = "Testy McTestFace",
+                    Email = "test@test.com"
                 });
             }
             catch (Exception ex)

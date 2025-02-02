@@ -36,9 +36,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     router.push('/')
   }
 
-  const attemptLogin = async (email: string, password: string): Promise<boolean> => {
-    const response = await noAuthApiClient.post('/login', {
-      email,
+  const attemptLogin = async (username: string, password: string): Promise<boolean> => {
+    const response = await noAuthApiClient.post('/api/auth/LoginUser', {
+      username,
       password
     })
 

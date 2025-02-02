@@ -30,9 +30,9 @@ namespace Clogger.Domain.Data.Services
 
             var newUser = new User
             {
-                Username = request.Username,
-                FirstName = request.FirstName,
-                PasswordHash = _passwordHasher.HashPassword(new User(), request.Password)
+                Username = request.Username.ToLower().Trim(),
+                FirstName = request.FirstName.Trim(),
+                PasswordHash = _passwordHasher.HashPassword(new User(), request.Password.Trim())
             };
 
             _context.Users.Add(newUser);
@@ -41,7 +41,7 @@ namespace Clogger.Domain.Data.Services
 
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username.ToLower().Trim());
 
             if (user == null)
             {
@@ -119,7 +119,7 @@ namespace Clogger.Domain.Data.Services
 
         private static string GenerateRefreshToken()
         {
-            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(128));
         }
 
         private async Task SaveRefreshToken(string token, string userId)

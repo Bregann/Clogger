@@ -1,11 +1,13 @@
 ﻿using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clogger.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class UserDataController : ControllerBase
     {
         private readonly IUserDataService _userDataService;

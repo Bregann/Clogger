@@ -15,9 +15,9 @@ export default function RegisterScreen (): JSX.Element {
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [secureTextEntry, setSecureTextEntry] = useState(true)
-
+//TODO: Add in username field
   const attemptRegistration = async (): Promise<void> => {
-    const fetchResult = await noAuthApiClient.post('/register', {
+    const fetchResult = await noAuthApiClient.post('/api/auth/RegisterUser', {
       email,
       password
     })
@@ -33,8 +33,6 @@ export default function RegisterScreen (): JSX.Element {
         router.replace('/')
         return
       }
-
-      await authApiClient.post(`/api/UserData/SetUsername/${name}`, {})
     }
   }
 
