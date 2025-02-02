@@ -1,5 +1,5 @@
 import { useAuth } from '@/context/authContext'
-import { authApiClient, noAuthApiClient } from '@/helpers/apiClient'
+import { noAuthApiClient } from '@/helpers/apiClient'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
@@ -10,14 +10,16 @@ export default function RegisterScreen (): JSX.Element {
   const router = useRouter()
   const auth = useAuth()
 
+  const [username, setUsername] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [secureTextEntry, setSecureTextEntry] = useState(true)
-//TODO: Add in username field
   const attemptRegistration = async (): Promise<void> => {
     const fetchResult = await noAuthApiClient.post('/api/auth/RegisterUser', {
+      username,
+      firstName: name,
       email,
       password
     })
@@ -40,6 +42,13 @@ export default function RegisterScreen (): JSX.Element {
     <View style={styles.container}>
       <Text style={styles.headerText}>Create an Account</Text>
       <Text style={styles.subheaderText}>You will need to create an account to use Clogger</Text>
+      <TextInput
+        label={'Username'}
+        style={{ width: '80%', marginBottom: 20 }}
+        mode="outlined"
+        onChangeText={(text) => { setUsername(text); setErrorMsg('') }}
+        outlineColor={theme.colors.primary}
+      />
       <TextInput
         label={'Your Name'}
         style={{ width: '80%', marginBottom: 20 }}

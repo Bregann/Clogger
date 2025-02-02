@@ -1,11 +1,16 @@
 import globalStyles from '@/styles/globalStyles'
 import { useState } from 'react'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Pressable } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import collectionStyles from '@/styles/collectionsStyles'
+import { useCollections } from '@/reactQueryHooks/collectionQueries'
+import { useRouter } from 'expo-router'
 
-export default function HomeScreen (): JSX.Element {
+export default function CollectionsScreen (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
+  const router = useRouter()
+
+  const { data, isLoading, isError } = useCollections()
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
@@ -22,47 +27,22 @@ export default function HomeScreen (): JSX.Element {
       </View>
       <Button style={collectionStyles.addCollectionButton} mode="contained" onPress={() => { }}>Add New Collection</Button>
 
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 1</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 2</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 3</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 4</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 5</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 6</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 7</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 8</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-
+      {isLoading && <Text>Loading collections...</Text>}
+      {isError && <Text>An error occurred while fetching collections</Text>}
+      {data !== undefined && !isLoading && data.collections.map((collection) => {
+        return (
+          <Pressable
+            key={collection.id}
+            style={globalStyles.collectionBox}
+            onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: collection.id } }) }}>
+            <View>
+              <Text style={globalStyles.collectionHeaderText}>{collection.collectionName}</Text>
+              <Text style={globalStyles.collectionItemText}>{collection.collectionDescription}</Text>
+              <Text style={globalStyles.collectionItemText}>{collection.collectionItemCount}</Text>
+            </View>
+          </Pressable>
+        )
+      })}
     </ScrollView>
   )
 }

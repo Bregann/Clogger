@@ -42,9 +42,9 @@ export default function HomeScreen (): JSX.Element {
       {collectionsData !== undefined && !collectionsIsLoading && collectionsData.collections.map((collection) => {
         return (
           <Pressable
-          key={collection.id}
-          style={globalStyles.collectionBox}
-          onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: collection.id } }) }}>
+            key={collection.id}
+            style={globalStyles.collectionBox}
+            onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: collection.id } }) }}>
           <View>
             <Text style={globalStyles.collectionHeaderText}>{collection.collectionName}</Text>
             <Text style={globalStyles.collectionItemText}>{collection.collectionDescription}</Text>

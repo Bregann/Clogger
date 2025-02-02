@@ -51,11 +51,11 @@ namespace Clogger.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<LoginUserResponse>> RefreshToken([FromBody] string refreshToken)
+        public async Task<ActionResult<LoginUserResponse>> RefreshToken([FromBody] RefreshTokenRequest request)
         {
             try
             {
-                var response = await _authService.RefreshToken(refreshToken);
+                var response = await _authService.RefreshToken(request.RefreshToken);
                 return Ok(response);
             }
             catch (KeyNotFoundException ex)

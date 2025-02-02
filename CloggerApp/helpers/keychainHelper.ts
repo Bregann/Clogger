@@ -21,8 +21,6 @@ const getRefreshToken = async (): Promise<string | null> => {
 }
 
 const setAccessToken = async (accessToken: string): Promise<void> => {
-  console.log(accessToken)
-
   try {
     await SecureStore.setItemAsync('accessToken', accessToken)
   } catch (error) {
