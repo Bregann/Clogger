@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Clogger.Domain.Data.Database.Models
@@ -32,7 +30,7 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
 
-        public ApplicationUser User { get; set; } = null!;
+        public User User { get; set; } = null!;
 
         public ICollection<CustomCollectionField> CustomCollectionFields { get; set; } = [];
     }

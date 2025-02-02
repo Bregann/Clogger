@@ -1,15 +1,16 @@
 ﻿using Clogger.Domain.Data.Database.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clogger.Domain.Data.Database
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserRefreshToken> UserRefreshTokens { get; set; } = null!;
         public DbSet<EnvironmentalSetting> EnvironmentalSettings { get; set; } = null!;
         public DbSet<Collection> Collections { get; set; } = null!;
         public DbSet<CollectionItem> CollectionItems { get; set; } = null!;

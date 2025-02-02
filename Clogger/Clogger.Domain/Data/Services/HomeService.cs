@@ -3,19 +3,14 @@ using Clogger.Domain.Data.Database.Models;
 using Clogger.Domain.DTOs.Home.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clogger.Domain.Data.Services
 {
-    public class HomeService (AppDbContext dbContext) : IHomeService
+    public class HomeService(AppDbContext dbContext) : IHomeService
     {
         private readonly AppDbContext _context = dbContext;
 
-        public async Task<GetUserHeaderStatsDto> GetUserHeaderStats(ApplicationUser user)
+        public async Task<GetUserHeaderStatsDto> GetUserHeaderStats(User user)
         {
             return new GetUserHeaderStatsDto
             {

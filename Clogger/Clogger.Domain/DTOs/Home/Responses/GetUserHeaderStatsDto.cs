@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Clogger.Domain.DTOs.Home.Responses
+﻿namespace Clogger.Domain.DTOs.Home.Responses
 {
     public class GetUserHeaderStatsDto
     {

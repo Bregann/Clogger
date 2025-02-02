@@ -1,8 +1,6 @@
-﻿using Clogger.Domain.Data.Database.Models;
-using Clogger.Domain.DTOs.Collections.Responses;
+﻿using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clogger.Api.Controllers
@@ -12,27 +10,48 @@ namespace Clogger.Api.Controllers
     public class CollectionsController : ControllerBase
     {
         private readonly ICollectionService _collectionService;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserContextHelper _userContextHelper;
 
-        public CollectionsController(ICollectionService collectionService, UserManager<ApplicationUser> userManager)
+        public CollectionsController(ICollectionService collectionService, IUserContextHelper userContextHelper)
         {
             _collectionService = collectionService;
-            _userManager = userManager;
+            _userContextHelper = userContextHelper;
         }
 
         [HttpGet]
         public async Task<ActionResult<GetCollectionsDto>> GetCollections()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = _userContextHelper.GetUserId();
 
             if (user == null)
             {
                 return Unauthorized();
             }
 
-            var result = await _collectionService.GetCollections(user.Id);
+            var result = await _collectionService.GetCollections(user);
 
             return Ok(result);
+        }
+
+        [HttpGet("{collectionId}")]
+        public async Task<ActionResult<GetCollectionItemsDto>> GetCollectionItems([FromRoute] int collectionId)
+        {
+            var user = _userContextHelper.GetUserId();
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                var result = await _collectionService.GetCollectionItems(user, collectionId);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

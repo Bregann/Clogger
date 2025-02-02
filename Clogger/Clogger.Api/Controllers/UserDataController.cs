@@ -1,7 +1,5 @@
-﻿using Clogger.Domain.Data.Database.Models;
-using Clogger.Domain.Interfaces.Api;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Clogger.Domain.Interfaces.Api;
+using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clogger.Api.Controllers
@@ -11,12 +9,12 @@ namespace Clogger.Api.Controllers
     public class UserDataController : ControllerBase
     {
         private readonly IUserDataService _userDataService;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserContextHelper _userContextHelper;
 
-        public UserDataController(IUserDataService userDataService, UserManager<ApplicationUser> userManager)
+        public UserDataController(IUserDataService userDataService, IUserContextHelper userContextHelper)
         {
             _userDataService = userDataService;
-            _userManager = userManager;
+            _userContextHelper = userContextHelper;
         }
 
         // This is being used by registration due to not being able to scaffold the identity methods.
@@ -24,14 +22,14 @@ namespace Clogger.Api.Controllers
         [HttpPost("{name}")]
         public async Task<IActionResult> SetUsername([FromRoute] string name)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = _userContextHelper.GetUserId();
 
             if (user == null)
             {
                 return Unauthorized();
             }
 
-            var result = await _userDataService.SetUsername(name, user.Id);
+            var result = await _userDataService.SetUsername(name, user);
 
             if (result == false)
             {

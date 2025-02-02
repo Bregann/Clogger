@@ -2,15 +2,10 @@
 using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clogger.Domain.Data.Services
 {
-    public class CollectionService (AppDbContext dbContext) : ICollectionService
+    public class CollectionService(AppDbContext dbContext) : ICollectionService
     {
         private readonly AppDbContext _context = dbContext;
 
@@ -28,6 +23,29 @@ namespace Clogger.Domain.Data.Services
                         CollectionItemCount = x.CollectionItems.Count
                     })
                     .ToArrayAsync()
+            };
+        }
+
+        public async Task<GetCollectionItemsDto> GetCollectionItems(string userId, int collectionId)
+        {
+            var collection = await _context.Collections.FirstOrDefaultAsync(x => x.Id == collectionId && x.UserId == userId);
+
+            if (collection == null)
+            {
+                throw new KeyNotFoundException("Collection not found");
+            }
+
+            return new GetCollectionItemsDto
+            {
+                Id = collection.Id,
+                CollectionName = collection.CollectionName,
+                CollectionDescription = collection.Description,
+                CollectionItems = collection.CollectionItems.Select(x => new CollectionItem
+                {
+                    Id = x.Id,
+                    ItemName = x.ItemName,
+                    ItemDescription = x.ItemDescription
+                }).ToArray()
             };
         }
     }

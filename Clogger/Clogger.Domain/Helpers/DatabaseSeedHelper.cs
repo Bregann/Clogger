@@ -1,8 +1,9 @@
 ﻿using Clogger.Domain.Data.Database;
 using Clogger.Domain.Data.Database.Models;
+using Clogger.Domain.DTOs.Auth.Requests;
+using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -12,23 +13,26 @@ namespace Clogger.Domain.Helpers
     {
         public static async Task SeedDatabase(AppDbContext context, IEnvironmentalSettingHelper settingsHelper, IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var testUser = new ApplicationUser
-            {
-                UserName = "test@test.com",
-                FirstName = "Testy McTestFace",
-                Email = "test@test.com",
-                EmailConfirmed = true
-            };
+            var registrationService = serviceProvider.GetRequiredService<IAuthService>();
 
-            var result = await userManager.CreateAsync(testUser, "Test123!");
-
-            if (!result.Succeeded)
+            try
             {
-                throw new Exception($"Failed to create test user whilst seeding database! {string.Join(',', result.Errors)}");
+                await registrationService.RegisterUser(new RegisterUserRequest
+                {
+                    Username = "testuser",
+                    Password = "password",
+                    FirstName = "Test",
+                    Email = ""
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to add new user in database seed method");
+                throw;
             }
 
             //Collections
+            var testUser = await context.Users.FirstAsync(x => x.Username == "testuser");
 
             var collection1 = context.Collections.Add(new Collection
             {
