@@ -32,7 +32,7 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
 
-        public AppUser User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
 
         public ICollection<CustomCollectionField> CustomCollectionFields { get; set; } = [];
     }

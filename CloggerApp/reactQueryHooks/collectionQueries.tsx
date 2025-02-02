@@ -9,7 +9,7 @@ interface Collection {
   id: number
   collectionName: string
   collectionDescription: number
-  collectionItems: number
+  collectionItemCount: number
 }
 
 export const useCollections = (): UseQueryResult<GetCollectionsDto, Error> => {

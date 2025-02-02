@@ -12,9 +12,9 @@ namespace Clogger.Api.Controllers
     public class CollectionsController : ControllerBase
     {
         private readonly ICollectionService _collectionService;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CollectionsController(ICollectionService collectionService, UserManager<AppUser> userManager)
+        public CollectionsController(ICollectionService collectionService, UserManager<ApplicationUser> userManager)
         {
             _collectionService = collectionService;
             _userManager = userManager;

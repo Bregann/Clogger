@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clogger.Domain.Data.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250201192950_Initial")]
+    [Migration("20250202111113_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Clogger.Domain.Data.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.AppUser", b =>
+            modelBuilder.Entity("Clogger.Domain.Data.Database.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -143,7 +143,6 @@ namespace Clogger.Domain.Data.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PictureUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -358,7 +357,7 @@ namespace Clogger.Domain.Data.Database.Migrations
 
             modelBuilder.Entity("Clogger.Domain.Data.Database.Models.Collection", b =>
                 {
-                    b.HasOne("Clogger.Domain.Data.Database.Models.AppUser", "User")
+                    b.HasOne("Clogger.Domain.Data.Database.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -375,7 +374,7 @@ namespace Clogger.Domain.Data.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Clogger.Domain.Data.Database.Models.AppUser", "User")
+                    b.HasOne("Clogger.Domain.Data.Database.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -427,7 +426,7 @@ namespace Clogger.Domain.Data.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Clogger.Domain.Data.Database.Models.AppUser", null)
+                    b.HasOne("Clogger.Domain.Data.Database.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -436,7 +435,7 @@ namespace Clogger.Domain.Data.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Clogger.Domain.Data.Database.Models.AppUser", null)
+                    b.HasOne("Clogger.Domain.Data.Database.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -451,7 +450,7 @@ namespace Clogger.Domain.Data.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Clogger.Domain.Data.Database.Models.AppUser", null)
+                    b.HasOne("Clogger.Domain.Data.Database.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,7 +459,7 @@ namespace Clogger.Domain.Data.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Clogger.Domain.Data.Database.Models.AppUser", null)
+                    b.HasOne("Clogger.Domain.Data.Database.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

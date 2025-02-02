@@ -22,6 +22,7 @@ builder.Services.AddSingleton<IEnvironmentalSettingHelper, EnvironmentalSettingH
 
 builder.Services.AddScoped<IUserDataService, UserDataService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<ICollectionService, CollectionService>();
 
 builder.Services.AddCors(options =>
 {
@@ -38,7 +39,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentication()
     .AddBearerToken(IdentityConstants.BearerScheme);
 
-builder.Services.AddIdentityCore<AppUser>()
+builder.Services.AddIdentityCore<ApplicationUser>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders()
     .AddApiEndpoints();
@@ -66,9 +67,9 @@ if (app.Environment.IsDevelopment())
         var dbContext = scope.ServiceProvider.GetService<AppDbContext>()!;
         var settingsHelper = scope.ServiceProvider.GetRequiredService<IEnvironmentalSettingHelper>();
 
-        await DatabaseSeedHelper.SeedDatabase(dbContext, settingsHelper);
-
         await dbContext.Database.MigrateAsync();
+
+        await DatabaseSeedHelper.SeedDatabase(dbContext, settingsHelper, scope.ServiceProvider);
     }
 
     app.UseSwagger();
@@ -79,7 +80,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapIdentityApi<AppUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 app.MapControllers();
 

@@ -204,7 +204,7 @@ namespace Clogger.Domain.Data.Database.Migrations
                     CollectionId = table.Column<int>(type: "INTEGER", nullable: false),
                     ItemName = table.Column<string>(type: "TEXT", nullable: false),
                     ItemDescription = table.Column<string>(type: "TEXT", nullable: false),
-                    PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false)

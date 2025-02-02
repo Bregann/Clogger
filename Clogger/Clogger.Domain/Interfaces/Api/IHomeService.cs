@@ -10,6 +10,6 @@ namespace Clogger.Domain.Interfaces.Api
 {
     public interface IHomeService
     {
-        Task<GetUserHeaderStatsDto> GetUserHeaderStats(AppUser user);
+        Task<GetUserHeaderStatsDto> GetUserHeaderStats(ApplicationUser user);
     }
 }

@@ -11,7 +11,7 @@ export const useHome = (): UseQueryResult<GetUserHeaderStatsDto, Error> => {
   return useQuery({
     queryKey: ['home'],
     queryFn: async () => {
-      const response = await authApiClient.get('/api/homeGetUserHeaderStats')
+      const response = await authApiClient.get('/api/home/GetUserHeaderStats')
 
       if (response.status !== 200) {
         throw new Error('An error occurred while fetching user stats')

@@ -15,7 +15,7 @@ namespace Clogger.Domain.Data.Services
     {
         private readonly AppDbContext _context = dbContext;
 
-        public async Task<GetUserHeaderStatsDto> GetUserHeaderStats(AppUser user)
+        public async Task<GetUserHeaderStatsDto> GetUserHeaderStats(ApplicationUser user)
         {
             return new GetUserHeaderStatsDto
             {

@@ -36,34 +36,24 @@ export default function HomeScreen (): JSX.Element {
         </View>
         <Text style={homeStyles.yourCollectionsText}>Your Collections <FontAwesome size={28} name="arrow-circle-right" /></Text>
       </View>
-      <Pressable
-        style={globalStyles.collectionBox}
-        onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: 1 } }) }}>
-        <View>
-          <Text style={globalStyles.collectionHeaderText}>Collection 1</Text>
-          <Text style={globalStyles.collectionItemText}>500 items</Text>
-        </View>
-      </Pressable>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 2</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 3</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 4</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 5</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 6</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
+
+      {collectionsIsLoading && <Text>Loading collections...</Text>}
+      {collectionsIsError && <Text>An error occurred while fetching collections</Text>}
+      {collectionsData !== undefined && !collectionsIsLoading && collectionsData.collections.map((collection) => {
+        return (
+          <Pressable
+          key={collection.id}
+          style={globalStyles.collectionBox}
+          onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: collection.id } }) }}>
+          <View>
+            <Text style={globalStyles.collectionHeaderText}>{collection.collectionName}</Text>
+            <Text style={globalStyles.collectionItemText}>{collection.collectionDescription}</Text>
+            <Text style={globalStyles.collectionItemText}>{collection.collectionItemCount}</Text>
+          </View>
+        </Pressable>
+        )
+      })
+    }
     </ScrollView>
   )
 }

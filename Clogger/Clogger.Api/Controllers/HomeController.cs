@@ -10,10 +10,10 @@ namespace Clogger.Api.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHomeService _homeService;
 
-        public HomeController(UserManager<AppUser> userManager, IHomeService homeService)
+        public HomeController(UserManager<ApplicationUser> userManager, IHomeService homeService)
         {
             _userManager = userManager;
             _homeService = homeService;

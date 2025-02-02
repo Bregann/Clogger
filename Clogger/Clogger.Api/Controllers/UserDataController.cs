@@ -11,9 +11,9 @@ namespace Clogger.Api.Controllers
     public class UserDataController : ControllerBase
     {
         private readonly IUserDataService _userDataService;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserDataController(IUserDataService userDataService, UserManager<AppUser> userManager)
+        public UserDataController(IUserDataService userDataService, UserManager<ApplicationUser> userManager)
         {
             _userDataService = userDataService;
             _userManager = userManager;

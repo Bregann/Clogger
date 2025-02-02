@@ -22,8 +22,7 @@ namespace Clogger.Domain.Data.Database.Models
         [Required]
         public string ItemDescription { get; set; } = null!;
 
-        [Required]
-        public string PictureUrl { get; set; } = null!;
+        public string? PictureUrl { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }
@@ -35,7 +34,7 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
 
-        public AppUser User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
 
         public ICollection<CustomCollectionFieldValue> CustomCollectionFieldValues { get; set; } = [];
     }
