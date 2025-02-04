@@ -9,6 +9,7 @@ namespace Clogger.Domain.Data.Database
         {
         }
 
+
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; } = null!;
         public DbSet<EnvironmentalSetting> EnvironmentalSettings { get; set; } = null!;

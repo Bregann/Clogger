@@ -1,21 +1,20 @@
 ﻿using Clogger.Domain.DTOs.Auth.Requests;
 using Clogger.Domain.DTOs.Auth.Response;
+using Clogger.Domain.Helpers;
 using Clogger.Domain.Interfaces.Api;
+using Clogger.Domain.Interfaces.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Data;
 
 namespace Clogger.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService authService) : ControllerBase
     {
-        private readonly IAuthService _authService;
-
-        public AuthController(IAuthService authService)
-        {
-            _authService = authService;
-        }
+        private readonly IAuthService _authService = authService;
 
         [HttpPost]
         public async Task<ActionResult> RegisterUser([FromBody] RegisterUserRequest request)

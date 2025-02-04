@@ -14,7 +14,7 @@ namespace Clogger.Domain.Data.Database.Models
         public int CollectionId { get; set; }
 
         [DeleteBehavior(DeleteBehavior.Cascade)]
-        public Collection Collection { get; set; } = null!;
+        public virtual Collection Collection { get; set; } = null!;
 
         [Required]
         public string ItemName { get; set; } = null!;
@@ -34,8 +34,8 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
 
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        public ICollection<CustomCollectionFieldValue> CustomCollectionFieldValues { get; set; } = [];
+        public virtual ICollection<CustomCollectionFieldValue> CustomCollectionFieldValues { get; set; } = [];
     }
 }

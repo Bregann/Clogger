@@ -9,16 +9,10 @@ namespace Clogger.Api.Controllers
     [Route("api/[controller]/[action]")]
     [Authorize]
     [ApiController]
-    public class CollectionsController : ControllerBase
+    public class CollectionsController(ICollectionService collectionService, IUserContextHelper userContextHelper) : ControllerBase
     {
-        private readonly ICollectionService _collectionService;
-        private readonly IUserContextHelper _userContextHelper;
-
-        public CollectionsController(ICollectionService collectionService, IUserContextHelper userContextHelper)
-        {
-            _collectionService = collectionService;
-            _userContextHelper = userContextHelper;
-        }
+        private readonly ICollectionService _collectionService = collectionService;
+        private readonly IUserContextHelper _userContextHelper = userContextHelper;
 
         [HttpGet]
         public async Task<ActionResult<GetCollectionsDto>> GetCollections()

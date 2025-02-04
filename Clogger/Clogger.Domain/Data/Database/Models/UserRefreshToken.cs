@@ -17,7 +17,7 @@ namespace Clogger.Domain.Data.Database.Models
         public string UserId { get; set; } = null!;
 
         [DeleteBehavior(DeleteBehavior.Cascade)]
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
         [Required]
         public DateTime ExpiresAt { get; set; }

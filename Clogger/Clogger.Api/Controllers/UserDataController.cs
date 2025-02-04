@@ -8,16 +8,10 @@ namespace Clogger.Api.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
-    public class UserDataController : ControllerBase
+    public class UserDataController(IUserDataService userDataService, IUserContextHelper userContextHelper) : ControllerBase
     {
-        private readonly IUserDataService _userDataService;
-        private readonly IUserContextHelper _userContextHelper;
-
-        public UserDataController(IUserDataService userDataService, IUserContextHelper userContextHelper)
-        {
-            _userDataService = userDataService;
-            _userContextHelper = userContextHelper;
-        }
+        private readonly IUserDataService _userDataService = userDataService;
+        private readonly IUserContextHelper _userContextHelper = userContextHelper;
 
         // This is being used by registration due to not being able to scaffold the identity methods.
         // TODO: update and remove this when scaffolding is allowed

@@ -9,16 +9,10 @@ namespace Clogger.Api.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
-    public class HomeController : ControllerBase
+    public class HomeController(IHomeService homeService, IUserContextHelper userContextHelper) : ControllerBase
     {
-        private readonly IHomeService _homeService;
-        private readonly IUserContextHelper _userContextHelper;
-
-        public HomeController(IHomeService homeService, IUserContextHelper userContextHelper)
-        {
-            _homeService = homeService;
-            _userContextHelper = userContextHelper;
-        }
+        private readonly IHomeService _homeService = homeService;
+        private readonly IUserContextHelper _userContextHelper = userContextHelper;
 
         [HttpGet]
         public async Task<ActionResult<GetUserHeaderStatsDto>> GetUserHeaderStats()

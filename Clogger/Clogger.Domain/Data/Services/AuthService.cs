@@ -6,6 +6,7 @@ using Clogger.Domain.Interfaces.Api;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,10 +22,13 @@ namespace Clogger.Domain.Data.Services
 
         public async Task RegisterUser(RegisterUserRequest request)
         {
+            Log.Information($"Registering user {request.Username}");
+
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
 
             if (_context.Users.Any(x => x.Username == request.Username || x.Email == request.Email))
             {
+                Log.Information($"User already exists {request.Username}");
                 throw new DuplicateNameException("User already exists");
             }
 
@@ -37,19 +41,25 @@ namespace Clogger.Domain.Data.Services
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
+
+            Log.Information($"User registered {request.Username}");
         }
 
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
         {
+            Log.Information($"Logging in user {request.Username}");
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username.ToLower().Trim());
 
             if (user == null)
             {
+                Log.Information($"User not found {request.Username}");
                 throw new KeyNotFoundException("User not found");
             }
 
             if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
             {
+                Log.Information($"Invalid password for user {request.Username}");
                 throw new UnauthorizedAccessException("Invalid password");
             }
 
@@ -57,6 +67,8 @@ namespace Clogger.Domain.Data.Services
             var refreshToken = GenerateRefreshToken();
 
             await SaveRefreshToken(refreshToken, user.Id);
+
+            Log.Information($"User logged in {request.Username}");
 
             return new LoginUserResponse
             {
@@ -67,10 +79,18 @@ namespace Clogger.Domain.Data.Services
 
         public async Task<LoginUserResponse> RefreshToken(string userRefreshToken)
         {
-            var refreshToken = await _context.UserRefreshTokens.FirstOrDefaultAsync(t => t.Token == userRefreshToken) ?? throw new KeyNotFoundException("Refresh token not found");
+            Log.Information($"Refreshing token {userRefreshToken}");
+            var refreshToken = await _context.UserRefreshTokens.FirstOrDefaultAsync(t => t.Token == userRefreshToken);
+
+            if(refreshToken == null)
+            {
+                Log.Information($"Token not found for refresh token {userRefreshToken}");
+                throw new KeyNotFoundException("Token not found");
+            }
 
             if (refreshToken.ExpiresAt < DateTime.Now)
             {
+                Log.Information($"Token expired for user {refreshToken.UserId}");
                 throw new UnauthorizedAccessException("Refresh token expired");
             }
 
@@ -78,6 +98,7 @@ namespace Clogger.Domain.Data.Services
 
             if (user == null)
             {
+                Log.Information($"User not found for token {refreshToken.UserId}");
                 throw new KeyNotFoundException("User not found");
             }
 
@@ -88,6 +109,8 @@ namespace Clogger.Domain.Data.Services
 
             refreshToken.IsRevoked = true;
             await _context.SaveChangesAsync();
+
+            Log.Information($"Token refreshed for user {refreshToken.UserId}");
 
             return new LoginUserResponse
             {

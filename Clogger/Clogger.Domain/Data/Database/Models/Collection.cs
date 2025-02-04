@@ -15,7 +15,7 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(CollectionItem))]
         public int CollectionItemId { get; set; }
 
-        public ICollection<CollectionItem> CollectionItems { get; set; } = [];
+        public virtual ICollection<CollectionItem> CollectionItems { get; set; } = [];
 
         [Required]
         public string Description { get; set; } = null!;
@@ -30,8 +30,8 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
 
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        public ICollection<CustomCollectionField> CustomCollectionFields { get; set; } = [];
+        public virtual ICollection<CustomCollectionField> CustomCollectionFields { get; set; } = [];
     }
 }

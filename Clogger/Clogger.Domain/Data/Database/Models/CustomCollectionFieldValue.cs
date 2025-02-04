@@ -13,14 +13,14 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(CollectionItem))]
         public int CollectionItemId { get; set; }
 
-        public CollectionItem CollectionItem { get; set; } = null!;
+        public virtual CollectionItem CollectionItem { get; set; } = null!;
 
         [Required]
         [ForeignKey(nameof(CustomCollectionField))]
         public int CustomCollectionFieldId { get; set; }
 
         [DeleteBehavior(DeleteBehavior.Cascade)]
-        public CustomCollectionField CustomCollectionField { get; set; } = null!;
+        public virtual CustomCollectionField CustomCollectionField { get; set; } = null!;
 
         [Required]
         public string FieldValue { get; set; } = null!;

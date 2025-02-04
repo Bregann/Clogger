@@ -12,7 +12,7 @@ namespace Clogger.Domain.Data.Database.Models
         [ForeignKey(nameof(Collection))]
         public int CollectionId { get; set; }
 
-        public Collection Collection { get; set; } = null!;
+        public virtual Collection Collection { get; set; } = null!;
 
         [Required]
         public string FieldName { get; set; } = null!;

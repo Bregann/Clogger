@@ -6,7 +6,11 @@ using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
+
+Log.Logger = new LoggerConfiguration().WriteTo.Async(x => x.File("/app/Logs/log.log", retainedFileCountLimit: 7, rollingInterval: RollingInterval.Day)).WriteTo.Console().CreateLogger();
+Log.Information("Logger Setup");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +31,7 @@ builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<IUserContextHelper, UserContextHelper>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IItemsService, ItemsService>();
 
 builder.Services.AddCors(options =>
 {
@@ -41,11 +46,15 @@ builder.Services.AddCors(options =>
 // Setup the database
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=" + Directory.GetCurrentDirectory() + "/application.db"));
+    builder.Services.AddDbContext<AppDbContext>(options => options
+                                                            .UseLazyLoadingProxies()                                                        
+                                                            .UseSqlite("Data Source=" + Directory.GetCurrentDirectory() + "/application.db"));
 }
 else
 {
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("xxxConnStringLive")));
+    builder.Services.AddDbContext<AppDbContext>(options => options
+                                                            .UseLazyLoadingProxies()
+                                                            .UseNpgsql(Environment.GetEnvironmentVariable("xxxConnStringLive")));
 }
 
 // Add in identity

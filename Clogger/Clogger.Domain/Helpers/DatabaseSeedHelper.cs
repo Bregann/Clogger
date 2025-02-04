@@ -34,19 +34,22 @@ namespace Clogger.Domain.Helpers
             //Collections
             var testUser = await context.Users.FirstAsync(x => x.Username == "testuser");
 
-            var collection1 = context.Collections.Add(new Collection
+            var collection1 = new Collection
             {
                 CollectionName = "Cards",
                 Description = "List of cards I own",
                 UserId = testUser.Id
-            });
+            };
 
-            var collection2 = context.Collections.Add(new Collection
+            var collection2 = new Collection
             {
                 CollectionName = "Books",
                 Description = "List of books I own",
                 UserId = testUser.Id
-            });
+            };
+
+            context.Collections.Add(collection1);
+            context.Collections.Add(collection2);
 
             await context.SaveChangesAsync();
 
@@ -54,7 +57,7 @@ namespace Clogger.Domain.Helpers
 
             await context.CollectionItems.AddAsync(new CollectionItem
             {
-                CollectionId = collection1.Entity.Id,
+                CollectionId = collection1.Id,
                 ItemName = "Charizard",
                 ItemDescription = "Charizard from base set",
                 CreatedAt = DateTime.Now,
@@ -64,7 +67,7 @@ namespace Clogger.Domain.Helpers
 
             await context.CollectionItems.AddAsync(new CollectionItem
             {
-                CollectionId = collection1.Entity.Id,
+                CollectionId = collection1.Id,
                 ItemName = "Blastoise",
                 ItemDescription = "Blastoise from base set",
                 CreatedAt = DateTime.Now,

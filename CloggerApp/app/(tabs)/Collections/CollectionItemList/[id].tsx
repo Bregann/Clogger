@@ -1,3 +1,4 @@
+import { useCollectionItems } from '@/reactQueryHooks/collectionQueries'
 import collectionItemListStyles from '@/styles/collectionItemListStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useLocalSearchParams, useRouter } from 'expo-router'
@@ -9,6 +10,8 @@ export default function CollectionItemListScreen (): JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
+
+  const { data, isLoading, isError } = useCollectionItems(parseInt(id))
 
   return (
       <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
@@ -26,44 +29,23 @@ export default function CollectionItemListScreen (): JSX.Element {
         </View>
         <View style={[globalStyles.rowContainer, { marginBottom: 20 }]}>
           <Button mode="contained" style={{ marginRight: 10 }}>Add Item</Button>
+        </View>
 
-        </View>
-        <Pressable style={[globalStyles.itemBox, { width: '70%' }]}
-          onPress={() => { router.push({ pathname: '/Collections/CollectionItem/[id]', params: { id: 1 } }) }}>
-          <View>
-            <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-            <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-          </View>
-        </Pressable>
-
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
-        <View style={[globalStyles.itemBox, { width: '70%' }]}>
-          <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-          <Text style={globalStyles.collectionItemText}>Collection xxx</Text>
-        </View>
+        {isLoading && <Text>Loading items...</Text>}
+        {isError && <Text>An error occurred while fetching items</Text>}
+        {data !== undefined && !isLoading && data.collectionItems.map((item) => {
+          return (
+            <Pressable
+              key={item.id}
+              style={globalStyles.collectionBox}
+              onPress={() => { router.push({ pathname: '/Collections/CollectionItem/[id]', params: { id: item.id } }) }}>
+              <View>
+                <Text style={globalStyles.collectionHeaderText}>{item.itemName}</Text>
+                <Text style={globalStyles.collectionItemText}>{item.itemDescription}</Text>
+              </View>
+            </Pressable>
+          )
+        })}
       </ScrollView>
   )
 }
