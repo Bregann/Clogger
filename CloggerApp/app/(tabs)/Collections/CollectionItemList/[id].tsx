@@ -1,4 +1,4 @@
-import { useCollectionItems } from '@/reactQueryHooks/collectionQueries'
+import { useCollectionItems } from '@/hooks/Collections/useCollectionItems'
 import collectionItemListStyles from '@/styles/collectionItemListStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useLocalSearchParams, useRouter } from 'expo-router'
@@ -15,7 +15,7 @@ export default function CollectionItemListScreen (): JSX.Element {
 
   return (
       <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
-        <Button mode="contained" style={collectionItemListStyles.editButton}>Edit Collection</Button>
+        <Button mode="contained" style={collectionItemListStyles.editButton} onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddEditCollection/[id]', params: { id } }) }}>Edit Collection</Button>
         <View>
           <Text style={globalStyles.headerText}>Collection Name</Text>
           <Text style={globalStyles.subheaderText}>Collection Description</Text>

@@ -4,7 +4,7 @@ import { useLocalSearchParams } from 'expo-router'
 import { ScrollView, View, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Image } from 'expo-image'
-import { useItem } from '@/reactQueryHooks/itemQueries'
+import { useItem } from '@/hooks/Items/useItem'
 import React from 'react'
 
 export default function CollectionItemListScreen (): JSX.Element {

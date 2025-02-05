@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { Text, View, ScrollView, Pressable } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import collectionStyles from '@/styles/collectionsStyles'
-import { useCollections } from '@/reactQueryHooks/collectionQueries'
 import { useRouter } from 'expo-router'
+import { useCollections } from '@/hooks/Collections/useCollections'
 
 export default function CollectionsScreen (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')

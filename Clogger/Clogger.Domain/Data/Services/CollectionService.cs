@@ -2,6 +2,7 @@
 using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.PostgresTypes;
 
 namespace Clogger.Domain.Data.Services
 {
@@ -47,6 +48,39 @@ namespace Clogger.Domain.Data.Services
                     ItemDescription = x.ItemDescription
                 }).ToArray()
             };
+        }
+
+        public async Task<GetEditCollectionDataDto> GetEditCollectionData(string userId, int collectionId)
+        {
+            var collection = await _context.Collections.FirstOrDefaultAsync(x => x.Id == collectionId && x.UserId == userId);
+
+            if (collection == null)
+            {
+                throw new KeyNotFoundException("Collection not found");
+            }
+
+            return new GetEditCollectionDataDto
+            {
+                CollectionName = collection.CollectionName,
+                CollectionDescription = collection.Description,
+                CustomFieldNames = collection.CustomCollectionFields.Select(x => new CustomFieldNames { FieldName = x.FieldName, Id = x.Id}).ToArray()
+            };
+        }
+
+        public async Task AddOrEditCollection(string userId, AddOrEditCollectionRequest dto)
+        {
+            var collection = await _context.Collections.FirstOrDefaultAsync(x => x.Id == dto.Id && x.UserId == userId);
+            if (collection == null)
+            {
+                collection = new Collection
+                {
+                    UserId = userId
+                };
+                _context.Collections.Add(collection);
+            }
+            collection.CollectionName = dto.CollectionName;
+            collection.Description = dto.CollectionDescription;
+            await _context.SaveChangesAsync();
         }
     }
 }

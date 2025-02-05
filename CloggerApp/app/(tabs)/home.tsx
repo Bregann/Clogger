@@ -4,8 +4,8 @@ import { Button } from 'react-native-paper'
 import homeStyles from '@/styles/homeStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useRouter } from 'expo-router'
-import { useHome } from '@/reactQueryHooks/homeQueries'
-import { useCollections } from '@/reactQueryHooks/collectionQueries'
+import { useHome } from '@/hooks/useHome'
+import { useCollections } from '@/hooks/Collections/useCollections'
 
 export default function HomeScreen (): JSX.Element {
   const router = useRouter()

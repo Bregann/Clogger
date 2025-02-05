@@ -1,4 +1,5 @@
-﻿using Clogger.Domain.DTOs.Collections.Responses;
+﻿using Clogger.Domain.DTOs.Collections.Requests;
+using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -48,6 +49,39 @@ namespace Clogger.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("{collectionId}")]
+        public async Task<ActionResult<GetEditCollectionDataDto>> GetEditCollectionData([FromRoute] int collectionId)
+        {
+            var user = _userContextHelper.GetUserId();
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                var result = await _collectionService.GetEditCollectionData(user, collectionId);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddOrEditCollection([FromBody] AddCollectionRequest dto)
+        {
+            var user = _userContextHelper.GetUserId();
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            await _collectionService.CreateCollection(user, dto);
+            return Ok();
         }
     }
 }
