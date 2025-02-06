@@ -4,6 +4,7 @@ using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Clogger.Api.Controllers
 {
@@ -73,15 +74,24 @@ namespace Clogger.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditCollection([FromBody] AddCollectionRequest dto)
+        public async Task<ActionResult<int>> AddNewCollection([FromBody] AddCollectionRequest dto)
         {
-            var user = _userContextHelper.GetUserId();
+            var user = _userContextHelper.GetUser();
+
             if (user == null)
             {
                 return Unauthorized();
             }
-            await _collectionService.CreateCollection(user, dto);
-            return Ok();
+
+            try
+            {
+               var collectionId = await _collectionService.AddNewCollection(user, dto);
+                return Ok(collectionId);
+            }
+            catch (DuplicateNameException)
+            {
+                return Conflict("Collection name already exists");
+            }
         }
     }
 }

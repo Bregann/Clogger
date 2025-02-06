@@ -1,8 +1,12 @@
 ﻿using Clogger.Domain.Data.Database;
+using Clogger.Domain.Data.Database.Models;
+using Clogger.Domain.DTOs.Collections.Requests;
 using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.PostgresTypes;
+using System.Data;
+using Collection = Clogger.Domain.DTOs.Collections.Responses.Collection;
+using CollectionItem = Clogger.Domain.DTOs.Collections.Responses.CollectionItem;
 
 namespace Clogger.Domain.Data.Services
 {
@@ -67,20 +71,33 @@ namespace Clogger.Domain.Data.Services
             };
         }
 
-        public async Task AddOrEditCollection(string userId, AddOrEditCollectionRequest dto)
+        public async Task<int> AddNewCollection(User user, AddCollectionRequest dto)
         {
-            var collection = await _context.Collections.FirstOrDefaultAsync(x => x.Id == dto.Id && x.UserId == userId);
-            if (collection == null)
+            if(_context.Collections.Any(x => x.CollectionName.ToLower().Trim() == dto.CollectionName.ToLower().Trim()))
             {
-                collection = new Collection
-                {
-                    UserId = userId
-                };
-                _context.Collections.Add(collection);
+                throw new DuplicateNameException("Collection with this name already exists");
             }
-            collection.CollectionName = dto.CollectionName;
-            collection.Description = dto.CollectionDescription;
+
+            var collection = new Database.Models.Collection
+            {
+                CollectionName = dto.CollectionName.Trim(),
+                Description = dto.CollectionDescription.Trim(),
+                UserId = user.Id,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+            };
+
+            await _context.Collections.AddAsync(collection);
+
+            _context.CustomCollectionFields.AddRange(dto.CustomFieldNames.Select(x => new CustomCollectionField
+            {
+                FieldName = x.Trim(),
+                Collection = collection
+            }));
+
             await _context.SaveChangesAsync();
+
+            return collection.Id;
         }
     }
 }

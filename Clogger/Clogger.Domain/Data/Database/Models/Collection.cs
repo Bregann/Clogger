@@ -11,10 +11,6 @@ namespace Clogger.Domain.Data.Database.Models
         [Required]
         public string CollectionName { get; set; } = null!;
 
-        [Required]
-        [ForeignKey(nameof(CollectionItem))]
-        public int CollectionItemId { get; set; }
-
         public virtual ICollection<CollectionItem> CollectionItems { get; set; } = [];
 
         [Required]

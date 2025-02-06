@@ -11,22 +11,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clogger.Domain.Data.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250202163454_Initial")]
+    [Migration("20250206192712_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true);
 
             modelBuilder.Entity("Clogger.Domain.Data.Database.Models.Collection", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CollectionItemId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CollectionName")

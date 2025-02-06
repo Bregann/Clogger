@@ -15,7 +15,7 @@ export default function CollectionItemListScreen (): JSX.Element {
 
   return (
       <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
-        <Button mode="contained" style={collectionItemListStyles.editButton} onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddEditCollection/[id]', params: { id } }) }}>Edit Collection</Button>
+        <Button mode="contained" style={collectionItemListStyles.editButton} onPress={() => { router.push({ pathname: '/(tabs)/Collections/EditCollection/[id]', params: { id } }) }}>Edit Collection</Button>
         <View>
           <Text style={globalStyles.headerText}>Collection Name</Text>
           <Text style={globalStyles.subheaderText}>Collection Description</Text>

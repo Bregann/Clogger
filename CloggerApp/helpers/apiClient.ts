@@ -3,7 +3,8 @@ import { keychainHelper } from './keychainHelper'
 import Constants from 'expo-constants'
 
 const authApiClient = axios.create({
-  baseURL: Constants.expoConfig?.extra?.ApiUrl || ''
+  baseURL: Constants.expoConfig?.extra?.ApiUrl || '',
+  validateStatus: (status) => status < 500 && status !== 401,
 })
 
 const noAuthApiClient = axios.create({
@@ -16,7 +17,7 @@ const noAuthApiClient = axios.create({
 
 authApiClient.interceptors.request.use(async (config) => {
   const accessToken = await keychainHelper.getAccessToken()
-  console.log(config.url)
+
   if (accessToken !== null) {
     config.headers['Authorization'] = `Bearer ${accessToken}`
   }
@@ -27,8 +28,8 @@ authApiClient.interceptors.request.use(async (config) => {
 authApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log('hellooooooo')
     console.log(error.response.status)
-
     // don't bother to try and retry with a 500 error
     if (error.response.status >= 500) {
       return Promise.reject(error)
