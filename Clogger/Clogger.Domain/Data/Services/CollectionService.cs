@@ -67,13 +67,13 @@ namespace Clogger.Domain.Data.Services
             {
                 CollectionName = collection.CollectionName,
                 CollectionDescription = collection.Description,
-                CustomFieldNames = collection.CustomCollectionFields.Select(x => new CustomFieldNames { FieldName = x.FieldName, Id = x.Id}).ToArray()
+                CustomFieldNames = collection.CustomCollectionFields.Select(x => new CustomFieldNames { FieldName = x.FieldName, Id = x.Id }).ToArray()
             };
         }
 
         public async Task<int> AddNewCollection(User user, AddCollectionRequest dto)
         {
-            if(_context.Collections.Any(x => x.CollectionName.ToLower().Trim() == dto.CollectionName.ToLower().Trim()))
+            if (_context.Collections.Any(x => x.CollectionName.ToLower().Trim() == dto.CollectionName.ToLower().Trim() && x.UserId == user.Id))
             {
                 throw new DuplicateNameException("Collection with this name already exists");
             }
@@ -89,15 +89,60 @@ namespace Clogger.Domain.Data.Services
 
             await _context.Collections.AddAsync(collection);
 
-            _context.CustomCollectionFields.AddRange(dto.CustomFieldNames.Select(x => new CustomCollectionField
+            if (dto.CustomFieldNames != null)
             {
-                FieldName = x.Trim(),
-                Collection = collection
-            }));
+                _context.CustomCollectionFields.AddRange(dto.CustomFieldNames.Select(x => new CustomCollectionField
+                {
+                    FieldName = x.Trim(),
+                    Collection = collection
+                }));
+            }
 
             await _context.SaveChangesAsync();
 
             return collection.Id;
+        }
+
+        public async Task SaveCollectionChanges(User user, SaveCollectionChangesRequest dto)
+        {
+            if (!_context.Collections.Any(x => x.Id == dto.CollectionId && x.UserId == user.Id))
+            {
+                throw new KeyNotFoundException("Collection not found");
+            }
+
+            if (_context.Collections.Any(x => x.CollectionName.ToLower().Trim() == dto.CollectionName.ToLower().Trim() && x.UserId == user.Id && x.Id != dto.CollectionId))
+            {
+                throw new DuplicateNameException("Collection with this name already exists");
+            }
+
+            await _context.Collections
+                .Where(x => x.Id == dto.CollectionId && user.Id == x.UserId)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(x => x.CollectionName, dto.CollectionName.Trim())
+                    .SetProperty(x => x.Description, dto.CollectionDescription.Trim())
+                    .SetProperty(x => x.UpdatedAt, DateTime.UtcNow)
+            );
+
+            foreach (var customField in dto.CustomFieldNames)
+            {
+                if (customField.Id == -1)
+                {
+                    await _context.CustomCollectionFields.AddAsync(new CustomCollectionField
+                    {
+                        FieldName = customField.FieldName.Trim(),
+                        CollectionId = dto.CollectionId
+                    });
+
+                    continue;
+                }
+
+                await _context.CustomCollectionFields.Where(x => x.Id == customField.Id && x.Collection.UserId == user.Id)
+                    .ExecuteUpdateAsync(setters => setters
+                        .SetProperty(x => x.FieldName, customField.FieldName.Trim())
+                    );
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

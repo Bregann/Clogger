@@ -2,7 +2,7 @@ import { useAddCollection } from '@/hooks/Collections/useAddCollection'
 import addEditCollectionStyles from '@/styles/addEditCollectionStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useFocusEffect } from 'expo-router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 
@@ -25,14 +25,14 @@ export default function AddEditCollection (): JSX.Element {
     }, [])
   )
 
-  const addNewCollection = (): void => {
+  const addNewCollection = async (): Promise<void> => {
     const dto = {
       collectionName,
       collectionDescription,
       customFieldNames
     }
 
-    addCollectionMutation.mutate(dto)
+    await addCollectionMutation.mutateAsync(dto)
   }
 
   return (

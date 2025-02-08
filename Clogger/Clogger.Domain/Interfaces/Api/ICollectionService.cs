@@ -10,5 +10,6 @@ namespace Clogger.Domain.Interfaces.Api
         Task<GetCollectionItemsDto> GetCollectionItems(string userId, int collectionId);
         Task<GetEditCollectionDataDto> GetEditCollectionData(string userId, int collectionId);
         Task<int> AddNewCollection(User user, AddCollectionRequest dto);
+        Task SaveCollectionChanges(User user, SaveCollectionChangesRequest dto);
     }
 }

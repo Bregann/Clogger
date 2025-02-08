@@ -4,6 +4,9 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 
 
 interface GetCollectionItemsDto {
+  id: number
+  collectionName: string
+  collectionDescription: string
   collectionItems: CollectionItemList[]
 }
 

@@ -46,9 +46,9 @@ namespace Clogger.Api.Controllers
                 var result = await _collectionService.GetCollectionItems(user, collectionId);
                 return Ok(result);
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
         }
 
@@ -67,9 +67,9 @@ namespace Clogger.Api.Controllers
                 var result = await _collectionService.GetEditCollectionData(user, collectionId);
                 return Ok(result);
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }
         }
 
@@ -90,7 +90,32 @@ namespace Clogger.Api.Controllers
             }
             catch (DuplicateNameException)
             {
-                return Conflict("Collection name already exists");
+                return Conflict();
+            }
+        }
+
+        [HttpPatch]
+        public async Task<ActionResult> SaveCollectionChanges([FromBody] SaveCollectionChangesRequest dto)
+        {
+            var user = _userContextHelper.GetUser();
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                await _collectionService.SaveCollectionChanges(user, dto);
+                return Ok();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DuplicateNameException)
+            {
+                return Conflict();
             }
         }
     }
