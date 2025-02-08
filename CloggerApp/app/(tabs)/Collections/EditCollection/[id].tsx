@@ -75,7 +75,7 @@ export default function AddEditCollection (): JSX.Element {
           value={field.fieldName}
           onChangeText={(text) => {
             const newCustomFieldNames = [...customFieldNames]
-            newCustomFieldNames[index].fieldName = text
+            newCustomFieldNames[field.id].fieldName = text
             setCustomFieldNames(newCustomFieldNames)
           }}
         />

@@ -7,7 +7,8 @@ export default function CollectionsStack (): JSX.Element {
       <Stack.Screen name="CollectionItem/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="EditCollection/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="AddCollection" options={{ headerShown: false }} />
-      <Stack.Screen name="AddEditItem/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="AddItem/[collectionId]" options={{ headerShown: false }} />
+      <Stack.Screen name="EditItem/[id]" options={{ headerShown: false }} />
     </Stack>
   )
 }

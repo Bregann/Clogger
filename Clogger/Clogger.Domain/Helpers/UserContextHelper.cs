@@ -11,22 +11,20 @@ namespace Clogger.Domain.Helpers
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly AppDbContext _context = context;
 
-        public string? GetUserId()
+        public string GetUserId()
         {
-            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         }
-        public string? GetUserFirstName()
+
+        public string GetUserFirstName()
         {
-            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)!.Value;
         }
-        public User? GetUser()
+
+        public User GetUser()
         {
             var userId = GetUserId();
-            if (userId == null)
-            {
-                return null;
-            }
-            return _context.Users.Find(userId);
+            return _context.Users.Find(userId)!;
         }
     }
 }

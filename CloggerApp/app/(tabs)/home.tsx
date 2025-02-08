@@ -32,7 +32,7 @@ export default function HomeScreen (): JSX.Element {
         <Text style={homeStyles.quickActionsText}>Quick Actions</Text>
         <View style={globalStyles.rowContainer}>
           <Button mode="contained" style={ { marginRight: 10 } } onPress={() => { router.push('/Collections/AddCollection') }}>Add Collection</Button>
-          <Button mode="contained" onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddEditItem/[id]', params: { id: 0 } }) }}>Add Item</Button>
+          <Button mode="contained" onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddItem/[collectionId]', params: { collectionId: -1 } }) }}>Add Item</Button>
         </View>
         <Text style={homeStyles.yourCollectionsText}>Your Collections <FontAwesome size={28} name="arrow-circle-right" /></Text>
       </View>

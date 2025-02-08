@@ -66,9 +66,15 @@ export default function AddEditCollection (): JSX.Element {
           mode="outlined"
           label={field} style={addEditCollectionStyles.textInput}
           onChangeText={(text) => {
-            const newCustomFieldNames = [...customFieldNames]
-            newCustomFieldNames[index] = text
-            setCustomFieldNames(newCustomFieldNames)
+            const updatedCustomFieldNames = customFieldNames.map((name, i) => {
+              if (i === index) {
+                return text
+              }
+
+              return name
+            })
+
+            setCustomFieldNames(updatedCustomFieldNames)
           }}
         />
       ))}

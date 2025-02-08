@@ -29,6 +29,7 @@ authApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     console.log('hellooooooo')
+    console.log(error.response)
     console.log(error.response.status)
     // don't bother to try and retry with a 500 error
     if (error.response.status >= 500) {

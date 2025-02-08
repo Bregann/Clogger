@@ -1,4 +1,5 @@
-﻿using Clogger.Domain.DTOs.Collections.Requests;
+﻿using Clogger.Domain.Data.Services;
+using Clogger.Domain.DTOs.Collections.Requests;
 using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
@@ -21,11 +22,6 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUserId();
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
             var result = await _collectionService.GetCollections(user);
 
             return Ok(result);
@@ -35,11 +31,6 @@ namespace Clogger.Api.Controllers
         public async Task<ActionResult<GetCollectionItemsDto>> GetCollectionItems([FromRoute] int collectionId)
         {
             var user = _userContextHelper.GetUserId();
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
 
             try
             {
@@ -57,11 +48,6 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUserId();
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
             try
             {
                 var result = await _collectionService.GetEditCollectionData(user, collectionId);
@@ -77,11 +63,6 @@ namespace Clogger.Api.Controllers
         public async Task<ActionResult<int>> AddNewCollection([FromBody] AddCollectionRequest dto)
         {
             var user = _userContextHelper.GetUser();
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
 
             try
             {
@@ -99,11 +80,6 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUser();
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
             try
             {
                 await _collectionService.SaveCollectionChanges(user, dto);
@@ -116,6 +92,32 @@ namespace Clogger.Api.Controllers
             catch (DuplicateNameException)
             {
                 return Conflict();
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult<GetCollectionDropdownValuesDto>> GetCollectionDropdownValues()
+        {
+            var user = _userContextHelper.GetUserId();
+
+            var result = await _collectionService.GetCollectionDropdownValues(user);
+            return Ok(result);
+        }
+
+        [HttpGet("{collectionId}")]
+        public async Task<ActionResult<GetCustomCollectionFieldsDto>> GetCustomCollectionFields([FromRoute] int collectionId)
+        {
+            var user = _userContextHelper.GetUserId();
+
+            try
+            {
+                var result = await _collectionService.GetCustomCollectionFields(user, collectionId);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
             }
         }
     }

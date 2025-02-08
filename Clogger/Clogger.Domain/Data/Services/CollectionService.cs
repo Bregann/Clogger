@@ -144,5 +144,34 @@ namespace Clogger.Domain.Data.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<GetCollectionDropdownValuesDto> GetCollectionDropdownValues(string userId)
+        {
+            var collectionItems = await _context.Collections.Where(x => x.UserId == userId).Select(x => new LabelValue
+            {
+                Value = x.Id.ToString(),
+                Label = x.CollectionName
+            }).ToArrayAsync();
+
+            return new GetCollectionDropdownValuesDto
+            {
+                Collections = collectionItems
+            };
+        }
+
+        public async Task<GetCustomCollectionFieldsDto> GetCustomCollectionFields(string userId, int collectionId)
+        {
+            var collection = await _context.Collections.FirstOrDefaultAsync(x => x.Id == collectionId && x.UserId == userId);
+
+            if (collection == null)
+            {
+                throw new KeyNotFoundException("Collection not found");
+            }
+
+            return new GetCustomCollectionFieldsDto
+            {
+                CustomFields = collection.CustomCollectionFields.Select(x => new CustomCollectionField { FieldName = x.FieldName, Id = x.Id }).ToArray()
+            };
+        }
     }
 }

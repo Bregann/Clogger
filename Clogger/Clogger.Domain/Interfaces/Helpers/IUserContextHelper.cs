@@ -4,8 +4,8 @@ namespace Clogger.Domain.Interfaces.Helpers
 {
     public interface IUserContextHelper
     {
-        string? GetUserId();
-        string? GetUserFirstName();
-        User? GetUser();
+        string GetUserId();
+        string GetUserFirstName();
+        User GetUser();
     }
 }

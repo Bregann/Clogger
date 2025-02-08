@@ -13,17 +13,10 @@ namespace Clogger.Api.Controllers
         private readonly IUserDataService _userDataService = userDataService;
         private readonly IUserContextHelper _userContextHelper = userContextHelper;
 
-        // This is being used by registration due to not being able to scaffold the identity methods.
-        // TODO: update and remove this when scaffolding is allowed
         [HttpPost("{name}")]
         public async Task<IActionResult> SetUsername([FromRoute] string name)
         {
             var user = _userContextHelper.GetUserId();
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
 
             var result = await _userDataService.SetUsername(name, user);
 

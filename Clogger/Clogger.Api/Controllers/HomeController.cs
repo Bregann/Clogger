@@ -19,11 +19,6 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUser();
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
             var result = await _homeService.GetUserHeaderStats(user);
 
             return Ok(result);

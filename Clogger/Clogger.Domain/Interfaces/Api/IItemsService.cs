@@ -1,4 +1,5 @@
-﻿using Clogger.Domain.DTOs.Items.Responses;
+﻿using Clogger.Domain.DTOs.Collections.Responses;
+using Clogger.Domain.DTOs.Items.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

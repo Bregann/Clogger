@@ -1,4 +1,6 @@
-﻿using Clogger.Domain.DTOs.Items.Responses;
+﻿using Clogger.Domain.DTOs.Collections.Responses;
+using Clogger.Domain.DTOs.Items.Requests;
+using Clogger.Domain.DTOs.Items.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -20,11 +22,6 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUserId();
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
             try
             {
                 var result = await _itemsService.GetItem(itemId, user);
@@ -34,6 +31,12 @@ namespace Clogger.Api.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddItem(IFormFile? image, [FromForm] int collectionId, [FromForm] string itemName, [FromForm] string? itemDescription, [FromForm] CustomFieldData[]? customField)
+        {
+            return Ok();
         }
     }
 }
