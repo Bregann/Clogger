@@ -5,7 +5,7 @@ interface GetItemDto {
   id: number
   itemName: string
   itemDescription: string
-  imageUrl?: string
+  imageUrl?: string | null
   dateAdded: string
   lastUpdated: string
   customFields: CustomField[]

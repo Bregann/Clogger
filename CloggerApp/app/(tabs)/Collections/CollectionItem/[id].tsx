@@ -20,9 +20,11 @@ export default function CollectionItemListScreen (): JSX.Element {
         <>
           <Button mode="contained" style={collectionItemStyles.editButton}>Edit Item</Button>
           <Text style={globalStyles.headerText}>{data.itemName}</Text>
-          <View style={collectionItemStyles.pictureBox}>
-            <Image source={{ uri: data.imageUrl }} style={collectionItemStyles.pictureItem} contentFit="contain" />
-          </View>
+          {data.imageUrl !== null &&
+            <View style={collectionItemStyles.pictureBox}>
+              <Image source={{ uri: data.imageUrl }} style={collectionItemStyles.pictureItem} contentFit="contain" />
+            </View>
+          }
           <Text style={collectionItemStyles.itemDetailsHeader}>Description</Text>
           <Text style={collectionItemStyles.itemDetailsText}>{data.itemDescription}</Text>
           <Text style={[collectionItemStyles.itemDetailsHeader, { marginBottom: 10 }]}>Item Details</Text>
