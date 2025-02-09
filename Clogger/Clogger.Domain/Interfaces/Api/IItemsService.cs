@@ -1,12 +1,6 @@
-﻿using Clogger.Domain.DTOs.Collections.Responses;
-using Clogger.Domain.DTOs.Items.Requests;
+﻿using Clogger.Domain.DTOs.Items.Requests;
 using Clogger.Domain.DTOs.Items.Responses;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clogger.Domain.Interfaces.Api
 {

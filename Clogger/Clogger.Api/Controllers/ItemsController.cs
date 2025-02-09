@@ -1,10 +1,8 @@
-﻿using Clogger.Domain.DTOs.Collections.Responses;
-using Clogger.Domain.DTOs.Items.Requests;
+﻿using Clogger.Domain.DTOs.Items.Requests;
 using Clogger.Domain.DTOs.Items.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clogger.Api.Controllers

@@ -2,11 +2,6 @@
 using Clogger.Domain.DTOs.Search.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clogger.Domain.Data.Services
 {

@@ -1,5 +1,4 @@
-﻿using Clogger.Domain.Data.Services;
-using Clogger.Domain.DTOs.Collections.Requests;
+﻿using Clogger.Domain.DTOs.Collections.Requests;
 using Clogger.Domain.DTOs.Collections.Responses;
 using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
@@ -66,7 +65,7 @@ namespace Clogger.Api.Controllers
 
             try
             {
-               var collectionId = await _collectionService.AddNewCollection(user, dto);
+                var collectionId = await _collectionService.AddNewCollection(user, dto);
                 return Ok(collectionId);
             }
             catch (DuplicateNameException)

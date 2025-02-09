@@ -51,7 +51,7 @@ builder.Services.AddCors(options =>
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<AppDbContext>(options => options
-                                                            .UseLazyLoadingProxies()                                                        
+                                                            .UseLazyLoadingProxies()
                                                             .UseSqlite("Data Source=" + Directory.GetCurrentDirectory() + "/application.db"));
 }
 else

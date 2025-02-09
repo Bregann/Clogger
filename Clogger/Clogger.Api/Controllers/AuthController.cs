@@ -1,11 +1,7 @@
 ﻿using Clogger.Domain.DTOs.Auth.Requests;
 using Clogger.Domain.DTOs.Auth.Response;
-using Clogger.Domain.Helpers;
 using Clogger.Domain.Interfaces.Api;
-using Clogger.Domain.Interfaces.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using System.Data;
 
 namespace Clogger.Api.Controllers

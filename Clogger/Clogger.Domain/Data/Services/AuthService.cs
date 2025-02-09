@@ -82,7 +82,7 @@ namespace Clogger.Domain.Data.Services
             Log.Information($"Refreshing token {userRefreshToken}");
             var refreshToken = await _context.UserRefreshTokens.FirstOrDefaultAsync(t => t.Token == userRefreshToken);
 
-            if(refreshToken == null)
+            if (refreshToken == null)
             {
                 Log.Information($"Token not found for refresh token {userRefreshToken}");
                 throw new KeyNotFoundException("Token not found");

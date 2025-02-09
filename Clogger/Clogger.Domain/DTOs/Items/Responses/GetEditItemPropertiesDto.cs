@@ -1,12 +1,4 @@
-﻿using Clogger.Domain.DTOs.Collections.Responses;
-using Clogger.Domain.DTOs.Items.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Clogger.Domain.DTOs.Items.Responses
+﻿namespace Clogger.Domain.DTOs.Items.Responses
 {
     public class GetEditItemPropertiesDto
     {
