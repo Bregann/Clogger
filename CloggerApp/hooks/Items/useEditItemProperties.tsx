@@ -3,6 +3,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 
 interface GetEditItemPropertiesDto {
   itemId: number
+  collectionId: number
   itemName: string
   itemDescription: string
   customFields: CustomFieldDataValueId[]

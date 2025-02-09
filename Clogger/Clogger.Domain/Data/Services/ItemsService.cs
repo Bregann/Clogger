@@ -144,6 +144,7 @@ namespace Clogger.Domain.Data.Services
             return new GetEditItemPropertiesDto
             {
                 ItemId = item.Id,
+                CollectionId = item.CollectionId,
                 ItemName = item.ItemName,
                 ItemDescription = item.ItemDescription,
                 CustomFields = customFields,
@@ -213,6 +214,16 @@ namespace Clogger.Domain.Data.Services
                 ItemId = item.Id,
                 CollectionId = item.CollectionId
             };
+        }
+
+        public async Task DeleteItem(int itemId, string userId)
+        {
+            var rowsChanged = await _context.CollectionItems.Where(x => x.Id == itemId && x.UserId == userId).ExecuteDeleteAsync();
+
+            if (rowsChanged == 0)
+            {
+                throw new KeyNotFoundException("Item not found");
+            }
         }
 
         private static async Task<string> SaveImage(IFormFile image)

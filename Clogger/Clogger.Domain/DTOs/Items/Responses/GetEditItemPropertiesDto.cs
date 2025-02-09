@@ -11,6 +11,7 @@ namespace Clogger.Domain.DTOs.Items.Responses
     public class GetEditItemPropertiesDto
     {
         public required int ItemId { get; set; }
+        public required int CollectionId { get; set; }
         public required string ItemName { get; set; }
         public required string ItemDescription { get; set; }
         public required CustomFieldDataValueId[] CustomFields { get; set; }

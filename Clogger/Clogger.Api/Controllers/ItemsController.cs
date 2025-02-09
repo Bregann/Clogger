@@ -54,6 +54,7 @@ namespace Clogger.Api.Controllers
         public async Task<ActionResult<GetEditItemPropertiesDto>> GetEditItemProperties([FromRoute] int itemId)
         {
             var user = _userContextHelper.GetUserId();
+
             try
             {
                 var result = await _itemsService.GetEditItemProperties(itemId, user);
@@ -69,10 +70,27 @@ namespace Clogger.Api.Controllers
         public async Task<ActionResult<SaveItemChangesDto>> SaveItemChanges(IFormFile? image, [FromForm] int itemId, [FromForm] string itemName, [FromForm] string itemDescription, [FromForm] CustomFieldData[]? customField)
         {
             var user = _userContextHelper.GetUserId();
+
             try
             {
                 var result = await _itemsService.SaveItemChanges(image, itemId, itemName, itemDescription, customField, user);
                 return Ok(result);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{itemId}")]
+        public async Task<ActionResult> DeleteItem([FromRoute] int itemId)
+        {
+            var user = _userContextHelper.GetUserId();
+
+            try
+            {
+                await _itemsService.DeleteItem(itemId, user);
+                return Ok();
             }
             catch (KeyNotFoundException)
             {

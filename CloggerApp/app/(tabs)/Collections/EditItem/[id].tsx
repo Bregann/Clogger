@@ -1,4 +1,5 @@
 import { useImagePicker } from '@/context/imagePickerContext'
+import { useDeleteItem } from '@/hooks/Items/useDeleteItem'
 import { CustomFieldDataValueId, useEditItemProperties } from '@/hooks/Items/useEditItemProperties'
 import { useSaveItemChanges } from '@/hooks/Items/useSaveItemChanges'
 import addEditItemStyles from '@/styles/addEditItemStyles'
@@ -8,19 +9,20 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Text, ScrollView, Alert } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
-// todo: hook up the delete item buttons
-
 export default function AddEditItemScreen (): JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
   const theme = useTheme()
   const pickImage = useImagePicker()
 
-  const { data, isLoading, isError, error } = useEditItemProperties(parseInt(id))
-  const saveChangesMutation = useSaveItemChanges()
-
   const [itemName, setItemName] = useState('')
   const [itemDescription, setItemDescription] = useState('')
   const [customFields, setCustomFields] = useState<CustomFieldDataValueId[]>([])
+  const [collectionId, setCollectionId] = useState(-1)
+
+  const { data, isLoading, isError, error } = useEditItemProperties(parseInt(id))
+
+  const saveChangesMutation = useSaveItemChanges()
+  const deleteItemMutation = useDeleteItem(collectionId)
 
   useFocusEffect(
     useCallback(() => {
@@ -36,6 +38,7 @@ export default function AddEditItemScreen (): JSX.Element {
       setItemName(data.itemName)
       setItemDescription(data.itemDescription)
       setCustomFields(data.customFields)
+      setCollectionId(data.collectionId)
     }
   }, [data, isLoading])
 
@@ -59,7 +62,7 @@ export default function AddEditItemScreen (): JSX.Element {
       },
       {
         text: 'Delete',
-        onPress: (): void => { console.log('Delete item') },
+        onPress: async (): Promise<void> => { await deleteItemMutation.mutateAsync(parseInt(id)) },
         style: 'destructive'
       }
     ])
