@@ -40,17 +40,17 @@ const addItem = async (dto: AddItemRequestDto): Promise<number> => {
   }
 
   const apiResponse = await authApiClient.postForm('/api/items/AddItem', formData)
-  return 0
+  return apiResponse.data
 }
 
-export const useAddItem = (): UseMutationResult<number, Error, AddItemRequestDto> => {
+export const useAddItem = (collectionId: number): UseMutationResult<number, Error, AddItemRequestDto> => {
   const queryClient = useQueryClient()
   const router = useRouter()
 
   return useMutation({
     mutationFn: addItem,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['collections'] })
+      queryClient.invalidateQueries({ queryKey: ['collectionItems', collectionId] })
       router.replace({ pathname: '/(tabs)/Collections/CollectionItem/[id]', params: { id: data } })
     }
   })

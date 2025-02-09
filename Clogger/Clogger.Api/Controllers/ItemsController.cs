@@ -34,9 +34,20 @@ namespace Clogger.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddItem(IFormFile? image, [FromForm] int collectionId, [FromForm] string itemName, [FromForm] string? itemDescription, [FromForm] CustomFieldData[]? customField)
+        public async Task<ActionResult<int>> AddItem(IFormFile? image, [FromForm] int collectionId, [FromForm] string itemName, [FromForm] string? itemDescription, [FromForm] CustomFieldData[]? customField)
         {
-            return Ok();
+            var user = _userContextHelper.GetUserId();
+
+            try
+            {
+                var result = await _itemsService.AddItem(image, collectionId, itemName, itemDescription, customField, user);
+
+                return Ok(result);
+            }
+            catch (KeyNotFoundException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

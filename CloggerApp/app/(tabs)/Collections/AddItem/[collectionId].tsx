@@ -24,7 +24,7 @@ export default function AddEditItemScreen (): JSX.Element {
 
   const { data: dropdownData, isLoading: isLoadingDropdownData, isError: isErrorDropdownData } = useGetCollectionsDropdown()
   const { data: customFieldsData, isLoading: isLoadingCustomFieldsData, isError: isErrorCustomFieldsData } = useGetCustomCollectionFields(currentCollectionId)
-  const { mutateAsync: addItemMutation } = useAddItem()
+  const { mutateAsync: addItemMutation } = useAddItem(currentCollectionId)
 
   const addOrUpdateCustomField = (fieldId: number, value: string): void => {
     if (!customFieldData.some((field) => field.id === fieldId)) {
@@ -114,9 +114,24 @@ export default function AddEditItemScreen (): JSX.Element {
           />
         </View>
       }
-      <TextInput mode="outlined" label="Item Name" style={addEditItemStyles.textInput} />
-      <TextInput multiline={true} mode="outlined" label="Item Name" style={addEditItemStyles.textInput} />
+
+      <TextInput
+        mode="outlined"
+        label="Item Name"
+        style={addEditItemStyles.textInput}
+        onChangeText={(text) => { setItemName(text) }}
+      />
+      <TextInput
+        multiline={true}
+        mode="outlined"
+        label="Item Description"
+        style={addEditItemStyles.textInput}
+        onChangeText={(text) => { setItemDescription(text) }}
+      />
+
       <Button mode="contained" style={{ marginTop: 20 }} onPress={async () => { await pickImage() }}>Upload Image</Button>
+      {image !== null && <Text>Image Uploaded</Text>}
+
       {currentCollectionId !== -1 &&
         <>
           <Text style={addEditItemStyles.collectionItemPropertiesHeaderText}>Item Properties</Text>
