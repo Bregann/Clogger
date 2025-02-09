@@ -21,12 +21,52 @@ namespace Clogger.Domain.Data.Services
                 throw new KeyNotFoundException("Item not found");
             }
 
+            var imageBase64 = "";
+            var mimeType = "";
+            if (!string.IsNullOrEmpty(item.PictureUrl))
+            {
+#if DEBUG
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), item.PictureUrl);
+#else
+                var imagePath = Path.Combine($"/app/Images/{userId}", item.PictureUrl);
+#endif
+                var extension = Path.GetExtension(imagePath).ToLower();
+
+                switch (extension)
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                        mimeType = "image/jpeg";
+                        break;
+                    case ".png":
+                        mimeType = "image/png";
+                        break;
+                    case ".gif":
+                        mimeType = "image/gif";
+                        break;
+                    default:
+                        mimeType = "application/octet-stream";
+                        break;
+                }
+
+                using (var stream = new FileStream(imagePath, FileMode.Open))
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        var base64String = Convert.ToBase64String(memoryStream.ToArray());
+                        imageBase64 = $"data:{mimeType};base64,{base64String}";
+                    }
+                }
+
+            }
+
             return new GetItemDto
             {
                 Id = item.Id,
                 ItemName = item.ItemName,
                 ItemDescription = item.ItemDescription,
-                ImageUrl = item.PictureUrl,
+                ImageUrl = string.IsNullOrEmpty(imageBase64) ? null : imageBase64,
                 DateAdded = item.CreatedAt.ToString("yyyy-MM-dd"),
                 LastUpdated = item.UpdatedAt.ToString("yyyy-MM-dd"),
                 CustomFields = item.CustomCollectionFieldValues.Select(x => new CustomField

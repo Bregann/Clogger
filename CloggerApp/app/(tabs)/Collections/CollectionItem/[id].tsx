@@ -21,7 +21,7 @@ export default function CollectionItemListScreen (): JSX.Element {
           <Button mode="contained" style={collectionItemStyles.editButton}>Edit Item</Button>
           <Text style={globalStyles.headerText}>{data.itemName}</Text>
           <View style={collectionItemStyles.pictureBox}>
-            <Image source={{ uri: 'https://placecats.com/2268/4032' }} style={collectionItemStyles.pictureItem} />
+            <Image source={{ uri: data.imageUrl }} style={collectionItemStyles.pictureItem} contentFit="contain" />
           </View>
           <Text style={collectionItemStyles.itemDetailsHeader}>Description</Text>
           <Text style={collectionItemStyles.itemDetailsText}>{data.itemDescription}</Text>

@@ -8,7 +8,7 @@ export default StyleSheet.create({
   pictureBox: {
     marginTop: 10,
     width: '95%',
-    aspectRatio: 1,
+    aspectRatio: 0.8,
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 10,

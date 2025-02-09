@@ -16,8 +16,8 @@ export default function AddEditItemScreen (): JSX.Element {
 
   const [currentCollectionId, setCurrentCollectionId] = useState<number>(parseInt(collectionId))
   const [customFieldData, setCustomFieldData] = useState<CustomFieldData[]>([])
-  const [itemName, setItemName] = useState('t')
-  const [itemDescription, setItemDescription] = useState('t')
+  const [itemName, setItemName] = useState('')
+  const [itemDescription, setItemDescription] = useState('')
   const [image, setImage] = useState<string | null | undefined>(null)
   const [imageFileName, setImageFileName] = useState<string | null | undefined>(undefined)
   const [imageMimeType, setImageMimeType] = useState<string | undefined>(undefined)
@@ -52,7 +52,7 @@ export default function AddEditItemScreen (): JSX.Element {
         mediaTypes: ['images'],
         quality: 1,
       })
-      console.log(result)
+
       if (!result.canceled) {
         setImage(result.assets[0].uri)
         setImageFileName(result.assets[0].fileName)
@@ -64,8 +64,6 @@ export default function AddEditItemScreen (): JSX.Element {
         mediaTypes: ['images'],
         quality: 1,
       })
-
-      console.log(result)
 
       if (!result.canceled) {
         setImage(result.assets[0].uri)
@@ -79,10 +77,10 @@ export default function AddEditItemScreen (): JSX.Element {
     if (currentCollectionId === -1) {
       return
     }
-    console.log('hello')
+
     await addItemMutation({
       collectionId: currentCollectionId,
-      imageUri: image ?? '',
+      imageUri: image ?? null,
       imageFileName: imageFileName ?? '',
       imageMimeType: imageMimeType ?? '',
       itemName,
@@ -153,7 +151,14 @@ export default function AddEditItemScreen (): JSX.Element {
           })}
         </>
       }
-      <Button mode="contained" style={{ marginTop: 20 }} onPress={async () => { await addItem() }}>Add Item</Button>
+      <Button
+        mode="contained"
+        style={{ marginTop: 20 }}
+        onPress={async () => { await addItem() }}
+        disabled={currentCollectionId === -1 || itemName === '' || itemDescription === ''}
+        >
+          Add Item
+        </Button>
     </ScrollView>
   )
 }

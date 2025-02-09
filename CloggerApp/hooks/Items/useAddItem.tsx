@@ -4,13 +4,13 @@ import { useRouter } from 'expo-router'
 import FormData from 'form-data'
 
 export interface AddItemRequestDto {
-  imageUri: string
+  imageUri?: string | null
   imageMimeType: string
   imageFileName: string
   collectionId: number
   itemName: string
   itemDescription: string
-  customFieldData?: CustomFieldData[]
+  customFieldData: CustomFieldData[]
 }
 
 export interface CustomFieldData {
@@ -22,17 +22,19 @@ export interface CustomFieldData {
 const addItem = async (dto: AddItemRequestDto): Promise<number> => {
   const formData = new FormData()
 
-  formData.append('image', {
-    uri: dto.imageUri,
-    name: dto.imageFileName,
-    type: dto.imageMimeType
-  })
+  if (dto.imageUri !== null) {
+    formData.append('image', {
+      uri: dto.imageUri,
+      name: dto.imageFileName,
+      type: dto.imageMimeType
+    })
+  }
 
   formData.append('collectionId', dto.collectionId.toString())
   formData.append('itemName', dto.itemName)
   formData.append('itemDescription', dto.itemDescription)
 
-  if (dto.customFieldData !== undefined) {
+  if (dto.customFieldData.length > 0) {
     dto.customFieldData.forEach((field, index) => {
       formData.append(`customField[${index}].fieldId`, field.id.toString())
       formData.append(`customField[${index}].fieldValue`, field.value)

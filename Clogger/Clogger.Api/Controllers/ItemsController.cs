@@ -34,7 +34,7 @@ namespace Clogger.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddItem(IFormFile? image, [FromForm] int collectionId, [FromForm] string itemName, [FromForm] string? itemDescription, [FromForm] CustomFieldData[]? customField)
+        public async Task<ActionResult<int>> AddItem(IFormFile? image, [FromForm] int collectionId, [FromForm] string itemName, [FromForm] string itemDescription, [FromForm] CustomFieldData[]? customField)
         {
             var user = _userContextHelper.GetUserId();
 
