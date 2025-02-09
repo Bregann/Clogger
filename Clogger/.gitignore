@@ -367,3 +367,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /BreganTwitchbot.Infrastructure/Database/DbSettings.cs
+
+**/Clogger.Api/*.jpeg
+**/Clogger/Clogger.Api/*.png
