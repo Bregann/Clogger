@@ -8,6 +8,7 @@ export default function TabLayout (): JSX.Element {
 
   return (
     <Tabs
+      backBehavior="history"
       screenOptions={{
         tabBarActiveTintColor: theme.colors.primary,
         headerShown: false,
