@@ -3,7 +3,7 @@ import { keychainHelper } from './keychainHelper'
 import Constants from 'expo-constants'
 
 const authApiClient = axios.create({
-  baseURL: Constants.expoConfig?.extra?.ApiUrl || '',
+  baseURL: __DEV__ ? 'http://192.168.1.1:5053' : Constants.expoConfig?.extra?.ApiUrl || '',
   validateStatus: (status) => status < 500 && status !== 401,
 })
 

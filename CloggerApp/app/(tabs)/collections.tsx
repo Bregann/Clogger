@@ -25,11 +25,11 @@ export default function CollectionsScreen (): JSX.Element {
           elevation={2}
         />
       </View>
-      <Button style={collectionStyles.addCollectionButton} mode="contained" onPress={() => { }}>Add New Collection</Button>
+      <Button style={collectionStyles.addCollectionButton} mode="contained" onPress={() => { router.push('/(tabs)/Collections/AddCollection') }}>Add New Collection</Button>
 
       {isLoading && <Text>Loading collections...</Text>}
       {isError && <Text>An error occurred while fetching collections</Text>}
-      {data !== undefined && !isLoading && data.collections.map((collection) => {
+      {data !== undefined && !isLoading && data.collections.filter(x => x.collectionName === searchQuery).map((collection) => {
         return (
           <Pressable
             key={collection.id}

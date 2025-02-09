@@ -33,7 +33,7 @@ export default function CollectionItemListScreen (): JSX.Element {
           <View style={[globalStyles.rowContainer, { marginBottom: 20 }]}>
             <Button mode="contained" style={{ marginRight: 10 }}>Add Item</Button>
           </View>
-          {data.collectionItems.map((item) => {
+          {data.collectionItems.filter(x => x.itemName === searchQuery || x.itemDescription === searchQuery).map((item) => {
             return (
               <Pressable
                 key={item.id}

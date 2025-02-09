@@ -1,11 +1,16 @@
-import { ScrollView, Text, View } from 'react-native'
+import { Pressable, ScrollView, Text, View } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import globalStyles from '@/styles/globalStyles'
 import { useState } from 'react'
 import searchStyles from '@/styles/searchStyles'
+import { useSearch } from '@/hooks/useSearch'
+import React from 'react'
+import { useRouter } from 'expo-router'
 
 export default function HomeScreen (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
+  const searchData = useSearch(searchQuery)
+  const router = useRouter()
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
@@ -20,43 +25,45 @@ export default function HomeScreen (): JSX.Element {
         value={searchQuery}
         elevation={2}
       />
-      <Button mode="contained" onPress={() => { }}>Search</Button>
-      <Text style={searchStyles.searchText}>Found 73 results</Text>
-      <Text style={searchStyles.searchHeaderResult}>Collections</Text>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 1</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 2</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 3</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
-      <View style={globalStyles.collectionBox}>
-        <Text style={globalStyles.collectionHeaderText}>Collection 4</Text>
-        <Text style={globalStyles.collectionItemText}>Description</Text>
-        <Text style={globalStyles.collectionItemText}>500 items</Text>
-      </View>
+      <Button disabled={searchQuery === ''} mode="contained" onPress={() => { searchData.refetch() }}>Search</Button>
+      {searchData.isLoading && <Text>Searching...</Text>}
+      {searchData.isError && <Text>Error: {searchData.error.message}</Text>}
+      {searchData.isSuccess && searchData.data !== undefined &&
+      <>
+        <Text>Found {searchData.data.totalResults} results</Text>
 
-      <Text style={searchStyles.searchHeaderResult}>Items</Text>
-      <View style={globalStyles.itemBox}>
-        <Text style={globalStyles.collectionHeaderText}>Item 1</Text>
-        <Text style={globalStyles.collectionItemText}>Collection: xxx</Text>
-      </View>
-      <View style={globalStyles.itemBox}>
-        <Text style={globalStyles.collectionHeaderText}>Item 2</Text>
-        <Text style={globalStyles.collectionItemText}>Collection: xxx</Text>
-      </View>
-      <View style={globalStyles.itemBox}>
-        <Text style={globalStyles.collectionHeaderText}>Item 3</Text>
-        <Text style={globalStyles.collectionItemText}>Collection: xxx</Text>
-      </View>
+        <Text style={searchStyles.searchHeaderResult}>Collections</Text>
+        {searchData.data.collections.map((collection) => (
+          <Pressable
+            style={globalStyles.collectionBox}
+            key={collection.collectionId}
+            onPress={() => { router.push({ pathname: '/(tabs)/Collections/CollectionItemList/[id]', params: { id: collection.collectionId } }) }}
+          >
+            <View key={collection.collectionId}>
+              <Text style={globalStyles.collectionHeaderText}>{collection.collectionName}</Text>
+              <Text style={globalStyles.collectionItemText}>{collection.collectionDescription}</Text>
+              <Text style={globalStyles.collectionItemText}>{collection.collectionItemCount} items</Text>
+            </View>
+          </Pressable>
+
+        ))}
+
+        <Text style={searchStyles.searchHeaderResult}>Items</Text>
+        {searchData.data.items.map((item) => (
+          <Pressable
+            style={globalStyles.collectionBox}
+            key={item.itemId}
+            onPress={() => { router.push({ pathname: '/(tabs)/Collections/CollectionItem/[id]', params: { id: item.itemId } }) }}
+           >
+            <View key={item.itemId}>
+              <Text style={globalStyles.collectionHeaderText}>{item.itemName}</Text>
+              <Text style={globalStyles.collectionItemText}>{item.itemDescription}</Text>
+              <Text style={globalStyles.collectionItemText}>Collection: {item.collectionName}</Text>
+            </View>
+          </Pressable>
+        ))}
+      </>
+      }
     </ScrollView>
   )
 }

@@ -35,6 +35,7 @@ builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<IUserContextHelper, UserContextHelper>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IItemsService, ItemsService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 builder.Services.AddCors(options =>
 {
@@ -57,7 +58,7 @@ else
 {
     builder.Services.AddDbContext<AppDbContext>(options => options
                                                             .UseLazyLoadingProxies()
-                                                            .UseNpgsql(Environment.GetEnvironmentVariable("xxxConnStringLive")));
+                                                            .UseNpgsql(Environment.GetEnvironmentVariable("CloggerConnStringLive")));
 }
 
 // Add in identity
