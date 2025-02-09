@@ -29,20 +29,22 @@ export default function CollectionsScreen (): JSX.Element {
 
       {isLoading && <Text>Loading collections...</Text>}
       {isError && <Text>An error occurred while fetching collections</Text>}
-      {data !== undefined && !isLoading && data.collections.filter(x => x.collectionName === searchQuery).map((collection) => {
-        return (
-          <Pressable
-            key={collection.id}
-            style={globalStyles.collectionBox}
-            onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: collection.id } }) }}>
-            <View>
-              <Text style={globalStyles.collectionHeaderText}>{collection.collectionName}</Text>
-              <Text style={globalStyles.collectionItemText}>{collection.collectionDescription}</Text>
-              <Text style={globalStyles.collectionItemText}>{collection.collectionItemCount}</Text>
-            </View>
-          </Pressable>
-        )
-      })}
+      {data !== undefined && !isLoading &&
+        (searchQuery === '' ? data.collections : data.collections.filter(x => x.collectionName === searchQuery)
+        ).map((collection) => {
+          return (
+            <Pressable
+              key={collection.id}
+              style={globalStyles.collectionBox}
+              onPress={() => { router.push({ pathname: '/Collections/CollectionItemList/[id]', params: { id: collection.id } }) }}>
+              <View>
+                <Text style={globalStyles.collectionHeaderText}>{collection.collectionName}</Text>
+                <Text style={globalStyles.collectionItemText}>{collection.collectionDescription}</Text>
+                <Text style={globalStyles.collectionItemText}>{collection.collectionItemCount}</Text>
+              </View>
+            </Pressable>
+          )
+        })}
     </ScrollView>
   )
 }

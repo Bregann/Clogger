@@ -33,12 +33,13 @@ export default function CollectionItemListScreen (): JSX.Element {
           <View style={[globalStyles.rowContainer, { marginBottom: 20 }]}>
             <Button mode="contained" style={{ marginRight: 10 }}>Add Item</Button>
           </View>
-          {data.collectionItems.filter(x => x.itemName === searchQuery || x.itemDescription === searchQuery).map((item) => {
+          {(searchQuery === '' ? data.collectionItems : data.collectionItems.filter(x => x.itemName === searchQuery || x.itemDescription === searchQuery))
+          .map((item) => {
             return (
               <Pressable
                 key={item.id}
                 style={globalStyles.collectionBox}
-                onPress={() => { router.push({ pathname: '/Collections/CollectionItem/[id]', params: { id: item.id } }) }}>
+                onPress={() => { router.navigate({ pathname: '/Collections/CollectionItem/[id]', params: { id: item.id } }) }}>
                 <View>
                   <Text style={globalStyles.collectionHeaderText}>{item.itemName}</Text>
                   <Text style={globalStyles.collectionItemText}>{item.itemDescription}</Text>
