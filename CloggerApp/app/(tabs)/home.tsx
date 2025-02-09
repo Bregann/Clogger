@@ -24,7 +24,7 @@ export default function HomeScreen (): JSX.Element {
           </View>
           <View style={homeStyles.rightBox}>
             <Text style={homeStyles.statsHeader}>Total Items</Text>
-            <Text style={homeStyles.statsNumber}>{data.totalCollections}</Text>
+            <Text style={homeStyles.statsNumber}>{data.totalItems}</Text>
           </View>
         </View>
         }

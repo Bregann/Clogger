@@ -1,6 +1,6 @@
 import collectionItemStyles from '@/styles/collectionItemStyles'
 import globalStyles from '@/styles/globalStyles'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { ScrollView, View, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import { Image } from 'expo-image'
@@ -9,6 +9,7 @@ import React from 'react'
 
 export default function CollectionItemListScreen (): JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
+  const router = useRouter()
 
   const { data, isLoading, isError } = useItem(parseInt(id))
 
@@ -18,7 +19,11 @@ export default function CollectionItemListScreen (): JSX.Element {
       {isError && <Text>An error occurred while fetching item</Text>}
       {data !== undefined && !isLoading && (
         <>
-          <Button mode="contained" style={collectionItemStyles.editButton}>Edit Item</Button>
+          <Button
+            mode="contained"
+            style={collectionItemStyles.editButton}
+            onPress={() => { router.push({ pathname: '/(tabs)/Collections/EditItem/[id]', params: { id: id } }) }}
+            >Edit Item</Button>
           <Text style={globalStyles.headerText}>{data.itemName}</Text>
           {data.imageUrl !== null &&
             <View style={collectionItemStyles.pictureBox}>

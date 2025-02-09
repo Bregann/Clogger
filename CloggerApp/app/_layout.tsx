@@ -4,6 +4,7 @@ import { Stack } from 'expo-router/stack'
 import { useEffect } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ImagePickerProvider } from '@/context/imagePickerContext'
 
 export default function RootLayout (): JSX.Element {
   const theme = {
@@ -21,9 +22,12 @@ export default function RootLayout (): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <PaperProvider theme={theme}>
-          <AuthStateWrapper />
-        </PaperProvider>
+        <ImagePickerProvider>
+          <PaperProvider theme={theme}>
+            <AuthStateWrapper />
+          </PaperProvider>
+        </ImagePickerProvider>
+
       </AuthProvider>
     </QueryClientProvider>
   )

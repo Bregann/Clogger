@@ -2,13 +2,13 @@ import { useGetCollectionsDropdown } from '@/hooks/Collections/useGetCollections
 import { useGetCustomCollectionFields } from '@/hooks/Collections/useGetCustomCollectionFields'
 import addEditItemStyles from '@/styles/addEditItemStyles'
 import globalStyles from '@/styles/globalStyles'
-import { useLocalSearchParams } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import { useFocusEffect, useLocalSearchParams } from 'expo-router'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Text, View, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-paper-dropdown'
-import * as ImagePicker from 'expo-image-picker'
 import { CustomFieldData, useAddItem } from '@/hooks/Items/useAddItem'
+import { useImagePicker } from '@/context/imagePickerContext'
 
 export default function AddEditItemScreen (): JSX.Element {
   // -1 = no collection otherwise it will be the collection id
@@ -18,9 +18,19 @@ export default function AddEditItemScreen (): JSX.Element {
   const [customFieldData, setCustomFieldData] = useState<CustomFieldData[]>([])
   const [itemName, setItemName] = useState('')
   const [itemDescription, setItemDescription] = useState('')
-  const [image, setImage] = useState<string | null | undefined>(null)
-  const [imageFileName, setImageFileName] = useState<string | null | undefined>(undefined)
-  const [imageMimeType, setImageMimeType] = useState<string | undefined>(undefined)
+
+  const pickImage = useImagePicker()
+
+  useFocusEffect(
+    useCallback(() => {
+      return (): void => {
+        pickImage.resetImage()
+        setItemName('')
+        setItemDescription('')
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  )
 
   const { data: dropdownData, isLoading: isLoadingDropdownData, isError: isErrorDropdownData } = useGetCollectionsDropdown()
   const { data: customFieldsData, isLoading: isLoadingCustomFieldsData, isError: isErrorCustomFieldsData } = useGetCustomCollectionFields(currentCollectionId)
@@ -43,36 +53,6 @@ export default function AddEditItemScreen (): JSX.Element {
     setCustomFieldData(updatedFields)
   }
 
-  const pickImage = async (): Promise<void> => {
-    // go for camera perms first as it's easier
-    const cameraPermission = await ImagePicker.requestCameraPermissionsAsync()
-
-    if (cameraPermission.granted) {
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ['images'],
-        quality: 1,
-      })
-
-      if (!result.canceled) {
-        setImage(result.assets[0].uri)
-        setImageFileName(result.assets[0].fileName)
-        setImageMimeType(result.assets[0].mimeType)
-      }
-    } else {
-
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
-        quality: 1,
-      })
-
-      if (!result.canceled) {
-        setImage(result.assets[0].uri)
-        setImageFileName(result.assets[0].fileName)
-        setImageMimeType(result.assets[0].mimeType)
-      }
-    }
-  }
-
   const addItem = async (): Promise<void> => {
     if (currentCollectionId === -1) {
       return
@@ -80,9 +60,9 @@ export default function AddEditItemScreen (): JSX.Element {
 
     await addItemMutation({
       collectionId: currentCollectionId,
-      imageUri: image ?? null,
-      imageFileName: imageFileName ?? '',
-      imageMimeType: imageMimeType ?? '',
+      imageUri: pickImage.image ?? null,
+      imageFileName: pickImage.imageFileName ?? '',
+      imageMimeType: pickImage.imageMimeType ?? '',
       itemName,
       itemDescription,
       customFieldData: customFieldData
@@ -127,8 +107,8 @@ export default function AddEditItemScreen (): JSX.Element {
         onChangeText={(text) => { setItemDescription(text) }}
       />
 
-      <Button mode="contained" style={{ marginTop: 20 }} onPress={async () => { await pickImage() }}>Upload Image</Button>
-      {image !== null && <Text>Image Uploaded</Text>}
+      <Button mode="contained" style={{ marginTop: 20 }} onPress={async () => { await pickImage.pickImage() }}>Upload Image</Button>
+      {pickImage.image !== null || pickImage.image !== undefined && <Text>Image Uploaded</Text>}
 
       {currentCollectionId !== -1 &&
         <>
@@ -156,9 +136,9 @@ export default function AddEditItemScreen (): JSX.Element {
         style={{ marginTop: 20 }}
         onPress={async () => { await addItem() }}
         disabled={currentCollectionId === -1 || itemName === '' || itemDescription === ''}
-        >
-          Add Item
-        </Button>
+      >
+        Add Item
+      </Button>
     </ScrollView>
   )
 }

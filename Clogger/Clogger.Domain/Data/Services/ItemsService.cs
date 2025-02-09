@@ -58,7 +58,6 @@ namespace Clogger.Domain.Data.Services
                         imageBase64 = $"data:{mimeType};base64,{base64String}";
                     }
                 }
-
             }
 
             return new GetItemDto
@@ -81,7 +80,7 @@ namespace Clogger.Domain.Data.Services
         {
             if (!_context.Collections.Any(x => x.Id == collectionId && x.UserId == userId))
             {
-               throw new KeyNotFoundException("Collection not found");
+                throw new KeyNotFoundException("Collection not found");
             }
 
             var imageName = "";
@@ -143,6 +142,31 @@ namespace Clogger.Domain.Data.Services
             }
 
             return item.Id;
+        }
+
+        public async Task<GetEditItemPropertiesDto> GetEditItemProperties(int itemId, string userId)
+        {
+            var item = await _context.CollectionItems.FirstOrDefaultAsync(x => x.Id == itemId && x.UserId == userId) ?? throw new KeyNotFoundException("Item not found");
+
+            var customFields = await (from field in _context.CustomCollectionFields
+                                      join value in _context.CustomCollectionFieldsValues
+                                      on field.Id equals value.CustomCollectionFieldId into fieldValues
+                                      from value in fieldValues.Where(v => v.CollectionItemId == itemId).DefaultIfEmpty()
+                                      select new CustomFieldDataValueId
+                                      {
+                                          FieldId = field.Id,
+                                          FieldName = field.FieldName,
+                                          FieldValue = value != null ? value.FieldValue : null
+                                      }).ToArrayAsync();
+
+            return new GetEditItemPropertiesDto
+            {
+                ItemId = item.Id,
+                ItemName = item.ItemName,
+                ItemDescription = item.ItemDescription,
+                CustomFields = customFields,
+                HasImage = !string.IsNullOrEmpty(item.PictureUrl)
+            };
         }
     }
 }

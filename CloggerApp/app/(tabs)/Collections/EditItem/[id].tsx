@@ -1,55 +1,123 @@
+import { useImagePicker } from '@/context/imagePickerContext'
+import { CustomFieldDataValueId, useEditItemProperties } from '@/hooks/Items/useEditItemProperties'
 import addEditItemStyles from '@/styles/addEditItemStyles'
 import globalStyles from '@/styles/globalStyles'
-import { useLocalSearchParams } from 'expo-router'
-import React, { useState } from 'react'
-import { Text, View, ScrollView } from 'react-native'
-import { Button, TextInput } from 'react-native-paper'
-import { Dropdown } from 'react-native-paper-dropdown'
+import { useFocusEffect, useLocalSearchParams } from 'expo-router'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Text, ScrollView, Alert } from 'react-native'
+import { Button, TextInput, useTheme } from 'react-native-paper'
 
 export default function AddEditItemScreen (): JSX.Element {
-  // 0 = add otherwise it will be the item id
   const { id } = useLocalSearchParams<{ id: string }>()
-  const [gender, setGender] = useState<string>()
+  const theme = useTheme()
+  const pickImage = useImagePicker()
 
-  const OPTIONS = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Other', value: 'other' },
-  ]
+  const { data, isLoading, isError, error } = useEditItemProperties(parseInt(id))
+
+  const [itemName, setItemName] = useState('')
+  const [itemDescription, setItemDescription] = useState('')
+  const [customFields, setCustomFields] = useState<CustomFieldDataValueId[]>([])
+
+  useFocusEffect(
+    useCallback(() => {
+      return (): void => {
+        pickImage.resetImage()
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  )
+
+  useEffect(() => {
+    if (data !== undefined && !isLoading) {
+      setItemName(data.itemName)
+      setItemDescription(data.itemDescription)
+      setCustomFields(data.customFields)
+    }
+  }, [data, isLoading])
+
+  const confirmDeletionAlert = (): void => {
+    Alert.alert('Delete confirmation', 'Are you sure you want to delete this item?', [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      {
+        text: 'Delete',
+        onPress: (): void => { console.log('Delete item') },
+        style: 'destructive'
+      }
+    ])
+  }
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
-      {id === '0' ?
-        <>
-          <Text style={globalStyles.headerText}>Add New Item</Text>
-          <Text style={globalStyles.subheaderText}>Add a new item to your collection</Text>
-        </>
-        :
+      {isLoading && <Text>Loading item...</Text>}
+      {isError && <Text>{error.message}</Text>}
+      {data !== undefined && !isLoading &&
         <>
           <Button mode="contained" style={addEditItemStyles.addEditButton}>Save Changes</Button>
-          <Text style={globalStyles.headerText}>Editing Item xxx</Text>
+          <Text style={globalStyles.headerText}>Editing Item {itemName}</Text>
           <Text style={globalStyles.subheaderText}>Edit the item details</Text>
-        </>
-      }
 
-      <View style={{ width: '90%' }}>
-        <Dropdown
-          label="Collection"
-          placeholder="Select Collection"
-          options={OPTIONS}
-          value={gender}
-          onSelect={setGender}
-        />
-      </View>
-      <TextInput mode="outlined" label="Item Name" style={addEditItemStyles.textInput} />
-      <TextInput multiline={true} mode="outlined" label="Item Name" style={addEditItemStyles.textInput} />
-      <Button mode="contained" style={{ marginTop: 20 }}>Upload Image</Button>
-      <Text style={addEditItemStyles.collectionItemPropertiesHeaderText}>Item Properties</Text>
-      <TextInput mode="outlined" label="Property 1" style={addEditItemStyles.textInput} />
-      <TextInput mode="outlined" label="Property 2" style={addEditItemStyles.textInput} />
-      <TextInput mode="outlined" label="Property 3" style={addEditItemStyles.textInput} />
-      {id === '0' && <Button mode="contained" style={{ marginTop: 20 }}>Add Item</Button>}
+          <TextInput
+            mode="outlined"
+            label="Item Name"
+            style={addEditItemStyles.textInput}
+            value={itemName}
+          />
 
+          <TextInput
+            multiline={true}
+            mode="outlined"
+            label="Item Description"
+            style={addEditItemStyles.textInput}
+            value={itemDescription}
+          />
+
+          <Button
+            mode="contained"
+            style={{ marginTop: 20 }}
+            onPress={async () => { await pickImage.pickImage() }}
+          >
+            {data.hasImage ? 'Replace Image' : 'Upload Image'}
+          </Button>
+          {data.hasImage && <Text style={{ width: '85%' }}>Note: You already have an image uploaded, uploading a new one will replace the old image</Text>}
+          {pickImage.image !== null && <Text>Image Uploaded</Text>}
+          <Button onPress={() => { console.log(pickImage) }}>test</Button>
+          {customFields.length > 0 &&
+            <>
+              <Text style={addEditItemStyles.collectionItemPropertiesHeaderText}>Item Properties</Text>
+              {customFields.map((field) => (
+                <TextInput
+                  key={field.fieldId}
+                  mode="outlined"
+                  label={field.fieldName}
+                  style={addEditItemStyles.textInput}
+                  value={field.fieldValue}
+                  onChangeText={(text) => {
+                    const newCustomFields = customFields.map((customField) => {
+                      if (customField.fieldId === field.fieldId) {
+                        return { ...customField, fieldValue: text }
+                      }
+                      return customField
+                    })
+
+                    setCustomFields(newCustomFields)
+                  }}
+                />
+              ))}
+            </>
+          }
+
+          <Button
+            mode="contained"
+            buttonColor={theme.colors.secondary}
+            style={{ marginTop: 20 }}
+            onPress={confirmDeletionAlert}
+            >
+              Delete Item
+          </Button>
+        </>}
     </ScrollView>
   )
 }

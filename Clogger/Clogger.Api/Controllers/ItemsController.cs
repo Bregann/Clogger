@@ -49,5 +49,20 @@ namespace Clogger.Api.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("{itemId}")]
+        public async Task<ActionResult<GetEditItemPropertiesDto>> GetEditItemProperties([FromRoute] int itemId)
+        {
+            var user = _userContextHelper.GetUserId();
+            try
+            {
+                var result = await _itemsService.GetEditItemProperties(itemId, user);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }

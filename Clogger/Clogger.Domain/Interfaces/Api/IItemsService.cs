@@ -14,5 +14,6 @@ namespace Clogger.Domain.Interfaces.Api
     {
         Task<GetItemDto> GetItem(int itemId, string userId);
         Task<int> AddItem(IFormFile? image, int collectionId, string itemName, string? itemDescription, CustomFieldData[]? customFields, string userId);
+        Task<GetEditItemPropertiesDto> GetEditItemProperties(int itemId, string userId);
     }
 }
