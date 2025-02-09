@@ -64,5 +64,20 @@ namespace Clogger.Api.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<SaveItemChangesDto>> SaveItemChanges(IFormFile? image, [FromForm] int itemId, [FromForm] string itemName, [FromForm] string itemDescription, [FromForm] CustomFieldData[]? customField)
+        {
+            var user = _userContextHelper.GetUserId();
+            try
+            {
+                var result = await _itemsService.SaveItemChanges(image, itemId, itemName, itemDescription, customField, user);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }

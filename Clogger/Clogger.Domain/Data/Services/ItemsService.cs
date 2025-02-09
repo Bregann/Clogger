@@ -87,25 +87,7 @@ namespace Clogger.Domain.Data.Services
 
             if (image != null)
             {
-                imageName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-#if DEBUG
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), imageName);
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-#else
-                if(!Directory.Exists($"/app/Images/{userId}"))
-                {
-                    Directory.CreateDirectory($"/app/Images/{userId}");
-                }
-
-                var imagePath = Path.Combine($"/app/Images/{userId}", imageName);
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-#endif
+                imageName = await SaveImage(image);
             }
 
             var item = new Database.Models.CollectionItem
@@ -167,6 +149,95 @@ namespace Clogger.Domain.Data.Services
                 CustomFields = customFields,
                 HasImage = !string.IsNullOrEmpty(item.PictureUrl)
             };
+        }
+
+        public async Task<SaveItemChangesDto> SaveItemChanges(IFormFile? image, int itemId, string itemName, string itemDescription, CustomFieldData[]? customFields, string userId)
+        {
+            var item = await _context.CollectionItems.FirstOrDefaultAsync(x => x.Id == itemId && x.UserId == userId) ?? throw new KeyNotFoundException("Item not found");
+
+            item.ItemName = itemName;
+            item.ItemDescription = itemDescription;
+
+            if (item.PictureUrl != null && image != null)
+            {
+#if DEBUG
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), item.PictureUrl);
+#else
+                var imagePath = Path.Combine($"/app/Images/{userId}", item.PictureUrl);
+#endif
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+
+                item.PictureUrl = null;
+            }
+
+            if (image != null)
+            {
+                var imageName = await SaveImage(image);
+                item.PictureUrl = imageName;
+            }
+
+            item.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            if (customFields != null)
+            {
+                foreach (var field in customFields)
+                {
+                    var customFieldValue = await _context.CustomCollectionFieldsValues.FirstOrDefaultAsync(x => x.CollectionItemId == itemId && x.CustomCollectionFieldId == field.FieldId);
+
+                    if (customFieldValue == null)
+                    {
+                        customFieldValue = new Database.Models.CustomCollectionFieldValue
+                        {
+                            CollectionItemId = item.Id,
+                            CustomCollectionFieldId = field.FieldId,
+                            FieldValue = field.FieldValue
+                        };
+
+                        await _context.CustomCollectionFieldsValues.AddAsync(customFieldValue);
+                    }
+                    else
+                    {
+                        customFieldValue.FieldValue = field.FieldValue;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return new SaveItemChangesDto
+            {
+                ItemId = item.Id,
+                CollectionId = item.CollectionId
+            };
+        }
+
+        private static async Task<string> SaveImage(IFormFile image)
+        {
+            var imageName = "";
+            imageName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+#if DEBUG
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), imageName);
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+#else
+                if(!Directory.Exists($"/app/Images/{userId}"))
+                {
+                    Directory.CreateDirectory($"/app/Images/{userId}");
+                }
+
+                var imagePath = Path.Combine($"/app/Images/{userId}", imageName);
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+#endif
+            return imageName;
         }
     }
 }

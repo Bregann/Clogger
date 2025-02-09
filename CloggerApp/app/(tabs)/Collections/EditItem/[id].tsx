@@ -1,5 +1,6 @@
 import { useImagePicker } from '@/context/imagePickerContext'
 import { CustomFieldDataValueId, useEditItemProperties } from '@/hooks/Items/useEditItemProperties'
+import { useSaveItemChanges } from '@/hooks/Items/useSaveItemChanges'
 import addEditItemStyles from '@/styles/addEditItemStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useFocusEffect, useLocalSearchParams } from 'expo-router'
@@ -7,12 +8,15 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Text, ScrollView, Alert } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
+// todo: hook up the delete item buttons
+
 export default function AddEditItemScreen (): JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
   const theme = useTheme()
   const pickImage = useImagePicker()
 
   const { data, isLoading, isError, error } = useEditItemProperties(parseInt(id))
+  const saveChangesMutation = useSaveItemChanges()
 
   const [itemName, setItemName] = useState('')
   const [itemDescription, setItemDescription] = useState('')
@@ -35,6 +39,18 @@ export default function AddEditItemScreen (): JSX.Element {
     }
   }, [data, isLoading])
 
+  const saveChanges = async (): Promise<void> => {
+    await saveChangesMutation.mutateAsync({
+      itemId: parseInt(id),
+      itemName,
+      itemDescription,
+      customFieldData: customFields,
+      imageFileName: pickImage.imageFileName ?? '',
+      imageMimeType: pickImage.imageMimeType ?? '',
+      imageUri: pickImage.image
+    })
+  }
+
   const confirmDeletionAlert = (): void => {
     Alert.alert('Delete confirmation', 'Are you sure you want to delete this item?', [
       {
@@ -55,7 +71,7 @@ export default function AddEditItemScreen (): JSX.Element {
       {isError && <Text>{error.message}</Text>}
       {data !== undefined && !isLoading &&
         <>
-          <Button mode="contained" style={addEditItemStyles.addEditButton}>Save Changes</Button>
+          <Button mode="contained" style={addEditItemStyles.addEditButton} onPress={async () => { await saveChanges() }}>Save Changes</Button>
           <Text style={globalStyles.headerText}>Editing Item {itemName}</Text>
           <Text style={globalStyles.subheaderText}>Edit the item details</Text>
 
@@ -64,6 +80,7 @@ export default function AddEditItemScreen (): JSX.Element {
             label="Item Name"
             style={addEditItemStyles.textInput}
             value={itemName}
+            onChangeText={(text) => setItemName(text)}
           />
 
           <TextInput
@@ -72,6 +89,7 @@ export default function AddEditItemScreen (): JSX.Element {
             label="Item Description"
             style={addEditItemStyles.textInput}
             value={itemDescription}
+            onChangeText={(text) => setItemDescription(text)}
           />
 
           <Button
@@ -83,7 +101,7 @@ export default function AddEditItemScreen (): JSX.Element {
           </Button>
           {data.hasImage && <Text style={{ width: '85%' }}>Note: You already have an image uploaded, uploading a new one will replace the old image</Text>}
           {pickImage.image !== null && <Text>Image Uploaded</Text>}
-          <Button onPress={() => { console.log(pickImage) }}>test</Button>
+
           {customFields.length > 0 &&
             <>
               <Text style={addEditItemStyles.collectionItemPropertiesHeaderText}>Item Properties</Text>

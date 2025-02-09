@@ -18,7 +18,6 @@ export interface CustomFieldData {
   value: string
 }
 
-
 const addItem = async (dto: AddItemRequestDto): Promise<number> => {
   const formData = new FormData()
 
