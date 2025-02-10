@@ -15,6 +15,6 @@ export default StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'flex-start',
     marginLeft: '5%',
-    fontWeight: 'bold'
+    fontFamily: 'Nunito_700Bold'
   }
 })

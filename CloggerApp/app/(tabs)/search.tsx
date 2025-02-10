@@ -30,7 +30,7 @@ export default function HomeScreen (): JSX.Element {
       {searchData.isError && <Text>Error: {searchData.error.message}</Text>}
       {searchData.isSuccess && searchData.data !== undefined &&
       <>
-        <Text>Found {searchData.data.totalResults} results</Text>
+        <Text style={{ fontFamily: 'Nunito_400Regular' }}>Found {searchData.data.totalResults} results</Text>
 
         <Text style={searchStyles.searchHeaderResult}>Collections</Text>
         {searchData.data.collections.map((collection) => (

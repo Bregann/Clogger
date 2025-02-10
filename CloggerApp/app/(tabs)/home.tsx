@@ -15,7 +15,7 @@ export default function HomeScreen (): JSX.Element {
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
       <View>
-        <Text style={{ fontFamily: 'Nunito-Regular' }}>Welcome back, {data !== undefined && !isLoading ? data.userFirstName : 'Clogger User'}</Text>
+        <Text style={globalStyles.headerText}>Welcome back, {data !== undefined && !isLoading ? data.userFirstName : 'Clogger User'}</Text>
         <Text style={globalStyles.subheaderText}>What would you like to do today?</Text>
         {!isLoading && data !== undefined && <View style={homeStyles.boxContainer}>
           <View style={homeStyles.leftBox}>
@@ -34,7 +34,9 @@ export default function HomeScreen (): JSX.Element {
           <Button mode="contained" style={ { marginRight: 10 } } onPress={() => { router.push('/(tabs)/Collections/AddCollection') }}>Add Collection</Button>
           <Button mode="contained" onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddItem/[collectionId]', params: { collectionId: -1 } }) }}>Add Item</Button>
         </View>
-        <Text style={homeStyles.yourCollectionsText}>Your Collections <FontAwesome size={28} name="arrow-circle-right" /></Text>
+        <Pressable onPress={() => { router.push('/collections') }}>
+          <Text style={homeStyles.yourCollectionsText}>Your Collections <FontAwesome size={28} name="arrow-circle-right" /></Text>
+        </Pressable>
       </View>
 
       {collectionsIsLoading && <Text>Loading collections...</Text>}

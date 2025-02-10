@@ -6,26 +6,27 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e2e3db',
     paddingTop: '5%',
-    fontFamily: 'Nunito-Regular'
+    fontFamily: 'Nunito_400Regular'
   },
   container: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#e2e3db',
-    fontFamily: 'Nunito-Regular'
+    fontFamily: 'Nunito_400Regular'
   },
   headerText: {
     color: 'black',
     fontSize: 32,
     textAlign: 'center',
+    fontFamily: 'Nunito_400Regular'
   },
   subheaderText: {
     color: 'black',
     fontSize: 14,
     textAlign: 'center',
     marginTop: 5,
-    fontStyle: 'italic',
     marginBottom: 20,
+    fontFamily: 'Nunito_400Regular_Italic'
   },
   collectionBox: {
     width: '90%',
@@ -58,11 +59,12 @@ export default StyleSheet.create({
   collectionHeaderText: {
     textAlign: 'center',
     fontSize: 18,
-    marginTop: 5
+    marginTop: 5,
+    fontFamily: 'Nunito_400Regular'
   },
   collectionItemText: {
     textAlign: 'center',
-    fontStyle: 'italic'
+    fontFamily: 'Nunito_400Regular_Italic'
   },
   rowContainer: {
     flexDirection: 'row',

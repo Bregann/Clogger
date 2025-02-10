@@ -31,22 +31,23 @@ export default StyleSheet.create({
     borderColor: 'white',
   },
   itemDetailsHeader: {
-   fontWeight: 'bold',
    color: 'black',
    fontSize: 28,
-   textAlign: 'center'
+   textAlign: 'center',
+   fontFamily: 'Nunito_700Bold'
   },
   itemDetailsSubheader: {
     color: 'black',
-    fontWeight: 'bold',
     fontSize: 18,
     textAlign: 'center',
+   fontFamily: 'Nunito_700Bold'
   },
   itemDetailsText: {
     fontSize: 16,
     color: 'black',
     textAlign: 'center',
     marginBottom: 10,
+    fontFamily: 'Nunito_400Regular'
   },
   card: {
     width: '47%',

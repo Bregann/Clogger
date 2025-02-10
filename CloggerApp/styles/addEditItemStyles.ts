@@ -13,6 +13,6 @@ export default StyleSheet.create({
   collectionItemPropertiesHeaderText: {
     marginTop: 30,
     fontSize: 24,
-    fontWeight: 'bold'
+    fontFamily: 'Nunito_700Bold'
   }
 })

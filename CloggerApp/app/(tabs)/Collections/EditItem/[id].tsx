@@ -102,8 +102,8 @@ export default function AddEditItemScreen (): JSX.Element {
           >
             {data.hasImage ? 'Replace Image' : 'Upload Image'}
           </Button>
-          {data.hasImage && <Text style={{ width: '85%' }}>Note: You already have an image uploaded, uploading a new one will replace the old image</Text>}
-          {pickImage.image !== null && <Text>Image Uploaded</Text>}
+          {data.hasImage && <Text style={{ width: '85%', fontFamily: 'Nunito_400Regular' }}>Note: You already have an image uploaded, uploading a new one will replace the old image</Text>}
+          {pickImage.image !== null && <Text style={{ fontFamily: 'Nunito_400Regular' }}>Image Uploaded</Text>}
 
           {customFields.length > 0 &&
             <>

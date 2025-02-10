@@ -11,13 +11,14 @@ export default StyleSheet.create({
     borderRadius: 10
   },
   collectionItemPropertiesHeaderText: {
-    marginTop: 30,
+    marginTop: 20,
     fontSize: 24,
-    fontWeight: 'bold'
+    fontFamily: 'Nunito_700Bold'
   },
   collectionItemPropertiesSubheaderText: {
     width: '90%',
     marginBottom: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Nunito_400Regular'
   }
 })

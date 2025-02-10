@@ -62,7 +62,7 @@ export default function AddEditCollection (): JSX.Element {
         onChangeText={(e) => { setCollectionDescription(e) }}
       />
 
-      <Text style={addEditCollectionStyles.collectionItemPropertiesHeaderText}>Collection item properties</Text>
+      <Text style={addEditCollectionStyles.collectionItemPropertiesHeaderText}>Collection Item Properties</Text>
       <Text style={addEditCollectionStyles.collectionItemPropertiesSubheaderText}>Below you can add custom collection item properties. By default items will only have a name, added added, date modified and notes</Text>
 
       {/* Add in the id's as -1 as they will be set by the API, it knows that -1 is a new id */}

@@ -5,6 +5,10 @@ import { useEffect } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ImagePickerProvider } from '@/context/imagePickerContext'
+import * as SplashScreen from 'expo-splash-screen'
+import { Nunito_400Regular, Nunito_700Bold, Nunito_400Regular_Italic, useFonts } from '@expo-google-fonts/nunito'
+
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout (): JSX.Element {
   const theme = {
@@ -14,8 +18,20 @@ export default function RootLayout (): JSX.Element {
       primary: '#01b6af',
       accent: '#f1c40f',
       secondary: '#f53f2a'
-    }
+    },
   }
+
+  const [loaded, error] = useFonts({
+    Nunito_400Regular,
+    Nunito_700Bold,
+    Nunito_400Regular_Italic
+  })
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync()
+    }
+  }, [loaded, error])
 
   const queryClient = new QueryClient()
 

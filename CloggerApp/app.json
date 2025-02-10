@@ -1,5 +1,6 @@
 {
   "expo": {
+    "assetBundlePatterns": ["**/*"],
     "name": "CloggerApp",
     "slug": "CloggerApp",
     "version": "1.0.0",
@@ -32,11 +33,9 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./assets/fonts/Nunito-Regular.ttf"
-          ]
+          "fonts": ["node_modules/@expo-google-fonts/nunito/Nunito_400Regular.ttf"]
         }
-      ]
+      ],
       "expo-router",
       [
         "expo-splash-screen",

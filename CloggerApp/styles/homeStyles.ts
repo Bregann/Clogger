@@ -37,23 +37,26 @@ export default StyleSheet.create({
   statsHeader: {
     textAlign: 'center',
     fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 10
+    marginTop: 10,
+    fontFamily: 'Nunito_700Bold'
   },
   statsNumber: {
     textAlign: 'center',
     fontSize: 16,
-    marginTop: 5
+    marginTop: 5,
+    fontFamily: 'Nunito_400Regular'
   },
   quickActionsText: {
     textAlign: 'center',
     marginTop: 15,
     marginBottom: 15,
     fontSize: 20,
+    fontFamily: 'Nunito_400Regular'
   },
   yourCollectionsText: {
     fontSize: 28,
     marginTop: 25,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: 'Nunito_400Regular'
   }
 })
