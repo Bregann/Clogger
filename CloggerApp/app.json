@@ -29,6 +29,22 @@
       "backgroundColor": "#e2e3db"
     },
     "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Nunito-Regular.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.9.24"
+          }
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -39,7 +55,8 @@
           "backgroundColor": "#e2e3db"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true

@@ -364,3 +364,4 @@ FodyWeavers.xsd
 retrotrack.web/.env.production
 *.production
 RetroTrack.Infrastructure/DbSettings.cs
+/android

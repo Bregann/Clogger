@@ -15,7 +15,7 @@ export default function HomeScreen (): JSX.Element {
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
       <View>
-        <Text style={globalStyles.headerText}>Welcome back, {data !== undefined && !isLoading ? data.userFirstName : 'Clogger User'}</Text>
+        <Text style={{ fontFamily: 'Nunito-Regular' }}>Welcome back, {data !== undefined && !isLoading ? data.userFirstName : 'Clogger User'}</Text>
         <Text style={globalStyles.subheaderText}>What would you like to do today?</Text>
         {!isLoading && data !== undefined && <View style={homeStyles.boxContainer}>
           <View style={homeStyles.leftBox}>

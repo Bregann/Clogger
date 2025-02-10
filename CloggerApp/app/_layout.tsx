@@ -27,7 +27,6 @@ export default function RootLayout (): JSX.Element {
             <AuthStateWrapper />
           </PaperProvider>
         </ImagePickerProvider>
-
       </AuthProvider>
     </QueryClientProvider>
   )

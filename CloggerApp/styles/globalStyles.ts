@@ -5,12 +5,14 @@ export default StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     backgroundColor: '#e2e3db',
-    paddingTop: '5%'
+    paddingTop: '5%',
+    fontFamily: 'Nunito-Regular'
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#e2e3db'
+    backgroundColor: '#e2e3db',
+    fontFamily: 'Nunito-Regular'
   },
   headerText: {
     color: 'black',
