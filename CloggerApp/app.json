@@ -36,15 +36,7 @@
             "./assets/fonts/Nunito-Regular.ttf"
           ]
         }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "1.9.24"
-          }
-        }
-      ],
+      ]
       "expo-router",
       [
         "expo-splash-screen",
