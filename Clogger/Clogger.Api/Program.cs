@@ -47,19 +47,15 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Setup the database
-if (builder.Environment.IsDevelopment())
-{
+#if DEBUG
     builder.Services.AddDbContext<AppDbContext>(options => options
                                                             .UseLazyLoadingProxies()
                                                             .UseSqlite("Data Source=" + Directory.GetCurrentDirectory() + "/application.db"));
-}
-else
-{
-    builder.Services.AddDbContext<AppDbContext>(options => options
-                                                            .UseLazyLoadingProxies()
-                                                            .UseNpgsql(Environment.GetEnvironmentVariable("CloggerConnStringLive")));
-}
+#else
+builder.Services.AddDbContext<AppDbContext>(options => options
+                                                        .UseLazyLoadingProxies()
+                                                        .UseNpgsql(Environment.GetEnvironmentVariable("CloggerConnStringLive")));
+#endif
 
 // Add in identity
 builder.Services.AddAuthorization();
@@ -82,22 +78,22 @@ var app = builder.Build();
 
 app.UseCors("AllowAll");
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+#if DEBUG
+// Seed the database
+using (var scope = app.Services.CreateScope())
 {
-    // Seed the database
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetService<AppDbContext>()!;
-        var settingsHelper = scope.ServiceProvider.GetRequiredService<IEnvironmentalSettingHelper>();
+    var dbContext = scope.ServiceProvider.GetService<AppDbContext>()!;
+    var settingsHelper = scope.ServiceProvider.GetRequiredService<IEnvironmentalSettingHelper>();
 
-        if (dbContext.Database.GetPendingMigrations().Any())
-        {
-            await dbContext.Database.MigrateAsync();
-            await DatabaseSeedHelper.SeedDatabase(dbContext, settingsHelper, scope.ServiceProvider);
-        }
+    if (dbContext.Database.GetPendingMigrations().Any())
+    {
+        await dbContext.Database.MigrateAsync();
+        await DatabaseSeedHelper.SeedDatabase(dbContext, settingsHelper, scope.ServiceProvider);
     }
 }
+#endif
+
+// Configure the HTTP request pipeline.
 
 app.UseSwagger();
 app.UseSwaggerUI();

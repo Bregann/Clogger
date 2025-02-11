@@ -86,7 +86,7 @@ namespace Clogger.Domain.Data.Services
 
             if (image != null)
             {
-                imageName = await SaveImage(image);
+                imageName = await SaveImage(image, userId);
             }
 
             var item = new Database.Models.CollectionItem
@@ -95,8 +95,8 @@ namespace Clogger.Domain.Data.Services
                 ItemName = itemName,
                 ItemDescription = itemDescription ?? "",
                 PictureUrl = string.IsNullOrEmpty(imageName) ? null : imageName,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 UserId = userId
             };
 
@@ -175,11 +175,11 @@ namespace Clogger.Domain.Data.Services
 
             if (image != null)
             {
-                var imageName = await SaveImage(image);
+                var imageName = await SaveImage(image, userId);
                 item.PictureUrl = imageName;
             }
 
-            item.UpdatedAt = DateTime.Now;
+            item.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
             if (customFields != null)
@@ -225,7 +225,7 @@ namespace Clogger.Domain.Data.Services
             }
         }
 
-        private static async Task<string> SaveImage(IFormFile image)
+        private static async Task<string> SaveImage(IFormFile image, string userId)
         {
             var imageName = "";
             imageName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);

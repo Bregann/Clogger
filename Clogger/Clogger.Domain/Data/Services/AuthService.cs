@@ -88,7 +88,7 @@ namespace Clogger.Domain.Data.Services
                 throw new KeyNotFoundException("Token not found");
             }
 
-            if (refreshToken.ExpiresAt < DateTime.Now)
+            if (refreshToken.ExpiresAt < DateTime.UtcNow)
             {
                 Log.Information($"Token expired for user {refreshToken.UserId}");
                 throw new UnauthorizedAccessException("Refresh token expired");
@@ -134,7 +134,7 @@ namespace Clogger.Domain.Data.Services
                 issuer: Environment.GetEnvironmentVariable("JwtValidIssuer"),
                 audience: Environment.GetEnvironmentVariable("JwtValidAudience"),
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -151,7 +151,7 @@ namespace Clogger.Domain.Data.Services
             {
                 Token = token,
                 UserId = userId,
-                ExpiresAt = DateTime.Now.AddDays(7)
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
             };
 
             _context.UserRefreshTokens.Add(refreshToken);

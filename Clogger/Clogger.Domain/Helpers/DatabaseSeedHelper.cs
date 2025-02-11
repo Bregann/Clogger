@@ -60,8 +60,8 @@ namespace Clogger.Domain.Helpers
                 CollectionId = collection1.Id,
                 ItemName = "Charizard",
                 ItemDescription = "Charizard from base set",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 UserId = testUser.Id
             });
 
@@ -70,8 +70,8 @@ namespace Clogger.Domain.Helpers
                 CollectionId = collection1.Id,
                 ItemName = "Blastoise",
                 ItemDescription = "Blastoise from base set",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 UserId = testUser.Id
             });
 

@@ -24,4 +24,14 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Database\Migrations\" />
+  </ItemGroup>
+<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+	<EFMigrationPath>Data/Database/Migrations/Sqlite</EFMigrationPath>
+</PropertyGroup>
+
+<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+	<EFMigrationPath>Data/Database/Migrations/Postgresql</EFMigrationPath>
+</PropertyGroup>
 </Project>
