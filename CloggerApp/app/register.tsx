@@ -1,5 +1,6 @@
 import { useAuth } from '@/context/authContext'
 import { noAuthApiClient } from '@/helpers/apiClient'
+import globalStyles from '@/styles/globalStyles'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
@@ -28,7 +29,7 @@ export default function RegisterScreen (): JSX.Element {
       setErrorMsg('There has been an error trying to create your account. Please double check your credentials and try again')
       return
     } else {
-      const result = await auth.attemptLogin(email, password)
+      const result = await auth.attemptLogin(username, password)
 
       // they would be registered but an error logging in so we can just send them to the login page
       if (!result) {
@@ -39,9 +40,9 @@ export default function RegisterScreen (): JSX.Element {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>Create an Account</Text>
-      <Text style={styles.subheaderText}>You will need to create an account to use Clogger</Text>
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.headerText}>Create an Account</Text>
+      <Text style={globalStyles.subheaderText}>You will need to create an account to use Clogger</Text>
       <TextInput
         label={'Username'}
         style={{ width: '80%', marginBottom: 20 }}
@@ -74,11 +75,11 @@ export default function RegisterScreen (): JSX.Element {
         outlineColor={theme.colors.primary}
         right={<TextInput.Icon onPress={() => { setSecureTextEntry(!secureTextEntry) }} icon="eye" />}
       />
-      <Text style={{ fontSize: 20, marginTop: 10 }}>Password requirements:</Text>
-      <Text style={{ color: password.length >= 8 ? 'green' : 'red' }}>At least 8 characters</Text>
-      <Text style={{ color: /[A-Z]/.test(password) ? 'green' : 'red' }}>At least 1 uppercase letter</Text>
-      <Text style={{ color: /\d/.test(password) ? 'green' : 'red' }}>At least 1 number</Text>
-      <Text style={{ color: /[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'green' : 'red' }}>A special character</Text>
+      <Text style={{ fontSize: 20, marginTop: 10, fontFamily: 'Nunito_400Regular' }}>Password requirements:</Text>
+      <Text style={{ color: password.length >= 8 ? 'green' : 'red', fontFamily: 'Nunito_400Regular' }}>At least 8 characters</Text>
+      <Text style={{ color: /[A-Z]/.test(password) ? 'green' : 'red', fontFamily: 'Nunito_400Regular' }}>At least 1 uppercase letter</Text>
+      <Text style={{ color: /\d/.test(password) ? 'green' : 'red', fontFamily: 'Nunito_400Regular' }}>At least 1 number</Text>
+      <Text style={{ color: /[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'green' : 'red', fontFamily: 'Nunito_400Regular' }}>A special character</Text>
       <Button
         mode="elevated"
         style={styles.loginButton}
@@ -114,19 +115,6 @@ export default function RegisterScreen (): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    top: '10%'
-  },
-  headerText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  subheaderText: {
-    marginBottom: 30,
-    fontSize: 14,
-  },
   loginButton: {
     marginTop: 20,
     padding: 3

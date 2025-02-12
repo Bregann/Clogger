@@ -1,4 +1,4 @@
-﻿using Clogger.Domain.Data.Database;
+﻿using Clogger.Domain.Data.Database.Context;
 using Clogger.Domain.Data.Database.Models;
 using Clogger.Domain.DTOs.Auth.Requests;
 using Clogger.Domain.DTOs.Auth.Response;
@@ -36,6 +36,7 @@ namespace Clogger.Domain.Data.Services
             {
                 Username = request.Username.ToLower().Trim(),
                 FirstName = request.FirstName.Trim(),
+                Email = request.Email.Trim(),
                 PasswordHash = _passwordHasher.HashPassword(new User(), request.Password.Trim())
             };
 

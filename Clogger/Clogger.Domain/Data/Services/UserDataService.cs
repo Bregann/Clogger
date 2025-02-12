@@ -1,4 +1,4 @@
-﻿using Clogger.Domain.Data.Database;
+﻿using Clogger.Domain.Data.Database.Context;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.EntityFrameworkCore;
 

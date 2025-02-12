@@ -4,6 +4,7 @@ using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Data;
 
 namespace Clogger.Api.Controllers
@@ -21,9 +22,16 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUserId();
 
-            var result = await _collectionService.GetCollections(user);
-
-            return Ok(result);
+            try
+            {
+                var result = await _collectionService.GetCollections(user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Error attempting to get collections");
+                return BadRequest();
+            }
         }
 
         [HttpGet("{collectionId}")]
@@ -36,8 +44,14 @@ namespace Clogger.Api.Controllers
                 var result = await _collectionService.GetCollectionItems(user, collectionId);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error attempting to get collection items");
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                Log.Warning(ex, "Unknown error attempting to get collection items");
                 return BadRequest();
             }
         }
@@ -52,9 +66,15 @@ namespace Clogger.Api.Controllers
                 var result = await _collectionService.GetEditCollectionData(user, collectionId);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error attempting to get edit collection data");
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error attempting to get edit collection data");
+                return BadRequest();
             }
         }
 
@@ -68,9 +88,15 @@ namespace Clogger.Api.Controllers
                 var collectionId = await _collectionService.AddNewCollection(user, dto);
                 return Ok(collectionId);
             }
-            catch (DuplicateNameException)
+            catch (DuplicateNameException ex)
             {
+                Log.Warning(ex, "Error attempting to add new collection");
                 return Conflict();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error attempting to add new collection");
+                return BadRequest();
             }
         }
 
@@ -84,13 +110,20 @@ namespace Clogger.Api.Controllers
                 await _collectionService.SaveCollectionChanges(user, dto);
                 return Ok();
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error attempting to save collection changes");
                 return NotFound();
             }
-            catch (DuplicateNameException)
+            catch (DuplicateNameException ex)
             {
+                Log.Warning(ex, "Error attempting to save collection changes");
                 return Conflict();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error attempting to save collection changes");
+                return BadRequest();
             }
         }
 
@@ -100,8 +133,16 @@ namespace Clogger.Api.Controllers
         {
             var user = _userContextHelper.GetUserId();
 
-            var result = await _collectionService.GetCollectionDropdownValues(user);
-            return Ok(result);
+            try
+            {
+                var result = await _collectionService.GetCollectionDropdownValues(user);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Error attempting to get collection dropdown values");
+                return BadRequest();
+            }
         }
 
         [HttpGet("{collectionId}")]
@@ -114,9 +155,15 @@ namespace Clogger.Api.Controllers
                 var result = await _collectionService.GetCustomCollectionFields(user, collectionId);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error attempting to get custom collection fields");
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error attempting to get custom collection fields");
+                return BadRequest();
             }
         }
     }

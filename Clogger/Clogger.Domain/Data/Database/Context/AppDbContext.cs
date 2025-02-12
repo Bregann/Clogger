@@ -1,14 +1,11 @@
 ﻿using Clogger.Domain.Data.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Clogger.Domain.Data.Database
+namespace Clogger.Domain.Data.Database.Context
 {
-    public class AppDbContext : DbContext
+    public partial class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
-
+        public AppDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; } = null!;

@@ -1,4 +1,4 @@
-﻿using Clogger.Domain.Data.Database;
+﻿using Clogger.Domain.Data.Database.Context;
 using Clogger.Domain.Data.Database.Models;
 using Clogger.Domain.DTOs.Collections.Requests;
 using Clogger.Domain.DTOs.Collections.Responses;

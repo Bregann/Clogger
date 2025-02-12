@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { TextInput, Button, useTheme } from 'react-native-paper'
 import styles from '@/styles/indexStyles'
+import globalStyles from '@/styles/globalStyles'
 
 export default function Index (): JSX.Element {
   const auth = useAuth()
@@ -30,15 +31,15 @@ export default function Index (): JSX.Element {
 
   return (
     <View
-      style={styles.container}
+      style={globalStyles.container}
     >
       <Image
         style={styles.logo}
         source={require('@/assets/images/icon.png')}
       />
 
-      <Text style={styles.headerText}>Welcome to Clogger</Text>
-      <Text style={styles.subheaderText}>The ultimate collection logging app</Text>
+      <Text style={globalStyles.headerText}>Welcome to Clogger</Text>
+      <Text style={globalStyles.subheaderText}>The ultimate collection logging app</Text>
       <TextInput
         label={'Username'}
         style={{ width: '80%', marginBottom: 20 }}
@@ -56,7 +57,7 @@ export default function Index (): JSX.Element {
         passwordRules={'minlength: 8; required: lower; required: upper; required: digit;'}
       />
 
-      <Text style={{ color: 'red', marginTop: 5 }}>{errorMsg}</Text>
+      <Text style={{ color: 'red', marginTop: 5, fontFamily: 'Nunito_400Regular' }}>{errorMsg}</Text>
 
       <Button
         mode="elevated"
@@ -69,7 +70,7 @@ export default function Index (): JSX.Element {
         Login
       </Button>
 
-      <Text style={{ marginTop: 20, marginBottom: 5 }}>New here?</Text>
+      <Text style={{ marginTop: 20, marginBottom: 5, fontFamily: 'Nunito_400Regular' }}>New here?</Text>
 
       <Button
         mode="elevated"

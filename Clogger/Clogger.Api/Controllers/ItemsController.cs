@@ -4,6 +4,7 @@ using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Clogger.Api.Controllers
 {
@@ -25,9 +26,15 @@ namespace Clogger.Api.Controllers
                 var result = await _itemsService.GetItem(itemId, user);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error getting item");
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error getting item");
+                return BadRequest();
             }
         }
 
@@ -42,8 +49,14 @@ namespace Clogger.Api.Controllers
 
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error adding item");
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error adding item");
                 return BadRequest();
             }
         }
@@ -58,9 +71,15 @@ namespace Clogger.Api.Controllers
                 var result = await _itemsService.GetEditItemProperties(itemId, user);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error getting edit item properties");
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error getting edit item properties");
+                return BadRequest();
             }
         }
 
@@ -74,9 +93,15 @@ namespace Clogger.Api.Controllers
                 var result = await _itemsService.SaveItemChanges(image, itemId, itemName, itemDescription, customField, user);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error saving item changes");
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error saving item changes");
+                return BadRequest();
             }
         }
 
@@ -90,9 +115,15 @@ namespace Clogger.Api.Controllers
                 await _itemsService.DeleteItem(itemId, user);
                 return Ok();
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error deleting item");
                 return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error deleting item");
+                return BadRequest();
             }
         }
     }

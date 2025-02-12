@@ -1,4 +1,5 @@
 using Clogger.Domain.Data.Database;
+using Clogger.Domain.Data.Database.Context;
 using Clogger.Domain.Data.Services;
 using Clogger.Domain.Helpers;
 using Clogger.Domain.Interfaces.Api;
@@ -48,13 +49,15 @@ builder.Services.AddCors(options =>
 });
 
 #if DEBUG
-    builder.Services.AddDbContext<AppDbContext>(options => options
-                                                            .UseLazyLoadingProxies()
-                                                            .UseSqlite("Data Source=" + Directory.GetCurrentDirectory() + "/application.db"));
+builder.Services.AddDbContext<SqliteContext>(options =>
+    options.UseLazyLoadingProxies()
+           .UseSqlite($"Data Source={Directory.GetCurrentDirectory()}/application.db"));
+builder.Services.AddScoped<AppDbContext>(provider => provider.GetService<SqliteContext>());
 #else
-builder.Services.AddDbContext<AppDbContext>(options => options
-                                                        .UseLazyLoadingProxies()
-                                                        .UseNpgsql(Environment.GetEnvironmentVariable("CloggerConnStringLive")));
+builder.Services.AddDbContext<PostgresqlContext>(options =>
+    options.UseLazyLoadingProxies()
+           .UseNpgsql(Environment.GetEnvironmentVariable("CloggerConnStringLive")));
+builder.Services.AddScoped<AppDbContext>(provider => provider.GetService<PostgresqlContext>());
 #endif
 
 // Add in identity

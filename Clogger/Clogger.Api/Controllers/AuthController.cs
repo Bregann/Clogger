@@ -2,6 +2,7 @@
 using Clogger.Domain.DTOs.Auth.Response;
 using Clogger.Domain.Interfaces.Api;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Data;
 
 namespace Clogger.Api.Controllers
@@ -21,7 +22,13 @@ namespace Clogger.Api.Controllers
             }
             catch (DuplicateNameException ex)
             {
+                Log.Warning(ex, "Error attempting to register user");
                 return BadRequest(ex.Message);
+            }
+            catch(Exception ex)
+            {
+                Log.Fatal(ex, "Unknown error attempting to register user");
+                return BadRequest();
             }
 
             return Ok();
@@ -37,11 +44,18 @@ namespace Clogger.Api.Controllers
             }
             catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error attempting to login user");
                 return Unauthorized(ex.Message);
             }
             catch (UnauthorizedAccessException ex)
             {
+                Log.Warning(ex, "Error attempting to login user");
                 return Unauthorized(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Unknown error attempting to login user");
+                return BadRequest();
             }
         }
 
@@ -55,7 +69,13 @@ namespace Clogger.Api.Controllers
             }
             catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error attempting to refresh token");
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Unknown error attempting to refresh token");
+                return BadRequest();
             }
         }
     }

@@ -3,6 +3,7 @@ using Clogger.Domain.Interfaces.Api;
 using Clogger.Domain.Interfaces.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Clogger.Api.Controllers
 {
@@ -23,8 +24,14 @@ namespace Clogger.Api.Controllers
                 var result = await _searchService.Search(searchTerm.Trim().ToLower(), user);
                 return Ok(result);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
+                Log.Warning(ex, "Error searching");
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unknown error searching");
                 return BadRequest();
             }
         }
