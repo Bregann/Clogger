@@ -8,7 +8,7 @@ const authApiClient = axios.create({
 })
 
 const noAuthApiClient = axios.create({
-  baseURL: Constants.expoConfig?.extra?.ApiUrl || '',
+  baseURL: __DEV__ ? 'http://192.168.1.1:5053' : Constants.expoConfig?.extra?.ApiUrl || '',
   validateStatus (status) {
     return status < 500
   },
@@ -28,9 +28,6 @@ authApiClient.interceptors.request.use(async (config) => {
 authApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log('hellooooooo')
-    console.log(error.response)
-    console.log(error.response.status)
     // don't bother to try and retry with a 500 error
     if (error.response.status >= 500) {
       return Promise.reject(error)

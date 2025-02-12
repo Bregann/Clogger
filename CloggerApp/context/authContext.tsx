@@ -46,6 +46,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false
     } else {
       setIsAuthenticated(true)
+      console.log(response.data.accessToken)
+      console.log(response.data.refreshToken)
       keychainHelper.setAccessToken(response.data.accessToken)
       keychainHelper.setRefreshToken(response.data.refreshToken)
       router.replace('/home')
