@@ -36,7 +36,7 @@ export default function AddEditCollection (): JSX.Element {
   }
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <Text style={globalStyles.headerText}>Add New Collection</Text>
       <Text style={globalStyles.subheaderText}>Add a new collection to your list</Text>
 

@@ -10,7 +10,13 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
 
-Log.Logger = new LoggerConfiguration().WriteTo.Async(x => x.File("/app/Logs/log.log", retainedFileCountLimit: 7, rollingInterval: RollingInterval.Day)).WriteTo.Console().CreateLogger();
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Async(x => x.File("/app/Logs/log.log", retainedFileCountLimit: 7, rollingInterval: RollingInterval.Day))
+    .WriteTo.Console()
+    .Enrich.WithProperty("Application", "Clogger-Api" + (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" ? "-Test" : ""))
+    .WriteTo.Seq("http://192.168.1.20:5341")
+    .CreateLogger();
+
 Log.Information("Logger Setup");
 
 var builder = WebApplication.CreateBuilder(args);

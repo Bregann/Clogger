@@ -15,7 +15,7 @@ export default function CollectionItemListScreen (): JSX.Element {
   const { data, isLoading, isError } = useCollectionItems(parseInt(id))
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       {data !== undefined && !isLoading &&
         <>
           <Button mode="contained" style={collectionItemListStyles.editButton} onPress={() => { router.push({ pathname: '/(tabs)/Collections/EditCollection/[id]', params: { id } }) }}>Edit Collection</Button>
@@ -31,7 +31,7 @@ export default function CollectionItemListScreen (): JSX.Element {
             />
           </View>
           <View style={[globalStyles.rowContainer, { marginBottom: 20 }]}>
-            <Button mode="contained" style={{ marginRight: 10 }}>Add Item</Button>
+            <Button mode="contained" style={{ marginRight: 10 }} onPress={() => { router.push({ pathname: '/(tabs)/Collections/AddItem/[collectionId]', params: { collectionId: id } }) }}>Add Item</Button>
           </View>
           {(searchQuery === '' ? data.collectionItems : data.collectionItems.filter(x => x.itemName === searchQuery || x.itemDescription === searchQuery))
           .map((item) => {

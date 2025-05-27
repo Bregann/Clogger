@@ -13,7 +13,7 @@ export default function CollectionsScreen (): JSX.Element {
   const { data, isLoading, isError } = useCollections()
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <View>
         <Text style={globalStyles.headerText}>Collections</Text>
         <Text style={globalStyles.subheaderText}>Look at all those items!</Text>

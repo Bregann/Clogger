@@ -69,7 +69,7 @@ export default function AddEditItemScreen (): JSX.Element {
   }
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       {isLoading && <Text>Loading item...</Text>}
       {isError && <Text>{error.message}</Text>}
       {data !== undefined && !isLoading &&

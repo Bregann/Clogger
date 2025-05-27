@@ -45,7 +45,7 @@ namespace Clogger.Domain.Data.Services
                 Id = collection.Id,
                 CollectionName = collection.CollectionName,
                 CollectionDescription = collection.Description,
-                CollectionItems = collection.CollectionItems.Select(x => new CollectionItem
+                CollectionItems = collection.CollectionItems.OrderBy(x => x.ItemName).Select(x => new CollectionItem
                 {
                     Id = x.Id,
                     ItemName = x.ItemName,

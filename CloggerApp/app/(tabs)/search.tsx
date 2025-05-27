@@ -13,7 +13,7 @@ export default function HomeScreen (): JSX.Element {
   const router = useRouter()
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <View>
         <Text style={globalStyles.headerText}>Search</Text>
         <Text style={globalStyles.subheaderText}>Search your collections and items</Text>

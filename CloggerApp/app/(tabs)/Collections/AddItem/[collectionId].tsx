@@ -18,6 +18,7 @@ export default function AddEditItemScreen (): JSX.Element {
   const [customFieldData, setCustomFieldData] = useState<CustomFieldData[]>([])
   const [itemName, setItemName] = useState('')
   const [itemDescription, setItemDescription] = useState('')
+  const [addItemPressed, setAddItemPressed] = useState(false)
 
   const pickImage = useImagePicker()
 
@@ -27,6 +28,7 @@ export default function AddEditItemScreen (): JSX.Element {
         pickImage.resetImage()
         setItemName('')
         setItemDescription('')
+        setAddItemPressed(false)
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -54,6 +56,7 @@ export default function AddEditItemScreen (): JSX.Element {
   }
 
   const addItem = async (): Promise<void> => {
+    setAddItemPressed(true)
     if (currentCollectionId === -1) {
       return
     }
@@ -67,6 +70,8 @@ export default function AddEditItemScreen (): JSX.Element {
       itemDescription,
       customFieldData: customFieldData
     })
+
+    setAddItemPressed(false)
   }
 
   useEffect(() => {
@@ -74,7 +79,7 @@ export default function AddEditItemScreen (): JSX.Element {
   }, [currentCollectionId])
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <Text style={globalStyles.headerText}>Add New Item</Text>
       <Text style={globalStyles.subheaderText}>Add a new item to your collection</Text>
 
@@ -135,7 +140,7 @@ export default function AddEditItemScreen (): JSX.Element {
         mode="contained"
         style={{ marginTop: 20 }}
         onPress={async () => { await addItem() }}
-        disabled={currentCollectionId === -1 || itemName === '' || itemDescription === ''}
+        disabled={currentCollectionId === -1 || itemName === '' || itemDescription === '' || addItemPressed}
       >
         Add Item
       </Button>

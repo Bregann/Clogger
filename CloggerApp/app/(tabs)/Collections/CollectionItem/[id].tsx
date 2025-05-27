@@ -14,7 +14,7 @@ export default function CollectionItemListScreen (): JSX.Element {
   const { data, isLoading, isError } = useItem(parseInt(id))
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       {isLoading && <Text>Loading item...</Text>}
       {isError && <Text>An error occurred while fetching item</Text>}
       {data !== undefined && !isLoading && (

@@ -7,6 +7,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: '90%',
     marginTop: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   leftBox: {
     width: '48%',

@@ -37,7 +37,7 @@ export default function AddEditCollection (): JSX.Element {
   }
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <Button mode="contained" style={addEditCollectionStyles.addEditButton} onPress={async () => { await saveChanges() }}>Save Changes</Button>
       <Text style={globalStyles.headerText}>Editing Collection {collectionName}</Text>
       <Text style={globalStyles.subheaderText}>Edit the collection details</Text>

@@ -13,7 +13,7 @@ export default function HomeScreen (): JSX.Element {
   const { data: collectionsData, isLoading: collectionsIsLoading, isError: collectionsIsError } = useCollections()
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <View>
         <Text style={globalStyles.headerText}>Welcome back, {data !== undefined && !isLoading ? data.userFirstName : 'Clogger User'}</Text>
         <Text style={globalStyles.subheaderText}>What would you like to do today?</Text>
