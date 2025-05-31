@@ -73,7 +73,7 @@ const AuthStateWrapper = (): JSX.Element => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="index" /> {/* This is your login screen */}
+      <Stack.Screen name="index" />
 
       <Stack.Protected guard={isAuthenticated}>
         <Stack.Screen name="(tabs)" />

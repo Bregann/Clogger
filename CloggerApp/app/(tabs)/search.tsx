@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, Text, View } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import globalStyles from '@/styles/globalStyles'
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 import searchStyles from '@/styles/searchStyles'
 import { useSearch } from '@/hooks/useSearch'
 import React from 'react'

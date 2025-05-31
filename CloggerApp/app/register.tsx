@@ -2,7 +2,7 @@ import { useAuth } from '@/context/authContext'
 import { noAuthApiClient } from '@/helpers/apiClient'
 import globalStyles from '@/styles/globalStyles'
 import { useRouter } from 'expo-router'
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
@@ -40,7 +40,8 @@ export default function RegisterScreen (): JSX.Element {
   }
 
   return (
-    <View style={globalStyles.container}>
+    <View style={[globalStyles.container, { paddingTop: '20%' }]}
+    >
       <Text style={globalStyles.headerText}>Create an Account</Text>
       <Text style={globalStyles.subheaderText}>You will need to create an account to use Clogger</Text>
       <TextInput

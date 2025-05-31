@@ -6,6 +6,7 @@ import globalStyles from '@/styles/globalStyles'
 import { useRouter } from 'expo-router'
 import { useHome } from '@/hooks/useHome'
 import { useCollections } from '@/hooks/Collections/useCollections'
+import { JSX } from 'react'
 
 export default function HomeScreen (): JSX.Element {
   const router = useRouter()

@@ -1,5 +1,5 @@
 import globalStyles from '@/styles/globalStyles'
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 import { Text, View, ScrollView, Pressable } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import collectionStyles from '@/styles/collectionsStyles'
