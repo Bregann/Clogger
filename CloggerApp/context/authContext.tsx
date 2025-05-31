@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 type ContextType = {
-  isAuthenticated: boolean
+  isAuthenticated: boolean | null // null = loading
   logOut: () => Promise<void>
   checkAuthStatus: () => void
   attemptLogin: (email: string, password: string) => Promise<boolean>
@@ -22,11 +22,12 @@ export const useAuth = (): ContextType => {
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null) // null = loading
   const router = useRouter()
 
   const checkAuthStatus = async (): Promise<void> => {
     const accessToken = await keychainHelper.getAccessToken()
+    console.log(accessToken ?? 'is null')
     setIsAuthenticated(accessToken !== null)
   }
 
@@ -51,6 +52,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       keychainHelper.setAccessToken(response.data.accessToken)
       keychainHelper.setRefreshToken(response.data.refreshToken)
       router.replace('/home')
+      console.log('hitting')
+      console.log(isAuthenticated)
     }
 
     return true

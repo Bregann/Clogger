@@ -1,12 +1,12 @@
 import { AuthProvider, useAuth } from '@/context/authContext'
-import { useRouter } from 'expo-router'
 import { Stack } from 'expo-router/stack'
-import { useEffect } from 'react'
+import { JSX, useEffect } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ImagePickerProvider } from '@/context/imagePickerContext'
 import * as SplashScreen from 'expo-splash-screen'
 import { Nunito_400Regular, Nunito_700Bold, Nunito_400Regular_Italic, useFonts } from '@expo-google-fonts/nunito'
+import { useRouter } from 'expo-router'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -53,42 +53,31 @@ const AuthStateWrapper = (): JSX.Element => {
   const router = useRouter()
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated === false) {
+      router.push('/')
+    } else if (isAuthenticated === true) {
       router.replace('/home')
-    } else {
-      router.replace('/')
     }
-
   }, [isAuthenticated, router])
 
-  if (isAuthenticated) {
-    return (
-      <Stack
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: '#e2e3db',
-          },
-          headerShown: false
-        }}
-      >
-        <Stack.Screen
-          name="(tabs)"
-          options={{ headerShown: false, contentStyle: { backgroundColor: '#e2e3db' } }}
-        />
-      </Stack>
-    )
-  } else {
-    return (
-      <Stack
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: '#e2e3db',
-          },
-          headerShown: false
-        }}
-      />
-    )
+  if (isAuthenticated === null) {
+    return <Stack />
   }
 
+  return (
+    <Stack
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: '#e2e3db',
+        },
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="index" /> {/* This is your login screen */}
 
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(tabs)" />
+      </Stack.Protected>
+    </Stack>
+  )
 }
