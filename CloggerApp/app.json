@@ -1,6 +1,8 @@
 {
   "expo": {
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "name": "CloggerApp",
     "slug": "CloggerApp",
     "version": "1.0.0",
@@ -8,7 +10,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -19,21 +20,13 @@
       },
       "package": "com.bregan.CloggerApp"
     },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#e2e3db"
-    },
     "plugins": [
       [
         "expo-font",
         {
-          "fonts": ["node_modules/@expo-google-fonts/nunito/Nunito_400Regular.ttf"]
+          "fonts": [
+            "node_modules/@expo-google-fonts/nunito/Nunito_400Regular.ttf"
+          ]
         }
       ],
       "expo-router",
@@ -47,7 +40,10 @@
         }
       ],
       "expo-secure-store",
-      "expo-build-properties"
+      "expo-build-properties",
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
