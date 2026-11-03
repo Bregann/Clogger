@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Text, ScrollView, Alert } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
-export default function AddEditItemScreen (): JSX.Element {
+export default function AddEditItemScreen (): React.JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
   const theme = useTheme()
   const pickImage = useImagePicker()

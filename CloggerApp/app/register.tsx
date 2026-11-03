@@ -6,7 +6,7 @@ import { JSX, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
-export default function RegisterScreen (): JSX.Element {
+export default function RegisterScreen (): React.JSX.Element {
   const theme = useTheme()
   const router = useRouter()
   const auth = useAuth()

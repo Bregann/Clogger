@@ -7,7 +7,7 @@ import { TextInput, Button, useTheme } from 'react-native-paper'
 import styles from '@/styles/indexStyles'
 import globalStyles from '@/styles/globalStyles'
 
-export default function Index (): JSX.Element {
+export default function Index (): React.JSX.Element {
   const auth = useAuth()
   const router = useRouter()
   const theme = useTheme()

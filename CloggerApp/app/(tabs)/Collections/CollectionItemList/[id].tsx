@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { View, Text, ScrollView, Pressable } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 
-export default function CollectionItemListScreen (): JSX.Element {
+export default function CollectionItemListScreen (): React.JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()

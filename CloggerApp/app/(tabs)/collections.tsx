@@ -6,7 +6,7 @@ import collectionStyles from '@/styles/collectionsStyles'
 import { useRouter } from 'expo-router'
 import { useCollections } from '@/hooks/Collections/useCollections'
 
-export default function CollectionsScreen (): JSX.Element {
+export default function CollectionsScreen (): React.JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
 

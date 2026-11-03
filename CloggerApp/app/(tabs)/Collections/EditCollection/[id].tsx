@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { Text, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 
-export default function AddEditCollection (): JSX.Element {
+export default function AddEditCollection (): React.JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
 
   const { data, isLoading, isError } = useGetEditCollectionData(parseInt(id))

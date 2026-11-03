@@ -7,7 +7,7 @@ import { Image } from 'expo-image'
 import { useItem } from '@/hooks/Items/useItem'
 import React from 'react'
 
-export default function CollectionItemListScreen (): JSX.Element {
+export default function CollectionItemListScreen (): React.JSX.Element {
   const { id } = useLocalSearchParams<{ id: string }>()
   const router = useRouter()
 
