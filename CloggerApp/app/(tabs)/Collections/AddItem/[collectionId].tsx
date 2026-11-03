@@ -10,7 +10,7 @@ import { Dropdown } from 'react-native-paper-dropdown'
 import { CustomFieldData, useAddItem } from '@/hooks/Items/useAddItem'
 import { useImagePicker } from '@/context/imagePickerContext'
 
-export default function AddEditItemScreen (): JSX.Element {
+export default function AddEditItemScreen (): React.JSX.Element {
   // -1 = no collection otherwise it will be the collection id
   const { collectionId } = useLocalSearchParams<{ collectionId: string }>()
 

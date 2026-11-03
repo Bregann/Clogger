@@ -7,7 +7,7 @@ import { useSearch } from '@/hooks/useSearch'
 import React from 'react'
 import { useRouter } from 'expo-router'
 
-export default function HomeScreen (): JSX.Element {
+export default function HomeScreen (): React.JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
   const searchData = useSearch(searchQuery)
   const router = useRouter()

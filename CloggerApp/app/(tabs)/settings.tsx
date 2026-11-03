@@ -4,7 +4,7 @@ import { JSX, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper'
 
-export default function HomeScreen (): JSX.Element {
+export default function HomeScreen (): React.JSX.Element {
   const auth = useAuth()
   const [refreshToken, setRefreshToken] = useState<string | null>(null)
   const [refreshToken2, setRefreshToken2] = useState<string | null>(null)

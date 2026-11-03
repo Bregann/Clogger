@@ -4,7 +4,7 @@ import { Tabs } from 'expo-router'
 import { JSX } from 'react'
 import { useTheme } from 'react-native-paper'
 
-export default function TabLayout (): JSX.Element {
+export default function TabLayout (): React.JSX.Element {
   const theme = useTheme()
 
   return (

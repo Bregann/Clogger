@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react'
 import { Text, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 
-export default function AddEditCollection (): JSX.Element {
+export default function AddEditCollection (): React.JSX.Element {
   const [collectionName, setCollectionName] = useState('')
   const [collectionDescription, setCollectionDescription] = useState('')
   const [customFieldNames, setCustomFieldNames] = useState<string[]>([])

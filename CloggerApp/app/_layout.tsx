@@ -10,7 +10,7 @@ import { useRouter } from 'expo-router'
 
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout (): JSX.Element {
+export default function RootLayout (): React.JSX.Element {
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -48,7 +48,7 @@ export default function RootLayout (): JSX.Element {
   )
 }
 
-const AuthStateWrapper = (): JSX.Element => {
+const AuthStateWrapper = (): React.JSX.Element => {
   const { isAuthenticated } = useAuth()
   const router = useRouter()
 
