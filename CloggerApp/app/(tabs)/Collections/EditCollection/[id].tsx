@@ -3,7 +3,7 @@ import { SaveCollectionChangesRequest, useSaveCollectionChanges } from '@/hooks/
 import addEditCollectionStyles from '@/styles/addEditCollectionStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useLocalSearchParams } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Text, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 
@@ -17,13 +17,14 @@ export default function AddEditCollection (): React.JSX.Element {
   const [collectionDescription, setCollectionDescription] = useState('')
   const [customFieldNames, setCustomFieldNames] = useState<CustomFieldName[]>([])
 
-  useEffect(() => {
-    if (data !== undefined && !isLoading) {
-      setCollectionName(data.collectionName)
-      setCollectionDescription(data.collectionDescription)
-      setCustomFieldNames(data.customFieldNames)
-    }
-  }, [data, isLoading])
+  // Sync local form state when fresh data arrives (adjusting state during render rather than in an effect)
+  const [loadedData, setLoadedData] = useState<typeof data>(undefined)
+  if (data !== undefined && !isLoading && data !== loadedData) {
+    setLoadedData(data)
+    setCollectionName(data.collectionName)
+    setCollectionDescription(data.collectionDescription)
+    setCustomFieldNames(data.customFieldNames)
+  }
 
   const saveChanges = async (): Promise<void> => {
     const dto: SaveCollectionChangesRequest = {

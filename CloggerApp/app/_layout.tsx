@@ -1,6 +1,6 @@
 import { AuthProvider, useAuth } from '@/context/authContext'
 import { Stack } from 'expo-router/stack'
-import { JSX, useEffect } from 'react'
+import { useEffect } from 'react'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ImagePickerProvider } from '@/context/imagePickerContext'

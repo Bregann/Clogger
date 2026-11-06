@@ -3,7 +3,7 @@ import { useGetCustomCollectionFields } from '@/hooks/Collections/useGetCustomCo
 import addEditItemStyles from '@/styles/addEditItemStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useFocusEffect, useLocalSearchParams } from 'expo-router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text, View, ScrollView } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-paper-dropdown'
@@ -74,10 +74,6 @@ export default function AddEditItemScreen (): React.JSX.Element {
     setAddItemPressed(false)
   }
 
-  useEffect(() => {
-    setCustomFieldData([])
-  }, [currentCollectionId])
-
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContainer} keyboardShouldPersistTaps={'always'}>
       <Text style={globalStyles.headerText}>Add New Item</Text>
@@ -92,7 +88,10 @@ export default function AddEditItemScreen (): React.JSX.Element {
             placeholder="Select Collection"
             options={dropdownData.collections}
             value={currentCollectionId.toString()}
-            onSelect={(e) => { setCurrentCollectionId(parseInt(e ?? '-1')) }}
+            onSelect={(e) => {
+              setCurrentCollectionId(parseInt(e ?? '-1'))
+              setCustomFieldData([])
+            }}
             mode="outlined"
           />
         </View>

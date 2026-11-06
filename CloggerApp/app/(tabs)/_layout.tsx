@@ -1,7 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { Tabs } from 'expo-router'
-import { JSX } from 'react'
 import { useTheme } from 'react-native-paper'
 
 export default function TabLayout (): React.JSX.Element {
@@ -19,7 +18,7 @@ export default function TabLayout (): React.JSX.Element {
         name="home"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color as string} />,
         }}
       />
       <Tabs.Screen
@@ -33,14 +32,14 @@ export default function TabLayout (): React.JSX.Element {
         name="search"
         options={{
           title: 'Search',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="search" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="search" color={color as string} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="gear" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="gear" color={color as string} />,
         }}
       />
       {/* Hide the [id] routes from tabs */}

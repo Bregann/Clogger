@@ -1,10 +1,9 @@
 import { Pressable, ScrollView, Text, View } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import globalStyles from '@/styles/globalStyles'
-import { JSX, useState } from 'react'
+import React, { useState } from 'react'
 import searchStyles from '@/styles/searchStyles'
 import { useSearch } from '@/hooks/useSearch'
-import React from 'react'
 import { useRouter } from 'expo-router'
 
 export default function HomeScreen (): React.JSX.Element {
