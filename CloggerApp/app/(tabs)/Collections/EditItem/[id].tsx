@@ -5,7 +5,7 @@ import { useSaveItemChanges } from '@/hooks/Items/useSaveItemChanges'
 import addEditItemStyles from '@/styles/addEditItemStyles'
 import globalStyles from '@/styles/globalStyles'
 import { useFocusEffect, useLocalSearchParams } from 'expo-router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text, ScrollView, Alert } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
@@ -33,14 +33,15 @@ export default function AddEditItemScreen (): React.JSX.Element {
     }, [])
   )
 
-  useEffect(() => {
-    if (data !== undefined && !isLoading) {
-      setItemName(data.itemName)
-      setItemDescription(data.itemDescription)
-      setCustomFields(data.customFields)
-      setCollectionId(data.collectionId)
-    }
-  }, [data, isLoading])
+  // Sync local form state when fresh data arrives (adjusting state during render rather than in an effect)
+  const [loadedData, setLoadedData] = useState<typeof data>(undefined)
+  if (data !== undefined && !isLoading && data !== loadedData) {
+    setLoadedData(data)
+    setItemName(data.itemName)
+    setItemDescription(data.itemDescription)
+    setCustomFields(data.customFields)
+    setCollectionId(data.collectionId)
+  }
 
   const saveChanges = async (): Promise<void> => {
     await saveChangesMutation.mutateAsync({

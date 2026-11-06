@@ -1,0 +1,52 @@
+// https://docs.expo.dev/guides/using-eslint/
+const { defineConfig } = require('eslint/config')
+const expoConfig = require('eslint-config-expo/flat')
+
+module.exports = defineConfig([
+  expoConfig,
+  {
+    ignores: ['dist/*'],
+  },
+  {
+    rules: {
+      // Enforce no semicolons
+      semi: ['error', 'never'],
+      // Enforce spacing inside brackets (e.g., if ( condition ))
+      'space-in-parens': ['error', 'never'],
+      // Require space before function parentheses
+      'space-before-function-paren': ['error', 'always'],
+      // Enforce space after keywords like if, for, while, etc.
+      'keyword-spacing': ['error', { before: true, after: true }],
+      // Enforce spacing around curly braces
+      'object-curly-spacing': ['error', 'always'],
+      // Enforce consistent spacing inside array brackets
+      'array-bracket-spacing': ['error', 'never'],
+      'no-multi-spaces': ['error'],
+      // Disallow trailing spaces at the end of lines
+      'no-trailing-spaces': ['error'],
+      'block-spacing': ['error', 'always'],
+      'react/jsx-tag-spacing': [
+        'error',
+        {
+          beforeSelfClosing: 'always', // Enforce a space before the closing `/>`
+          beforeClosing: 'never', // Enforce a space before the closing `>`
+        },
+      ],
+      quotes: [
+        'error',
+        'single',
+        { avoidEscape: true, allowTemplateLiterals: false },
+      ],
+      'jsx-quotes': ['error', 'prefer-double'],
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        {
+          allowExpressions: false, // Ensures even arrow functions need return types
+          allowTypedFunctionExpressions: true, // Allows inference in callbacks
+          allowHigherOrderFunctions: true, // Keeps it flexible for functional programming
+          allowDirectConstAssertionInArrowFunctions: true, // Permits `as const` assertions
+        },
+      ],
+    },
+  },
+])

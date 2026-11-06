@@ -1,7 +1,7 @@
 import { useAuth } from '@/context/authContext'
 import Constants from 'expo-constants'
 import { useRouter } from 'expo-router'
-import { JSX, useState } from 'react'
+import { useState } from 'react'
 import { Image, View, Text } from 'react-native'
 import { TextInput, Button, useTheme } from 'react-native-paper'
 import styles from '@/styles/indexStyles'

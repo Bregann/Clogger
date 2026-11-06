@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/authContext'
 import { keychainHelper } from '@/helpers/keychainHelper'
-import { JSX, useState } from 'react'
+import { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper'
 

@@ -2,7 +2,7 @@ import { useAuth } from '@/context/authContext'
 import { noAuthApiClient } from '@/helpers/apiClient'
 import globalStyles from '@/styles/globalStyles'
 import { useRouter } from 'expo-router'
-import { JSX, useState } from 'react'
+import { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Button, TextInput, useTheme } from 'react-native-paper'
 
