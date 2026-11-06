@@ -36,3 +36,8 @@ app-example
 
 /android
 /ios
+
+# EAS local credentials: keystore and its passwords. Never commit these.
+credentials.json
+credentials/
+*.keystore
