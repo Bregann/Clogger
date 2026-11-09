@@ -105,6 +105,10 @@ using (var scope = app.Services.CreateScope())
 }
 #endif
 
+// Load the EnvironmentalSettings table (e.g. ProjectMonitorApiKey), like the other projects
+var environmentalSettingHelper = app.Services.GetRequiredService<IEnvironmentalSettingHelper>();
+await environmentalSettingHelper.LoadEnvironmentalSettings();
+
 // Configure the HTTP request pipeline.
 
 app.UseSwagger();
