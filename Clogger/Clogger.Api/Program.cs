@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using Clogger.Api;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Async(x => x.File("/app/Logs/log.log", retainedFileCountLimit: 7, rollingInterval: RollingInterval.Day))
@@ -35,6 +36,8 @@ builder.Services.AddHttpContextAccessor();
 
 // Add in our own services
 builder.Services.AddSingleton<IEnvironmentalSettingHelper, EnvironmentalSettingHelper>();
+builder.Services.AddHttpClient<IProjectMonitorClient, ProjectMonitorClient>(c => c.Timeout = TimeSpan.FromSeconds(10));
+builder.Services.AddHostedService<ProjectMonitorHeartbeatService>();
 
 builder.Services.AddScoped<IUserDataService, UserDataService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
