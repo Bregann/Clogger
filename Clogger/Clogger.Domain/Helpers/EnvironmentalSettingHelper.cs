@@ -15,7 +15,12 @@ namespace Clogger.Domain.Helpers
             using (var scope = serviceProvider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                _environmentalSettings = await dbContext.EnvironmentalSettings.ToDictionaryAsync(x => x.Key, x => x.Value);
+                var settings = await dbContext.EnvironmentalSettings.ToListAsync();
+
+                // Rows whose key isn't a known setting are ignored rather than stopping startup
+                _environmentalSettings = settings
+                    .Where(x => Enum.TryParse<EnvironmentalSettingEnum>(x.Key, out _))
+                    .ToDictionary(x => Enum.Parse<EnvironmentalSettingEnum>(x.Key), x => x.Value);
             }
         }
 
@@ -34,7 +39,7 @@ namespace Clogger.Domain.Helpers
             using (var scope = serviceProvider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                dbContext.EnvironmentalSettings.Where(x => x.Key == key).First().Value = newValue;
+                dbContext.EnvironmentalSettings.Where(x => x.Key == key.ToString()).First().Value = newValue;
                 await dbContext.SaveChangesAsync();
             }
 
