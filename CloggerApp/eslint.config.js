@@ -38,6 +38,12 @@ module.exports = defineConfig([
         { avoidEscape: true, allowTemplateLiterals: false },
       ],
       'jsx-quotes': ['error', 'prefer-double'],
+    },
+  },
+  {
+    // The @typescript-eslint plugin is only registered for TS files by eslint-config-expo
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: {
       '@typescript-eslint/explicit-function-return-type': [
         'error',
         {

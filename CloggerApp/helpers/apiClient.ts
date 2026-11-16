@@ -1,13 +1,13 @@
-import axios from 'axios'
+import { create } from 'axios'
 import { keychainHelper } from './keychainHelper'
 import Constants from 'expo-constants'
 
-const authApiClient = axios.create({
+const authApiClient = create({
   baseURL: __DEV__ ? 'http://192.168.1.1:5053' : Constants.expoConfig?.extra?.ApiUrl || '',
   validateStatus: (status) => status < 500 && status !== 401,
 })
 
-const noAuthApiClient = axios.create({
+const noAuthApiClient = create({
   baseURL: __DEV__ ? 'http://192.168.1.1:5053' : Constants.expoConfig?.extra?.ApiUrl || '',
   validateStatus (status) {
     return status < 500

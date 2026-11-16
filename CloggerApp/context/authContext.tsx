@@ -60,7 +60,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    checkAuthStatus()
+    let cancelled = false
+    keychainHelper.getAccessToken().then((accessToken) => {
+      if (!cancelled) setIsAuthenticated(accessToken !== null)
+    })
+    return (): void => {
+      cancelled = true
+    }
   }, [])
 
   return (
