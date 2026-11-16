@@ -141,6 +141,16 @@
       "automerge": false
     },
     {
+      "description": "Hold the Expo app on ESLint 9: eslint-config-expo's plugins (eslint-plugin-import, eslint-plugin-react) do not support ESLint 10 yet. Remove once a new eslint-config-expo supports it",
+      "matchFileNames": [
+        "CloggerApp/**"
+      ],
+      "matchPackageNames": [
+        "eslint"
+      ],
+      "allowedVersions": "<10.0.0"
+    },
+    {
       "description": "Name the app lockfile refresh separately from the web/server one",
       "matchUpdateTypes": [
         "lockFileMaintenance"
